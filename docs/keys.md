@@ -144,7 +144,7 @@ Gets a public key from the Public Keys Service by the specified ID.
 PublicKeyInfo publicKey = factory.getPublicKeyClient().getKey(cardInfo.getPublicKey().getId());
 ```
 
-## Private Keys (TBD)
+## Private Keys
 
 The security of private keys is crucial for the public key cryptosystems. Anyone who can obtain a private key can use it to impersonate the rightful owner during all communications and transactions on intranets or on the internet. Therefore, private keys must be in the possession only of authorized users, and they must be protected from unauthorized use.
 

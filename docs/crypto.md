@@ -145,7 +145,7 @@ In the table below you can see all types.
 | EC_SECP224K1 | 224-bits "Koblitz" curve       |
 | EC_SECP256K1 | 256-bits "Koblitz" curve       |
 
-See a working example [here...](TBD)
+See a working example [here...](https://github.com/VirgilSecurity/virgil-sdk-java-android/blob/master/samples/crypto/src/main/java/GenerateKeyPairs.java)
 
 ## Encrypt Data
 
@@ -174,6 +174,8 @@ PublicKey publicKey = keyPair.getPublic();
 String encryptedText = CryptoHelper.encrypt(text, "RecipientId", publicKey);
 ```
 
+See a working example [here...](https://github.com/VirgilSecurity/virgil-sdk-java-android/blob/master/samples/crypto/src/main/java/EncryptionWithPublicKey.java)
+
 And of course you can mix these types as well, see how it works in the example below:
 
 ```java
@@ -195,7 +197,7 @@ try (Cipher cipher = new Cipher()) {
 }
 ```
 
-See a working example [here...](TBD)
+See a working example [here...](https://github.com/VirgilSecurity/virgil-sdk-java-android/blob/master/samples/crypto/src/main/java/Encryption.java)
 
 ## Sign Data
 
@@ -209,7 +211,7 @@ KeyPair keyPair = KeyPairGenerator.generate();
 String signature = CryptoHelper.sign(text, keyPair.getPrivate());
 ```
 
-See a working example [here...](TBD)
+See a working example [here...](https://github.com/VirgilSecurity/virgil-sdk-java-android/blob/master/samples/crypto/src/main/java/SignAndVerifyText.java)
 
 ## Verify Data
 
@@ -225,7 +227,7 @@ The following example verifies a digital signature which was signed by the sende
 var isValid = CryptoHelper.Verify(originalText, signature, keyPair.PublicKey());
 ```
 
-See a working example [here...](TBD)
+See a working example [here...](https://github.com/VirgilSecurity/virgil-sdk-java-android/blob/master/samples/crypto/src/main/java/SignAndVerifyText.java)
 
 ## Decrypt Data
 
@@ -241,7 +243,7 @@ Use a password to decrypt the data.
 String decryptedText = CryptoHelper.decrypt(encryptedText, password);
 ```
 
-See a working example [here...](TBD)
+See a working example [here...](https://github.com/VirgilSecurity/virgil-sdk-java-android/blob/master/samples/crypto/src/main/java/EncryptionWithPassword.java)
 
 ## See Also
 
