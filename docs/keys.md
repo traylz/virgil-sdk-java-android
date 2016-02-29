@@ -15,7 +15,7 @@
   - [Revoke a Virgil Card](#revoke-a-virgil-card)
   - [Get a Public Key](#get-a-public-key)
 - [Private Keys](#private-keys)
-  - [Obtain key for the Private Keys Service](#obtain-a-service-key)
+  - [Obtain Key for the Private Keys Service](#obtain-a-service-key)
   - [Stash a Private Key](#stash-a-private-key)
   - [Get a Private Key](#get-a-private-key)
   - [Destroy a Private Key](#destroy-a-private-key)
