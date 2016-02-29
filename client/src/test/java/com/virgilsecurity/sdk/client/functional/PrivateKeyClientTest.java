@@ -56,9 +56,9 @@ public class PrivateKeyClientTest {
 
 	@BeforeGroups(groups = { PRIVATE_KEY_CLIENT_GROUP }, dependsOnGroups = { IdentityClientTest.IDENTITY_CLIENT_GROUP })
 	public void beforePrivateKey(ITestContext ctx) {
-		account = (String) ctx.getAttribute(FunctionalTestContext.CLIENT_ACCOUNT);
-		email = (String) ctx.getAttribute(FunctionalTestContext.CLIENT_EMAIL);
-		factory = (ClientFactory) ctx.getAttribute(FunctionalTestContext.CLIENT_FACTORY);
+		account = (String) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_ACCOUNT);
+		email = (String) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_EMAIL);
+		factory = (ClientFactory) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_FACTORY);
 
 		keyPair = KeyPairGenerator.generate();
 	}

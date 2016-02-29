@@ -84,14 +84,14 @@ public class IdentityServiceTest {
 
 	@BeforeGroups(groups = { IDENTITY_SERVICE_GROUP })
 	public void beforeSuite(ITestContext ctx) {
-		account = (String) ctx.getAttribute(FunctionalTestContext.SERVICE_ACCOUNT);
-		email = (String) ctx.getAttribute(FunctionalTestContext.SERVICE_EMAIL);
+		account = (String) ctx.getAttribute(ContextOfFunctionalTest.SERVICE_ACCOUNT);
+		email = (String) ctx.getAttribute(ContextOfFunctionalTest.SERVICE_EMAIL);
 		mailClient = new MailinatorClient();
 	}
 
 	@BeforeGroups(groups = { IDENTITY_SERVICE_GROUP })
 	public void beforeIdentity() {
-		identityService = new IdentityClient(FunctionalTestContext.IDENTITY_STG_HOST).createService(IdentityService.class);
+		identityService = new IdentityClient(ContextOfFunctionalTest.IDENTITY_STG_HOST).createService(IdentityService.class);
 	}
 
 	@Test(groups = { IDENTITY_SERVICE_GROUP })

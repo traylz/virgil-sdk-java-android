@@ -62,13 +62,13 @@ public class PublicKeyServiceTest {
 	@BeforeGroups(groups = { PUBLIC_KEY_SERVICE_GROUP }, dependsOnGroups = {
 			IdentityServiceTest.IDENTITY_SERVICE_GROUP })
 	public void beforePublicKey(ITestContext ctx) {
-		accessToken = (String) ctx.getAttribute(FunctionalTestContext.ACCESS_TOKEN);
-		appId = (String) ctx.getAttribute(FunctionalTestContext.APPLICATION_ID);
-		email = (String) ctx.getAttribute(FunctionalTestContext.SERVICE_EMAIL);
-		validationToken = (String) ctx.getAttribute(FunctionalTestContext.SERVICE_VALIDATION_TOKEN);
+		accessToken = (String) ctx.getAttribute(ContextOfFunctionalTest.ACCESS_TOKEN);
+		appId = (String) ctx.getAttribute(ContextOfFunctionalTest.APPLICATION_ID);
+		email = (String) ctx.getAttribute(ContextOfFunctionalTest.SERVICE_EMAIL);
+		validationToken = (String) ctx.getAttribute(ContextOfFunctionalTest.SERVICE_VALIDATION_TOKEN);
 
 		keyPair = KeyPairGenerator.generate();
-		publicKeyService = new PublicKeyClient(FunctionalTestContext.PUBLIC_KEYS_STG_HOST, accessToken)
+		publicKeyService = new PublicKeyClient(ContextOfFunctionalTest.PUBLIC_KEYS_STG_HOST, accessToken)
 				.createService(PublicKeyService.class, keyPair.getPrivate());
 	}
 
@@ -177,7 +177,7 @@ public class PublicKeyServiceTest {
 		VirgilCardTemplate.Builder vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity)
 				.setPublicKey(kp.getPublic());
 
-		signedCard = new PublicKeyClient(FunctionalTestContext.PUBLIC_KEYS_STG_HOST, accessToken)
+		signedCard = new PublicKeyClient(ContextOfFunctionalTest.PUBLIC_KEYS_STG_HOST, accessToken)
 				.createCard(vcBuilder.build(), kp.getPrivate());
 		assertNotNull(signedCard);
 

@@ -40,7 +40,7 @@ import com.virgilsecurity.sdk.client.ClientFactory;
  * @author Andrii Iakovenko
  *
  */
-public class FunctionalTestContext {
+public class ContextOfFunctionalTest {
 	static final String IDENTITY_STG_HOST = "https://identity-stg.virgilsecurity.com";
 	static final String PUBLIC_KEYS_STG_HOST = "https://keys-stg.virgilsecurity.com";
 	static final String PRIVATE_KEYS_STG_HOST = "https://keys-private-stg.virgilsecurity.com";
@@ -64,8 +64,6 @@ public class FunctionalTestContext {
 
 	@BeforeSuite
 	public void fetchData(ITestContext ctx) {
-		System.out.println("Before suite");
-
 		ctx.setAttribute(ACCESS_TOKEN, System.getProperty(ACCESS_TOKEN));
 		ctx.setAttribute(APPLICATION_ID, System.getProperty(APPLICATION_ID));
 		ctx.setAttribute(SERVICE_ACCOUNT, System.getProperty(SERVICE_ACCOUNT));
@@ -83,7 +81,7 @@ public class FunctionalTestContext {
 			factory.setPrivateKeyBaseUrl(PRIVATE_KEYS_STG_HOST);
 		}
 
-		ctx.setAttribute(FunctionalTestContext.CLIENT_FACTORY, factory);
+		ctx.setAttribute(ContextOfFunctionalTest.CLIENT_FACTORY, factory);
 	}
 
 }

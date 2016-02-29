@@ -47,10 +47,10 @@ public class PublicKeyClientTest {
 
 	@BeforeGroups(groups = { PUBLIC_KEY_CLIENT_GROUP }, dependsOnGroups = { IdentityClientTest.IDENTITY_CLIENT_GROUP })
 	public void beforePublicKey(ITestContext ctx) {
-		appId = (String) ctx.getAttribute(FunctionalTestContext.APPLICATION_ID);
-		email = (String) ctx.getAttribute(FunctionalTestContext.CLIENT_EMAIL);
-		validationToken = (String) ctx.getAttribute(FunctionalTestContext.CLIENT_VALIDATION_TOKEN);
-		factory = (ClientFactory) ctx.getAttribute(FunctionalTestContext.CLIENT_FACTORY);
+		appId = (String) ctx.getAttribute(ContextOfFunctionalTest.APPLICATION_ID);
+		email = (String) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_EMAIL);
+		validationToken = (String) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_VALIDATION_TOKEN);
+		factory = (ClientFactory) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_FACTORY);
 
 		keyPair = KeyPairGenerator.generate();
 	}

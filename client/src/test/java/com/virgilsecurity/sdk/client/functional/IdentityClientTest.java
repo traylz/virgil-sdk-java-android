@@ -79,16 +79,16 @@ public class IdentityClientTest {
 
 	@BeforeGroups(groups = { IDENTITY_CLIENT_GROUP }, dependsOnGroups = { IdentityServiceTest.IDENTITY_SERVICE_GROUP })
 	public void beforeGroups(ITestContext ctx) {
-		account =  (String) ctx.getAttribute(FunctionalTestContext.CLIENT_ACCOUNT);
-		email = (String) ctx.getAttribute(FunctionalTestContext.CLIENT_EMAIL);
+		account =  (String) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_ACCOUNT);
+		email = (String) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_EMAIL);
 		mailClient = new MailinatorClient();
 		
-		factory = (ClientFactory) ctx.getAttribute(FunctionalTestContext.CLIENT_FACTORY);
+		factory = (ClientFactory) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_FACTORY);
 	}
 	
 	@AfterClass
 	public void afterClass(ITestContext ctx) {
-		ctx.setAttribute(FunctionalTestContext.CLIENT_VALIDATION_TOKEN, validationToken);
+		ctx.setAttribute(ContextOfFunctionalTest.CLIENT_VALIDATION_TOKEN, validationToken);
 	}
 
 	@BeforeGroups(groups = { IDENTITY_CLIENT_GROUP })
