@@ -63,7 +63,7 @@ public class PrivateKeyClientTest {
 		keyPair = KeyPairGenerator.generate();
 	}
 
-	@Test(groups = { PRIVATE_KEY_CLIENT_GROUP })
+	@Test(groups = { PRIVATE_KEY_CLIENT_GROUP }, dependsOnGroups = { IdentityClientTest.IDENTITY_CLIENT_GROUP })
 	public void createCard() {
 		ValidatedIdentity identity = obtainValidatedIdentity();
 
