@@ -9,14 +9,14 @@
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
     - [Step 3. Send an Email](#step-3-send-an-email)
     - [Step 4. Receive an Email](#step-4-receive-an-email)
-    - [Step 5. Get sender's Public Key](#step-5-get-senders-public-key)
+    - [Step 5. Get Sender's Card](#step-5-get-senders-card)
     - [Step 6. Verify and Decrypt](#step-6-verify-and-decrypt)
 - [See also](#see-also)
 
 ## Introduction
 
 This guide will help you get started using the Crypto Library and Virgil Keys Services for the most popular platforms and languages.
-This branch focuses on the Java library implementation and covers it's usage.
+This branch focuses on the Java library implementation and covers its usage.
 
 Let's build an encrypted mail exchange system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/Email-diagram.jpg)
 
@@ -85,16 +85,21 @@ KeyPair keyPair = KeyPairGenerator.generate(password);
 The app is verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
 
 ```java
-String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, "sender-test@virgilsecurity.com");
+String actionId = factory.getIdentityClient().verify
+	(IdentityType.EMAIL, "sender-test@virgilsecurity.com");
 // use confirmation code sent to your email box.
-ValidatedIdentity identity = factory.getIdentityClient().confirm(actionId, "{CONFIRMATION_CODE}");
+ValidatedIdentity identity = factory.getIdentityClient().confirm
+	(actionId, "{CONFIRMATION_CODE}");
 ```
 
 The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
 
 ```java
-VirgilCardTemplate.Builder vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity).setPublicKey(keyPair.getPublic());
-VirgilCard senderCard = factory.getPublicKeyClient().createCard(vcBuilder.build(), keyPair.getPrivate());
+VirgilCardTemplate.Builder vcBuilder = 
+	new VirgilCardTemplate.Builder().setIdentity(identity).setPublicKey
+		(keyPair.getPublic());
+VirgilCard senderCard = factory.getPublicKeyClient().createCard
+	(vcBuilder.build(), keyPair.getPrivate());
 ```
 
 ## Step 2. Encrypt and Sign
@@ -103,8 +108,11 @@ The app is searching for the recipient’s public key on the Public Keys Service
 ```java
 String message = "Encrypt me, Please!!!";
 
-Builder criteriaBuilder = new Builder().setValue("recipient-test@virgilsecurity.com");
-List<VirgilCard> recipientCards = factory.getPublicKeyClient().search(criteriaBuilder.build(), keyPair.getPrivate());
+Builder criteriaBuilder = 
+	new Builder().setValue("recipient-test@virgilsecurity.com");
+List<VirgilCard> recipientCards = 
+	factory.getPublicKeyClient().search(criteriaBuilder.build(), 
+		keyPair.getPrivate());
 
 Map<String, String> recipients = new HashMap<>();
 for (VirgilCard card : recipientCards) {
@@ -131,12 +139,15 @@ An encrypted letter is received on the recipient’s side using a simple mail cl
 JsonObject encryptedBody = "{MESSAGE_BODY}";
 ```
 
-## Step 5. Get sender's Public Key
+## Step 5. Get Sender's Card
 In order to decrypt the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
 
 ```java
-Builder criteriaBuilder = new Builder().setValue("sender-test@virgilsecurity.com");
-VirgilCard senderCard = factory.getPublicKeyClient().search(criteriaBuilder.build(), keyPair.getPrivate()).get(0);
+Builder criteriaBuilder = 
+	new Builder().setValue("sender-test@virgilsecurity.com");
+VirgilCard senderCard = 
+	factory.getPublicKeyClient().search(criteriaBuilder.build(), 
+		keyPair.getPrivate()).get(0);
 ```
 
 ## Step 6. Verify and Decrypt
@@ -147,12 +158,15 @@ PrivateKey recipientPrivateKey = new PrivateKey("{RECIPIENT_KEY}");
 
 String encryptedContent = encryptedBody.get("Content").getAsString();
 String encryptedContentSignature = encryptedBody.get("Signature").getAsString();
-boolean isValid = CryptoHelper.verify(encryptedContent, encryptedContentSignature, new PublicKey(senderCard.getPublicKey().getKey()));
+boolean isValid = 
+	CryptoHelper.verify(encryptedContent, encryptedContentSignature, 
+		new PublicKey(senderCard.getPublicKey().getKey()));
 if (!isValid) {
   throw new Exception("Signature is not valid.");
 }
 
-String originalMessage = CryptoHelper.decrypt(encryptedContent, "{RECIPIENT_CARD_ID}", recipientPrivateKey);
+String originalMessage = CryptoHelper.decrypt
+	(encryptedContent, "{RECIPIENT_CARD_ID}", recipientPrivateKey);
 ```
 
 ## See Also
