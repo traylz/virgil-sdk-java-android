@@ -13,7 +13,6 @@
 
 ###Gradle
 ```
-
 compile 'com.virgilsecurity.sdk:crypto:3.0'
 ```
 
@@ -22,7 +21,6 @@ compile 'com.virgilsecurity.sdk:crypto:3.0'
 The following code example creates a new public/private key pair.
 
 ```java
-
 KeyPair keyPair = KeyPairGenerator.generate();
 ```
 In the example below you can see a simply generated public/private keypair without a password.
