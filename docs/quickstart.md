@@ -7,8 +7,8 @@
     - [Initialization](#initialization)
     - [Step 1. Create and Publish the Keys](#step-1-create-and-publish-the-keys)
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
-    - [Step 3. Send an Email](#step-3-send-an-email)
-    - [Step 4. Receive an Email](#step-4-receive-an-email)
+    - [Step 3. Send a Message](#step-3-send-a-message)
+    - [Step 4. Receive a Message](#step-4-receive-a-message)
     - [Step 5. Get Sender's Card](#step-5-get-senders-card)
     - [Step 6. Verify and Decrypt](#step-6-verify-and-decrypt)
 - [See also](#see-also)
@@ -18,7 +18,7 @@
 This guide will help you get started using the Crypto Library and Virgil Keys Services for the most popular platforms and languages.
 This branch focuses on the Java library implementation and covers its usage.
 
-Let's build an encrypted mail exchange system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/Email-diagram.jpg)
+Let's build an encrypted IP messaging system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
 
 ## Obtaining an Access Token
 
@@ -30,7 +30,7 @@ Use this token to initialize the SDK client [here](#initialization).
 
 ## Install
 
-You can easily add SDK dependency to your project.
+You can easily add SDK dependency to your project, just follow the examples below:
 
 ### Maven
 
@@ -123,8 +123,8 @@ String encryptedMessage = CryptoHelper.encrypt(message, recipients);
 String signature = CryptoHelper.sign(encryptedMessage, keyPair.getPrivate());
 ```
 
-## Step 3. Send an Email
-The app is merging the message and the signature into one structure and sending the letter to the recipient using a simple mail client.
+## Step 3. Send a Message
+The app is merging the message text and the signature into one structure and sending the message to the recipient using a simple IP messaging client.
 
 ```java
 JsonObject encryptedBody = new JsonObject();
@@ -132,15 +132,15 @@ encryptedBody.addProperty("Content", encryptedMessage);
 encryptedBody.addProperty("Signature", signature);
 ```
 
-## Step 4. Receive an Email
-An encrypted letter is received on the recipient’s side using a simple mail client.
+## Step 4. Receive a Message
+An encrypted message is received on the recipient’s side using an IP messaging client.
 
 ```java
 JsonObject encryptedBody = "{MESSAGE_BODY}";
 ```
 
 ## Step 5. Get Sender's Card
-In order to decrypt the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
+In order to decrypt and verify the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
 
 ```java
 Builder criteriaBuilder = 
@@ -151,7 +151,7 @@ VirgilCard senderCard =
 ```
 
 ## Step 6. Verify and Decrypt
-We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
+Application is making sure the message came from the declared sender by getting his card on Public Keys Service. In case of success the message is decrypted using the recipient's private key.
 
 ```java
 PrivateKey recipientPrivateKey = new PrivateKey("{RECIPIENT_KEY}");
