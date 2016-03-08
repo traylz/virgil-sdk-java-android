@@ -259,7 +259,6 @@ public class PrivateKeyClient extends AbstractClient {
 	 *            the public key identifier.
 	 * @param identity
 	 *            the validated identity token with.
-	 * @return
 	 */
 	public void get(String virgilCardId, ValidatedIdentity identity, ResponseCallback<PrivateKeyInfo> callback) {
 		String responsePassword = UUID.randomUUID().toString().replaceAll("-", "");
