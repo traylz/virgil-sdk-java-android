@@ -11,6 +11,7 @@
 	<url>https://www.virgilsecurity.com/</url>
 	<scm>
 		<connection>scm:git:https://github.com/VirgilSecurity/virgil-sdk-java.git</connection>
+    <url>https://github.com/VirgilSecurity/virgil-sdk-java-android</url>
 	</scm>
 	<licenses>
 		<license>
