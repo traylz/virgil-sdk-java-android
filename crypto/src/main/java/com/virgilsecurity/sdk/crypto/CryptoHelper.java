@@ -85,14 +85,16 @@ public class CryptoHelper {
 	 *            the text to be encrypted.
 	 * @param recipients
 	 *            the map of recipients. Key is recipient identifier, value is
-	 *            Base64-encoded public key.
+	 *            {@link PublicKey}.
 	 * @return encrypted data as Base64 string.
 	 * @throws Exception
+	 * 
+	 * @see PublicKey
 	 */
-	public static String encrypt(String text, Map<String, String> recipients) throws Exception {
+	public static String encrypt(String text, Map<String, PublicKey> recipients) throws Exception {
 		try (Cipher cipher = new Cipher()) {
-			for (Entry<String, String> entry : recipients.entrySet()) {
-				cipher.addKeyRecipient(new Recipient(entry.getKey()), new PublicKey(entry.getValue()));
+			for (Entry<String, PublicKey> entry : recipients.entrySet()) {
+				cipher.addKeyRecipient(new Recipient(entry.getKey()), entry.getValue());
 			}
 			byte[] encrypted = cipher.encrypt(text.getBytes(), true);
 			return Base64.encode(encrypted);
@@ -175,6 +177,23 @@ public class CryptoHelper {
 			return Base64.encode(signature);
 		}
 	}
+	
+	/**
+	 * Sign Base64 encoded string with private key.
+	 * 
+	 * @param base64string
+	 *            the Base64 encoded string to be signed.
+	 * @param privateKey
+	 *            the private key.
+	 * @return sign as Base64 string.
+	 * @throws Exception
+	 */
+	public static String signBase64(String base64string, PrivateKey privateKey) throws Exception {
+		try (Signer signer = new Signer()) {
+			byte[] signature = signer.sign(Base64.decode(base64string), privateKey);
+			return Base64.encode(signature);
+		}
+	}
 
 	/**
 	 * Sign text with private key.
@@ -194,12 +213,14 @@ public class CryptoHelper {
 			return Base64.encode(signature);
 		}
 	}
-
+	
 	/**
 	 * Verify text with signature.
 	 * 
 	 * @param text
 	 *            the text to be signed.
+	 * @param signature
+	 *            the sign as Base64 string.
 	 * @param publicKey
 	 *            the public key used for verification.
 	 * @return true if verification success.
@@ -208,6 +229,24 @@ public class CryptoHelper {
 	public static boolean verify(String text, String signature, PublicKey publicKey) throws Exception {
 		try (Signer signer = new Signer()) {
 			return signer.verify(text.getBytes(), Base64.decode(signature), publicKey);
+		}
+	}
+	
+	/**
+	 * Verify Base664 encoded string with signature.
+	 * 
+	 * @param base64string
+	 *            the Base64 string to be signed.
+	 * @param signature
+	 *            the sign as Base64 string.
+	 * @param publicKey
+	 *            the public key used for verification.
+	 * @return true if verification success.
+	 * @throws Exception
+	 */
+	public static boolean verifyBase64(String base64string, String signature, PublicKey publicKey) throws Exception {
+		try (Signer signer = new Signer()) {
+			return signer.verify(Base64.decode(base64string), Base64.decode(signature), publicKey);
 		}
 	}
 }

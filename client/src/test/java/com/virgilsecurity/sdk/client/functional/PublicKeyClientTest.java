@@ -74,7 +74,7 @@ public class PublicKeyClientTest {
 		criteriaBuilder.setValue(email);
 		criteriaBuilder.setIncludeUnconfirmed(true);
 
-		List<VirgilCard> cards = factory.getPublicKeyClient().search(criteriaBuilder.build(), keyPair.getPrivate());
+		List<VirgilCard> cards = factory.getPublicKeyClient().search(criteriaBuilder.build());
 
 		assertNotNull(cards);
 		assertFalse(cards.isEmpty());
@@ -89,7 +89,7 @@ public class PublicKeyClientTest {
 		SearchCriteria criteria = new SearchCriteria();
 		criteria.setValue(appId);
 
-		cards = factory.getPublicKeyClient().searchApp(criteria, keyPair.getPrivate());
+		cards = factory.getPublicKeyClient().searchApp(criteria);
 		assertFalse(cards.isEmpty());
 
 		for (VirgilCard card : cards) {

@@ -211,30 +211,29 @@ public class KeysSampleAsync {
 				// Created card is unconfirmed, thus we should include
 				// unconfirmed cards
 				.setIncludeUnconfirmed(true);
-		factory.getPublicKeyClient().search(criteriaBuilder.build(), keyPair.getPrivate(),
-				new ResponseCallback<List<VirgilCard>>() {
+		factory.getPublicKeyClient().search(criteriaBuilder.build(), new ResponseCallback<List<VirgilCard>>() {
 
-					@Override
-					public void onSuccess(List<VirgilCard> object) {
-						cards = object;
-						System.out.println("Virgil Cards found by criteria:");
-						for (VirgilCard card : cards) {
-							System.out.println(card.getId());
-						}
-						synchronized (lock) {
-							lock.notify();
-						}
-					}
+			@Override
+			public void onSuccess(List<VirgilCard> object) {
+				cards = object;
+				System.out.println("Virgil Cards found by criteria:");
+				for (VirgilCard card : cards) {
+					System.out.println(card.getId());
+				}
+				synchronized (lock) {
+					lock.notify();
+				}
+			}
 
-					@Override
-					public void onFailure(APIError error) {
-						System.out.println("Search error: " + error.getMessage());
-						synchronized (lock) {
-							lock.notify();
-						}
-					}
+			@Override
+			public void onFailure(APIError error) {
+				System.out.println("Search error: " + error.getMessage());
+				synchronized (lock) {
+					lock.notify();
+				}
+			}
 
-				});
+		});
 
 		synchronized (lock) {
 			lock.wait();
@@ -248,30 +247,29 @@ public class KeysSampleAsync {
 		SearchCriteria criteria = new SearchCriteria();
 		criteria.setValue(appId);
 
-		factory.getPublicKeyClient().searchApp(criteriaBuilder.build(), keyPair.getPrivate(),
-				new ResponseCallback<List<VirgilCard>>() {
+		factory.getPublicKeyClient().searchApp(criteriaBuilder.build(), new ResponseCallback<List<VirgilCard>>() {
 
-					@Override
-					public void onSuccess(List<VirgilCard> object) {
-						appCards = object;
-						System.out.println("Virgil Cards found by application:");
-						for (VirgilCard card : appCards) {
-							System.out.println(card.getId());
-						}
-						synchronized (lock) {
-							lock.notify();
-						}
-					}
+			@Override
+			public void onSuccess(List<VirgilCard> object) {
+				appCards = object;
+				System.out.println("Virgil Cards found by application:");
+				for (VirgilCard card : appCards) {
+					System.out.println(card.getId());
+				}
+				synchronized (lock) {
+					lock.notify();
+				}
+			}
 
-					@Override
-					public void onFailure(APIError error) {
-						System.out.println("Search error: " + error.getMessage());
-						synchronized (lock) {
-							lock.notify();
-						}
-					}
+			@Override
+			public void onFailure(APIError error) {
+				System.out.println("Search error: " + error.getMessage());
+				synchronized (lock) {
+					lock.notify();
+				}
+			}
 
-				});
+		});
 
 		synchronized (lock) {
 			lock.wait();
@@ -309,7 +307,7 @@ public class KeysSampleAsync {
 
 		// Get a Public Key
 		factory.getPublicKeyClient().getKey(cardInfo.getPublicKey().getId(), new ResponseCallback<PublicKeyInfo>() {
-			
+
 			@Override
 			public void onSuccess(PublicKeyInfo publicKey) {
 				// Process public key
@@ -317,7 +315,7 @@ public class KeysSampleAsync {
 					lock.notify();
 				}
 			}
-			
+
 			@Override
 			public void onFailure(APIError error) {
 				System.out.println("Get key error: " + error.getMessage());
@@ -332,48 +330,50 @@ public class KeysSampleAsync {
 		}
 
 		// Untrust a Virgil Card
-		factory.getPublicKeyClient().unsignCard(signedCardId, cardInfo.getId(), keyPair.getPrivate(), new VoidResponseCallback() {
-			
-			@Override
-			public void onSuccess(boolean result) {
-				System.out.println("Unsign result: " + result);
-				synchronized (lock) {
-					lock.notify();
-				}
-			}
-			
-			@Override
-			public void onFailure(APIError error) {
-				System.out.println("Unsing error: " + error.getMessage());
-				synchronized (lock) {
-					lock.notify();
-				}
-			}
-		});
+		factory.getPublicKeyClient().unsignCard(signedCardId, cardInfo.getId(), keyPair.getPrivate(),
+				new VoidResponseCallback() {
+
+					@Override
+					public void onSuccess(boolean result) {
+						System.out.println("Unsign result: " + result);
+						synchronized (lock) {
+							lock.notify();
+						}
+					}
+
+					@Override
+					public void onFailure(APIError error) {
+						System.out.println("Unsing error: " + error.getMessage());
+						synchronized (lock) {
+							lock.notify();
+						}
+					}
+				});
 
 		synchronized (lock) {
 			lock.wait();
 		}
 
 		// Revoke a Virgil Card
-		factory.getPublicKeyClient().deleteCard(identity, cardInfo.getId(), keyPair.getPrivate(), new VoidResponseCallback() {
-			
-			@Override
-			public void onSuccess(boolean result) {
-				System.out.println("Revoke public key result: " + result);
-				synchronized (lock) {
-					lock.notify();
-				}
-			}
-			
-			@Override
-			public void onFailure(APIError error) {
-				System.out.println("Revoke public key error: " + error.getMessage());
-				synchronized (lock) {
-					lock.notify();
-				}
-			}
-		});
+		factory.getPublicKeyClient().deleteCard(identity, cardInfo.getId(), keyPair.getPrivate(),
+				new VoidResponseCallback() {
+
+					@Override
+					public void onSuccess(boolean result) {
+						System.out.println("Revoke public key result: " + result);
+						synchronized (lock) {
+							lock.notify();
+						}
+					}
+
+					@Override
+					public void onFailure(APIError error) {
+						System.out.println("Revoke public key error: " + error.getMessage());
+						synchronized (lock) {
+							lock.notify();
+						}
+					}
+				});
 
 		synchronized (lock) {
 			lock.wait();
@@ -385,31 +385,32 @@ public class KeysSampleAsync {
 		// Public Keys Service
 		criteria = new SearchCriteria();
 		criteria.setValue("com.virgilsecurity.private-keys");
-		final VirgilCard serviceCard = factory.getPublicKeyClient().searchApp(criteria, keyPair.getPrivate()).get(0);
+		final VirgilCard serviceCard = factory.getPublicKeyClient().searchApp(criteria).get(0);
 
 		// Create Virgil Card because previous one was removed
 		vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity).setPublicKey(keyPair.getPublic());
 		cardInfo = factory.getPublicKeyClient().createCard(vcBuilder.build(), keyPair.getPrivate());
 
 		// Stash a Private Key
-		factory.getPrivateKeyClient(serviceCard).stash(cardInfo.getId(), keyPair.getPrivate(), new VoidResponseCallback() {
-			
-			@Override
-			public void onSuccess(boolean result) {
-				System.out.println("Private key stashed");
-				synchronized (lock) {
-					lock.notify();
-				}
-			}
-			
-			@Override
-			public void onFailure(APIError error) {
-				System.out.println("Private key not stashed: " + error.getMessage());
-				synchronized (lock) {
-					lock.notify();
-				}
-			}
-		});
+		factory.getPrivateKeyClient(serviceCard).stash(cardInfo.getId(), keyPair.getPrivate(),
+				new VoidResponseCallback() {
+
+					@Override
+					public void onSuccess(boolean result) {
+						System.out.println("Private key stashed");
+						synchronized (lock) {
+							lock.notify();
+						}
+					}
+
+					@Override
+					public void onFailure(APIError error) {
+						System.out.println("Private key not stashed: " + error.getMessage());
+						synchronized (lock) {
+							lock.notify();
+						}
+					}
+				});
 
 		synchronized (lock) {
 			lock.wait();
@@ -423,47 +424,49 @@ public class KeysSampleAsync {
 		// use confirmation code that has been sent to you email box.
 		identity = factory.getIdentityClient().confirm(actionId, confirmationCode);
 
-		factory.getPrivateKeyClient(serviceCard).get(cardInfo.getId(), identity, new ResponseCallback<PrivateKeyInfo>() {
-			
-			@Override
-			public void onSuccess(PrivateKeyInfo keyInfo) {
-				System.out.println("Private key: " + keyInfo.getKey());
-				synchronized (lock) {
-					lock.notify();
-				}
-			}
-			
-			@Override
-			public void onFailure(APIError error) {
-				System.out.println("Private key not retrieved: " + error.getMessage());
-				synchronized (lock) {
-					lock.notify();
-				}
-			}
-		});
+		factory.getPrivateKeyClient(serviceCard).get(cardInfo.getId(), identity,
+				new ResponseCallback<PrivateKeyInfo>() {
+
+					@Override
+					public void onSuccess(PrivateKeyInfo keyInfo) {
+						System.out.println("Private key: " + keyInfo.getKey());
+						synchronized (lock) {
+							lock.notify();
+						}
+					}
+
+					@Override
+					public void onFailure(APIError error) {
+						System.out.println("Private key not retrieved: " + error.getMessage());
+						synchronized (lock) {
+							lock.notify();
+						}
+					}
+				});
 		synchronized (lock) {
 			lock.wait();
 		}
 
 		// Destroy a Private Key
-		factory.getPrivateKeyClient(serviceCard).destroy(cardInfo.getId(), keyPair.getPrivate(), new VoidResponseCallback() {
-			
-			@Override
-			public void onSuccess(boolean result) {
-				System.out.println("Private key destroy result: " + result);
-				synchronized (lock) {
-					lock.notify();
-				}
-			}
-			
-			@Override
-			public void onFailure(APIError error) {
-				System.out.println("Private key not destroyed due to error: " + error.getMessage());
-				synchronized (lock) {
-					lock.notify();
-				}
-			}
-		});
+		factory.getPrivateKeyClient(serviceCard).destroy(cardInfo.getId(), keyPair.getPrivate(),
+				new VoidResponseCallback() {
+
+					@Override
+					public void onSuccess(boolean result) {
+						System.out.println("Private key destroy result: " + result);
+						synchronized (lock) {
+							lock.notify();
+						}
+					}
+
+					@Override
+					public void onFailure(APIError error) {
+						System.out.println("Private key not destroyed due to error: " + error.getMessage());
+						synchronized (lock) {
+							lock.notify();
+						}
+					}
+				});
 		synchronized (lock) {
 			lock.wait();
 		}
