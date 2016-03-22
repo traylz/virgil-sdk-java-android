@@ -21,11 +21,11 @@ mvn clean package source:jar javadoc:jar -DskipTests=true -DAPPLICATION_ID={appl
 
 ## Resources
 
-* [Quickstart](/Docs/quickstart.md)
+* [Quickstart](/docs/quickstart.md)
 * Crypto Library 
-  * [Tutorial](/Docs/crypto.md) 
+  * [Tutorial](/docs/crypto.md) 
 * SDK
-  * [Tutorial](/Docs/keys.md)
+  * [Tutorial](/docs/keys.md)
 
 ## License
 BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
