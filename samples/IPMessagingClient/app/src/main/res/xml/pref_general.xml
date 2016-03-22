@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:inputType="text"
+        android:key="pref_access_token"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_access_token" />
+
+    <EditTextPreference
+        android:inputType="textEmailAddress"
+        android:key="pref_identity"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_identity" />
+
+    <EditTextPreference
+        android:inputType="textEmailAddress"
+        android:key="pref_confirmationCode"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_confirmation_code"
+        android:contentDescription="@string/pref_confirmation_code_description"/>
+
+    <EditTextPreference
+        android:defaultValue="http://198.211.127.242:4000"
+        android:inputType="textEmailAddress"
+        android:key="pref_ipmessaging_service_address"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_ipmessaging_service_address" />
+
+</PreferenceScreen>

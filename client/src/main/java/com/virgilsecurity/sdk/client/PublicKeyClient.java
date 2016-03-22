@@ -280,31 +280,14 @@ public class PublicKeyClient extends AbstractClient {
 	 * 
 	 * @param searchCriteria
 	 *            the criteria to search
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @return
-	 */
-	public List<VirgilCard> search(SearchCriteria searchCriteria, PrivateKey privateKey) {
-		return search(searchCriteria, privateKey, (Password) null);
-	}
-
-	/**
-	 * Performs the search by search criteria.
-	 * 
-	 * @param searchCriteria
-	 *            the criteria to search
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @param password
-	 *            the {@code Password} used for {@code PrivateKey} protection
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<VirgilCard> search(SearchCriteria searchCriteria, PrivateKey privateKey, Password password) {
+	public List<VirgilCard> search(SearchCriteria searchCriteria) {
 
 		try {
-			Response<List<VirgilCard>> response = createService(PublicKeyService.class, privateKey, password)
-					.search(searchCriteria).execute();
+			Response<List<VirgilCard>> response = createService(PublicKeyService.class).search(searchCriteria)
+					.execute();
 			return ((List<VirgilCard>) handleResponse(response));
 		} catch (IOException e) {
 			throw new ServiceException(e);
@@ -316,29 +299,10 @@ public class PublicKeyClient extends AbstractClient {
 	 * 
 	 * @param searchCriteria
 	 *            the criteria to search
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
 	 * @param callback
 	 */
-	public void search(SearchCriteria searchCriteria, PrivateKey privateKey,
-			ResponseCallback<List<VirgilCard>> callback) {
-		search(searchCriteria, privateKey, null, callback);
-	}
-
-	/**
-	 * Performs the asynchronous search by search criteria.
-	 * 
-	 * @param searchCriteria
-	 *            the criteria to search
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @param password
-	 *            the {@code Password} used for {@code PrivateKey} protection
-	 * @param callback
-	 */
-	public void search(SearchCriteria searchCriteria, PrivateKey privateKey, Password password,
-			ResponseCallback<List<VirgilCard>> callback) {
-		createService(PublicKeyService.class, privateKey, password).search(searchCriteria).enqueue(callback);
+	public void search(SearchCriteria searchCriteria, ResponseCallback<List<VirgilCard>> callback) {
+		createService(PublicKeyService.class).search(searchCriteria).enqueue(callback);
 	}
 
 	/**
@@ -346,31 +310,14 @@ public class PublicKeyClient extends AbstractClient {
 	 * 
 	 * @param searchCriteria
 	 *            the criteria to search
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @return
-	 */
-	public List<VirgilCard> searchApp(SearchCriteria searchCriteria, PrivateKey privateKey) {
-		return searchApp(searchCriteria, privateKey, (Password) null);
-	}
-
-	/**
-	 * Performs the global search for the applications' Virgil Cards.
-	 * 
-	 * @param searchCriteria
-	 *            the criteria to search
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @param password
-	 *            the {@code Password} used for {@code PrivateKey} protection
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public List<VirgilCard> searchApp(SearchCriteria searchCriteria, PrivateKey privateKey, Password password) {
+	public List<VirgilCard> searchApp(SearchCriteria searchCriteria) {
 
 		try {
-			Response<List<VirgilCard>> response = createService(PublicKeyService.class, privateKey, password)
-					.searchApp(searchCriteria).execute();
+			Response<List<VirgilCard>> response = createService(PublicKeyService.class).searchApp(searchCriteria)
+					.execute();
 			return ((List<VirgilCard>) handleResponse(response));
 		} catch (IOException e) {
 			throw new ServiceException(e);
@@ -382,29 +329,10 @@ public class PublicKeyClient extends AbstractClient {
 	 * 
 	 * @param searchCriteria
 	 *            the criteria to search
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
 	 * @param callback
 	 */
-	public void searchApp(SearchCriteria searchCriteria, PrivateKey privateKey,
-			ResponseCallback<List<VirgilCard>> callback) {
-		searchApp(searchCriteria, privateKey, (Password) null, callback);
-	}
-
-	/**
-	 * Performs the global search for the applications' Virgil Cards.
-	 * 
-	 * @param searchCriteria
-	 *            the criteria to search
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @param password
-	 *            the {@code Password} used for {@code PrivateKey} protection
-	 * @param callback
-	 */
-	public void searchApp(SearchCriteria searchCriteria, PrivateKey privateKey, Password password,
-			ResponseCallback<List<VirgilCard>> callback) {
-		createService(PublicKeyService.class, privateKey, password).searchApp(searchCriteria).enqueue(callback);
+	public void searchApp(SearchCriteria searchCriteria, ResponseCallback<List<VirgilCard>> callback) {
+		createService(PublicKeyService.class).searchApp(searchCriteria).enqueue(callback);
 	}
 
 	/**

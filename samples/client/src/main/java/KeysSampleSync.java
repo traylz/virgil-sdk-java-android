@@ -112,7 +112,7 @@ public class KeysSampleSync {
 				// Created card is unconfirmed, thus we should include
 				// unconfirmed cards
 				.setIncludeUnconfirmed(true);
-		List<VirgilCard> cards = factory.getPublicKeyClient().search(criteriaBuilder.build(), keyPair.getPrivate());
+		List<VirgilCard> cards = factory.getPublicKeyClient().search(criteriaBuilder.build());
 
 		System.out.println("Virgil Cards found by criteria:");
 		for (VirgilCard card : cards) {
@@ -127,8 +127,7 @@ public class KeysSampleSync {
 		SearchCriteria criteria = new SearchCriteria();
 		criteria.setValue(appId);
 
-		List<VirgilCard> appCards = factory.getPublicKeyClient().searchApp(criteriaBuilder.build(),
-				keyPair.getPrivate());
+		List<VirgilCard> appCards = factory.getPublicKeyClient().searchApp(criteriaBuilder.build());
 		System.out.println("Virgil Cards found by application:");
 		for (VirgilCard card : appCards) {
 			System.out.println(card.getId());
@@ -153,22 +152,22 @@ public class KeysSampleSync {
 		factory.getPublicKeyClient().deleteCard(identity, cardInfo.getId(), keyPair.getPrivate());
 
 		/** Private Keys */
-		
-		// Obtain public key for the Private Keys Service retrived from the Public Keys Service
+
+		// Obtain public key for the Private Keys Service retrived from the
+		// Public Keys Service
 		criteria = new SearchCriteria();
 		criteria.setValue("com.virgilsecurity.private-keys");
 
-		cards = factory.getPublicKeyClient().searchApp(criteria, keyPair.getPrivate());
+		cards = factory.getPublicKeyClient().searchApp(criteria);
 		VirgilCard serviceCard = cards.get(0);
-				
+
 		// Create Virgil Card because previous one was removed
-		vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity)
-				.setPublicKey(keyPair.getPublic());
+		vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity).setPublicKey(keyPair.getPublic());
 		cardInfo = factory.getPublicKeyClient().createCard(vcBuilder.build(), keyPair.getPrivate());
-		
+
 		// Stash a Private Key
 		factory.getPrivateKeyClient(serviceCard).stash(cardInfo.getId(), keyPair.getPrivate());
-		
+
 		// Get a Private Key
 		actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, email);
 		System.out.println("Check your email box");
@@ -176,9 +175,9 @@ public class KeysSampleSync {
 		confirmationCode = br.readLine();
 		// use confirmation code that has been sent to you email box.
 		identity = factory.getIdentityClient().confirm(actionId, confirmationCode);
-		
+
 		PrivateKeyInfo privateKey = factory.getPrivateKeyClient(serviceCard).get(cardInfo.getId(), identity);
-		
+
 		// Destroy a Private Key
 		factory.getPrivateKeyClient(serviceCard).destroy(cardInfo.getId(), keyPair.getPrivate());
 	}

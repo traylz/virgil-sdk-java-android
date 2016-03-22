@@ -104,12 +104,11 @@ public class Quickstart {
 		String message = "Encrypt me, Please!!!";
 
 		Builder criteriaBuilder = new Builder().setValue("recipient-test@virgilsecurity.com");
-		List<VirgilCard> recipientCards = factory.getPublicKeyClient().search(criteriaBuilder.build(),
-				keyPair.getPrivate());
+		List<VirgilCard> recipientCards = factory.getPublicKeyClient().search(criteriaBuilder.build());
 
-		Map<String, String> recipients = new HashMap<>();
+		Map<String, PublicKey> recipients = new HashMap<>();
 		for (VirgilCard card : recipientCards) {
-			recipients.put(card.getId(), card.getPublicKey().getKey());
+			recipients.put(card.getId(), new PublicKey(card.getPublicKey().getKey()));
 		}
 
 		String encryptedMessage = CryptoHelper.encrypt(message, recipients);
@@ -140,7 +139,7 @@ public class Quickstart {
 		 */
 
 		criteriaBuilder = new Builder().setValue("sender-test@virgilsecurity.com");
-		senderCard = factory.getPublicKeyClient().search(criteriaBuilder.build(), keyPair.getPrivate()).get(0);
+		senderCard = factory.getPublicKeyClient().search(criteriaBuilder.build()).get(0);
 
 		// Step 6. Verify and Decrypt
 		/*

@@ -79,7 +79,7 @@ public class PrivateKeyClientTest {
 		SearchCriteria criteria = new SearchCriteria();
 		criteria.setValue("com.virgilsecurity.private-keys");
 
-		List<VirgilCard> cards = factory.getPublicKeyClient().searchApp(criteria, keyPair.getPrivate());
+		List<VirgilCard> cards = factory.getPublicKeyClient().searchApp(criteria);
 		assertFalse(cards.isEmpty());
 		serviceCard = cards.get(0);
 	}
