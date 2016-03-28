@@ -103,7 +103,7 @@ nbactions.xml
 *.obj
 
 # Compiled Dynamic libraries
-*.so
+#*.so
 *.dylib
 *.dll
 
