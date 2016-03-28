@@ -29,8 +29,13 @@
  */
 package com.virgilsecurity.sdk.crypto;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.virgilsecurity.crypto.VirgilStreamDataSource;
+import com.virgilsecurity.crypto.VirgilStreamSigner;
 
 /**
  * This is utils class which covers Virgil Crypto functionality.
@@ -59,6 +64,24 @@ public class CryptoHelper {
 	}
 
 	/**
+	 * Encrypt stream data with password.
+	 * 
+	 * @param inputStream
+	 *            the input stream to be encrypted.
+	 * @param outputStream
+	 *            the output stream encrypted data written to.
+	 * @param password
+	 *            the password used for encryption.
+	 * @throws Exception
+	 */
+	public static void encrypt(InputStream inputStream, OutputStream outputStream, String password) throws Exception {
+		try (StreamCipher cipher = new StreamCipher()) {
+			cipher.addPasswordRecipient(password);
+			cipher.encrypt(inputStream, outputStream);
+		}
+	}
+
+	/**
 	 * Encrypt text with public key.
 	 * 
 	 * @param text
@@ -75,6 +98,27 @@ public class CryptoHelper {
 			cipher.addKeyRecipient(new Recipient(recipientId), publicKey);
 			byte[] encrypted = cipher.encrypt(text.getBytes(), true);
 			return Base64.encode(encrypted);
+		}
+	}
+
+	/**
+	 * Encrypt stream data with password.
+	 * 
+	 * @param inputStream
+	 *            the input stream to be encrypted.
+	 * @param outputStream
+	 *            the output stream encrypted data written to.
+	 * @param recipientId
+	 *            the recipient ID.
+	 * @param publicKey
+	 *            the public key of recipient.
+	 * @throws Exception
+	 */
+	public static void encrypt(InputStream inputStream, OutputStream outputStream, String recipientId,
+			PublicKey publicKey) throws Exception {
+		try (StreamCipher cipher = new StreamCipher()) {
+			cipher.addKeyRecipient(new Recipient(recipientId), publicKey);
+			cipher.encrypt(inputStream, outputStream);
 		}
 	}
 
@@ -120,6 +164,23 @@ public class CryptoHelper {
 	}
 
 	/**
+	 * Decrypt encrypted data from stream with password.
+	 * 
+	 * @param inputStream
+	 *            the input stream to be decrypted.
+	 * @param outputStream
+	 *            decrypted data will be written to this stream.
+	 * @param password
+	 *            the password used for data decryption.
+	 * @throws Exception
+	 */
+	public static void decrypt(InputStream inputStream, OutputStream outputStream, String password) throws Exception {
+		try (StreamCipher cipher = new StreamCipher()) {
+			cipher.decryptWithPassword(inputStream, outputStream, new Password(password));
+		}
+	}
+
+	/**
 	 * Decrypt text with private key.
 	 * 
 	 * @param base64Text
@@ -135,6 +196,26 @@ public class CryptoHelper {
 		try (Cipher cipher = new Cipher()) {
 			byte[] decrypted = cipher.decryptWithKey(Base64.decode(base64Text), new Recipient(recipientId), privateKey);
 			return new String(decrypted);
+		}
+	}
+
+	/**
+	 * Decrypt encrypted data from stream with private key.
+	 * 
+	 * @param inputStream
+	 *            the input stream to be decrypted.
+	 * @param outputStream
+	 *            decrypted data will be written to this stream.
+	 * @param recipientId
+	 *            the recipient ID.
+	 * @param privateKey
+	 *            the private key of recipient.
+	 * @throws Exception
+	 */
+	public static void decrypt(InputStream inputStream, OutputStream outputStream, String recipientId,
+			PrivateKey privateKey) throws Exception {
+		try (StreamCipher cipher = new StreamCipher()) {
+			cipher.decryptWithKey(inputStream, outputStream, new Recipient(recipientId), privateKey);
 		}
 	}
 
@@ -162,6 +243,28 @@ public class CryptoHelper {
 	}
 
 	/**
+	 * Decrypt encrypted data from stream with private key.
+	 * 
+	 * @param inputStream
+	 *            the input stream to be decrypted.
+	 * @param outputStream
+	 *            decrypted data will be written to this stream.
+	 * @param recipientId
+	 *            the recipient ID.
+	 * @param privateKey
+	 *            the private key of recipient.
+	 * @param password
+	 *            the private key's password.
+	 * @throws Exception
+	 */
+	public static void decrypt(InputStream inputStream, OutputStream outputStream, String recipientId,
+			PrivateKey privateKey, Password password) throws Exception {
+		try (StreamCipher cipher = new StreamCipher()) {
+			cipher.decryptWithKey(inputStream, outputStream, new Recipient(recipientId), privateKey, password);
+		}
+	}
+
+	/**
 	 * Sign text with private key.
 	 * 
 	 * @param text
@@ -177,7 +280,45 @@ public class CryptoHelper {
 			return Base64.encode(signature);
 		}
 	}
-	
+
+	/**
+	 * Sign stream with private key.
+	 * 
+	 * @param inputStream
+	 *            the stream to be signed.
+	 * @param privateKey
+	 *            the private key.
+	 * @return sign as Base64 string.
+	 * @throws Exception
+	 */
+	public static String sign(InputStream inputStream, PrivateKey privateKey) throws Exception {
+		try (VirgilStreamSigner signer = new VirgilStreamSigner();
+				VirgilStreamDataSource ds = new VirgilStreamDataSource(inputStream)) {
+			byte[] signature = signer.sign(ds, privateKey.getEncoded());
+			return Base64.encode(signature);
+		}
+	}
+
+	/**
+	 * Sign stream with private key protected with password.
+	 * 
+	 * @param inputStream
+	 *            the stream to be signed.
+	 * @param privateKey
+	 *            the private key.
+	 * @param keyPassword
+	 *            the private key password.
+	 * @return sign as Base64 string.
+	 * @throws Exception
+	 */
+	public static String sign(InputStream inputStream, PrivateKey privateKey, String keyPassword) throws Exception {
+		try (VirgilStreamSigner signer = new VirgilStreamSigner();
+				VirgilStreamDataSource ds = new VirgilStreamDataSource(inputStream)) {
+			byte[] signature = signer.sign(ds, privateKey.getEncoded(), keyPassword.getBytes());
+			return Base64.encode(signature);
+		}
+	}
+
 	/**
 	 * Sign Base64 encoded string with private key.
 	 * 
@@ -213,7 +354,7 @@ public class CryptoHelper {
 			return Base64.encode(signature);
 		}
 	}
-	
+
 	/**
 	 * Verify text with signature.
 	 * 
@@ -231,7 +372,26 @@ public class CryptoHelper {
 			return signer.verify(text.getBytes(), Base64.decode(signature), publicKey);
 		}
 	}
-	
+
+	/**
+	 * Verify stream data with signature.
+	 * 
+	 * @param inputStream
+	 *            the stream to be signed.
+	 * @param signature
+	 *            the sign as Base64 string.
+	 * @param publicKey
+	 *            the public key used for verification.
+	 * @return {@code true} if verification success.
+	 * @throws Exception
+	 */
+	public static boolean verify(InputStream inputStream, String signature, PublicKey publicKey) throws Exception {
+		try (VirgilStreamSigner signer = new VirgilStreamSigner();
+				VirgilStreamDataSource ds = new VirgilStreamDataSource(inputStream)) {
+			return signer.verify(ds, Base64.decode(signature), publicKey.getEncoded());
+		}
+	}
+
 	/**
 	 * Verify Base664 encoded string with signature.
 	 * 

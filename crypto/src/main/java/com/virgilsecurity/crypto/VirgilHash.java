@@ -9,103 +9,107 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilHash extends VirgilAsn1Compatible implements java.lang.AutoCloseable {
-  private long swigCPtr;
+	private long swigCPtr;
 
-  protected VirgilHash(long cPtr, boolean cMemoryOwn) {
-    super(virgil_crypto_javaJNI.VirgilHash_SWIGUpcast(cPtr), cMemoryOwn);
-    swigCPtr = cPtr;
-  }
+	protected VirgilHash(long cPtr, boolean cMemoryOwn) {
+		super(virgil_crypto_javaJNI.VirgilHash_SWIGUpcast(cPtr), cMemoryOwn);
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(VirgilHash obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(VirgilHash obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        virgil_crypto_javaJNI.delete_VirgilHash(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-    super.delete();
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				virgil_crypto_javaJNI.delete_VirgilHash(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+		super.delete();
+	}
 
-  @Override
-  public void close() {
-    delete();
-  }
+	@Override
+	public void close() {
+		delete();
+	}
 
-  public static VirgilHash md5() {
-    return new VirgilHash(virgil_crypto_javaJNI.VirgilHash_md5(), true);
-  }
+	public static VirgilHash md5() {
+		return new VirgilHash(virgil_crypto_javaJNI.VirgilHash_md5(), true);
+	}
 
-  public static VirgilHash sha256() {
-    return new VirgilHash(virgil_crypto_javaJNI.VirgilHash_sha256(), true);
-  }
+	public static VirgilHash sha256() {
+		return new VirgilHash(virgil_crypto_javaJNI.VirgilHash_sha256(), true);
+	}
 
-  public static VirgilHash sha384() {
-    return new VirgilHash(virgil_crypto_javaJNI.VirgilHash_sha384(), true);
-  }
+	public static VirgilHash sha384() {
+		return new VirgilHash(virgil_crypto_javaJNI.VirgilHash_sha384(), true);
+	}
 
-  public static VirgilHash sha512() {
-    return new VirgilHash(virgil_crypto_javaJNI.VirgilHash_sha512(), true);
-  }
+	public static VirgilHash sha512() {
+		return new VirgilHash(virgil_crypto_javaJNI.VirgilHash_sha512(), true);
+	}
 
-  public static VirgilHash withName(byte[] name) {
-    return new VirgilHash(virgil_crypto_javaJNI.VirgilHash_withName(name), true);
-  }
+	public static VirgilHash withName(byte[] name) {
+		return new VirgilHash(virgil_crypto_javaJNI.VirgilHash_withName(name), true);
+	}
 
-  public VirgilHash() {
-    this(virgil_crypto_javaJNI.new_VirgilHash__SWIG_0(), true);
-  }
+	public VirgilHash() {
+		this(virgil_crypto_javaJNI.new_VirgilHash__SWIG_0(), true);
+	}
 
-  public String name() {
-    return virgil_crypto_javaJNI.VirgilHash_name(swigCPtr, this);
-  }
+	public String name() {
+		return virgil_crypto_javaJNI.VirgilHash_name(swigCPtr, this);
+	}
 
-  public byte[] hash(byte[] bytes) {
-    return virgil_crypto_javaJNI.VirgilHash_hash(swigCPtr, this, bytes);
-  }
+	public int type() {
+		return virgil_crypto_javaJNI.VirgilHash_type(swigCPtr, this);
+	}
 
-  public void start() {
-    virgil_crypto_javaJNI.VirgilHash_start(swigCPtr, this);
-  }
+	public byte[] hash(byte[] bytes) {
+		return virgil_crypto_javaJNI.VirgilHash_hash(swigCPtr, this, bytes);
+	}
 
-  public void update(byte[] bytes) {
-    virgil_crypto_javaJNI.VirgilHash_update(swigCPtr, this, bytes);
-  }
+	public void start() {
+		virgil_crypto_javaJNI.VirgilHash_start(swigCPtr, this);
+	}
 
-  public byte[] finish() {
-    return virgil_crypto_javaJNI.VirgilHash_finish(swigCPtr, this);
-  }
+	public void update(byte[] bytes) {
+		virgil_crypto_javaJNI.VirgilHash_update(swigCPtr, this, bytes);
+	}
 
-  public byte[] hmac(byte[] key, byte[] bytes) {
-    return virgil_crypto_javaJNI.VirgilHash_hmac(swigCPtr, this, key, bytes);
-  }
+	public byte[] finish() {
+		return virgil_crypto_javaJNI.VirgilHash_finish(swigCPtr, this);
+	}
 
-  public void hmacStart(byte[] key) {
-    virgil_crypto_javaJNI.VirgilHash_hmacStart(swigCPtr, this, key);
-  }
+	public byte[] hmac(byte[] key, byte[] bytes) {
+		return virgil_crypto_javaJNI.VirgilHash_hmac(swigCPtr, this, key, bytes);
+	}
 
-  public void hmacReset() {
-    virgil_crypto_javaJNI.VirgilHash_hmacReset(swigCPtr, this);
-  }
+	public void hmacStart(byte[] key) {
+		virgil_crypto_javaJNI.VirgilHash_hmacStart(swigCPtr, this, key);
+	}
 
-  public void hmacUpdate(byte[] bytes) {
-    virgil_crypto_javaJNI.VirgilHash_hmacUpdate(swigCPtr, this, bytes);
-  }
+	public void hmacReset() {
+		virgil_crypto_javaJNI.VirgilHash_hmacReset(swigCPtr, this);
+	}
 
-  public byte[] hmacFinish() {
-    return virgil_crypto_javaJNI.VirgilHash_hmacFinish(swigCPtr, this);
-  }
+	public void hmacUpdate(byte[] bytes) {
+		virgil_crypto_javaJNI.VirgilHash_hmacUpdate(swigCPtr, this, bytes);
+	}
 
-  public VirgilHash(VirgilHash other) {
-    this(virgil_crypto_javaJNI.new_VirgilHash__SWIG_1(VirgilHash.getCPtr(other), other), true);
-  }
+	public byte[] hmacFinish() {
+		return virgil_crypto_javaJNI.VirgilHash_hmacFinish(swigCPtr, this);
+	}
+
+	public VirgilHash(VirgilHash other) {
+		this(virgil_crypto_javaJNI.new_VirgilHash__SWIG_1(VirgilHash.getCPtr(other), other), true);
+	}
 
 }

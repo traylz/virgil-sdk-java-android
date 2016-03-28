@@ -84,6 +84,8 @@ public class virgil_crypto_javaJNI {
 
 	public final static native String VirgilHash_name(long jarg1, VirgilHash jarg1_);
 
+	public final static native int VirgilHash_type(long jarg1, VirgilHash jarg1_);
+
 	public final static native byte[] VirgilHash_hash(long jarg1, VirgilHash jarg1_, byte[] jarg2);
 
 	public final static native void VirgilHash_start(long jarg1, VirgilHash jarg1_);
