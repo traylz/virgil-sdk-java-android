@@ -87,19 +87,13 @@ The following code example generates a new public/private key pair.
 KeyPair keyPair = KeyPairGenerator.generate();
 ```
 
-The app is verifying whether the user really owns the provided email address and getting a temporary token for a public key registration on the Public Keys Service.
-
-```java
-String actionId = factory.getIdentityClient().verify
-	(IdentityType.EMAIL, "sender-test@virgilsecurity.com");
-// use confirmation code sent to your email box.
-ValidatedIdentity identity = factory.getIdentityClient().confirm
-	(actionId, "{CONFIRMATION_CODE}");
-```
-
 The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
 
 ```java
+ValidatedIdentity identity = new ValidatedIdentity();
+		identity.setType(IdentityType.EMAIL);
+		identity.setValue(email);
+
 VirgilCardTemplate.Builder vcBuilder = 
 	new VirgilCardTemplate.Builder().setIdentity(identity).setPublicKey
 		(keyPair.getPublic());
