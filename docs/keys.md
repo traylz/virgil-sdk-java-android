@@ -78,7 +78,7 @@ Java
 
 ```java
 String actionId = factory.getIdentityClient().verify
-	(IdentityType.EMAIL, "{YOU EMAIL}");
+    (IdentityType.EMAIL, "{YOU EMAIL}");
 ```
 
 Android
@@ -88,12 +88,12 @@ String email = "{EMAIL}";
 
 try {
   factory.getIdentityClient().verify
-  	(IdentityType.EMAIL, email, new ResponseCallback<Action>() {
-	    @Override
-	    public void onSuccess(Action action) {
-	      // Obtain action identifier
-	      ...
-	    }
+      (IdentityType.EMAIL, email, new ResponseCallback<Action>() {
+        @Override
+        public void onSuccess(Action action) {
+          // Obtain action identifier
+          ...
+        }
     
     @Override
     public void onFailure(APIError apiError) {
@@ -115,7 +115,7 @@ Java
 
 ```java
 ValidatedIdentity identity = 
-	factory.getIdentityClient().confirm(actionId, "{CONFIRMATION CODE}");
+    factory.getIdentityClient().confirm(actionId, "{CONFIRMATION CODE}");
 ```
 
 Android
@@ -126,12 +126,12 @@ String confirmationCode = {CONFIRMATION_CODE};
 
 try {
   factory.getIdentityClient().confirm
-  	(actionId, confirmationCode, new ResponseCallback<ValidatedIdentity>() {
-	    @Override
-	    public void onSuccess(ValidatedIdentity validatedIdentity) {
-	      // Obtain validation token
-	      ...
-	    }
+      (actionId, confirmationCode, new ResponseCallback<ValidatedIdentity>() {
+        @Override
+        public void onSuccess(ValidatedIdentity validatedIdentity) {
+          // Obtain validation token
+          ...
+        }
     
     @Override
     public void onFailure(APIError apiError) {
@@ -148,6 +148,8 @@ try {
 ## Cards and Public Keys
 
 A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
+
+The Virgil Card might be created with a confirmed or unconfirmed Identity. The difference is whether Virgil Services take part in [the Identity verfification](#identity-check). With confirmed Cards you can be sure that the account with a particular email has been verified and the email owner is really the Identity owner. Be careful using unconfirmed Cards because they could have been created by any user.
 
 #### Publish a Virgil Card
 
@@ -190,7 +192,7 @@ ResponseCallback<VirgilCard> callback = new ResponseCallback<VirgilCard>() {
 };
 
 clientFactory.getPublicKeyClient().createCard
-	(vcBuilder.build(), privateKey, callback);
+    (vcBuilder.build(), privateKey, callback);
 ```
 
 #### Search for Cards
@@ -201,21 +203,21 @@ Java
 
 ```java
 Builder criteriaBuilder = 
-	new Builder().setValue("EMAIL ADDRESS").setIncludeUnconfirmed(true);
+    new Builder().setValue("EMAIL ADDRESS").setIncludeUnconfirmed(true);
 List<VirgilCard> cards = 
-	factory.getPublicKeyClient().search
-		(criteriaBuilder.build(), keyPair.getPrivate());
+    factory.getPublicKeyClient().search
+        (criteriaBuilder.build(), keyPair.getPrivate());
 ```
 Android
 
 ```java
 ResponseCallback<List<VirgilCard>> callback = 
-	new ResponseCallback<List<VirgilCard>>() {
-	  @Override
-	  public void onSuccess(List<VirgilCard> virgilCards) {
-	    // Process list of Virgil Cards
-	    ...
-	  }
+    new ResponseCallback<List<VirgilCard>>() {
+      @Override
+      public void onSuccess(List<VirgilCard> virgilCards) {
+        // Process list of Virgil Cards
+        ...
+      }
   
   @Override
   public void onFailure(APIError apiError) {
@@ -225,9 +227,9 @@ ResponseCallback<List<VirgilCard>> callback =
 };
 
 Builder criteriaBuilder = 
-	new Builder().setValue("EMAIL ADDRESS").setIncludeUnconfirmed(true);
+    new Builder().setValue("EMAIL ADDRESS").setIncludeUnconfirmed(true);
 clientFactory.getPublicKeyClient().search
-	(criteriaBuilder.build(), privateKey, callback);
+    (criteriaBuilder.build(), privateKey, callback);
 ```
 
 #### Search for Application Cards
@@ -278,8 +280,8 @@ String signedCardId = "VIRGIL CARD ID";
 String signedCardHash = "VIRGIL CARD HASH";
 
 SignResponse signData = 
-	factory.getPublicKeyClient().signCard(signedCardId, signedCardHash, 
-		cardInfo.getId(), keyPair.getPrivate());
+    factory.getPublicKeyClient().signCard(signedCardId, signedCardHash, 
+        cardInfo.getId(), keyPair.getPrivate());
 ```
 
 Android
@@ -289,13 +291,13 @@ String signedCardId = "VIRGIL CARD ID";
 String signedCardHash = "VIRGIL CARD HASH";
 
 clientFactory.getPublicKeyClient().signCard
-	(signedCardId, signedCardHash, signerCardId, privateKey, 
-		new ResponseCallback<SignResponse>() {
-		  @Override
-		  public void onSuccess(SignResponse signResponse) {
-		    // Virgil Card trusted
-		    ...
-		  }
+    (signedCardId, signedCardHash, signerCardId, privateKey, 
+        new ResponseCallback<SignResponse>() {
+          @Override
+          public void onSuccess(SignResponse signResponse) {
+            // Virgil Card trusted
+            ...
+          }
   
   @Override
   public void onFailure(APIError apiError) {
@@ -318,12 +320,12 @@ Android
 
 ```java
 clientFactory.getPublicKeyClient().unsignCard
-	(signedCardId, signerCardId, privateKey, new VoidResponseCallback() {
-	  @Override
-	  public void onSuccess(boolean b) {
-	    // Process unsign result
-	    ...
-	  }
+    (signedCardId, signerCardId, privateKey, new VoidResponseCallback() {
+      @Override
+      public void onSuccess(boolean b) {
+        // Process unsign result
+        ...
+      }
   
   @Override
   public void onFailure(APIError apiError) {
@@ -341,7 +343,7 @@ Java
 
 ```java
 factory.getPublicKeyClient().deleteCard
-	(identity, cardInfo.getId(), keyPair.getPrivate());
+    (identity, cardInfo.getId(), keyPair.getPrivate());
 ```
 
 Android
@@ -352,12 +354,12 @@ identity.setType(IdentityType.EMAIL);
 identity.setValue(email);
 
 clientFactory.getPublicKeyClient().deleteCard
-	(identity, cardId, privateKey, password, new VoidResponseCallback() {
-		  @Override
-		  public void onSuccess(boolean b) {
-		    // Process result
-		    ...
-		  }
+    (identity, cardId, privateKey, password, new VoidResponseCallback() {
+          @Override
+          public void onSuccess(boolean b) {
+            // Process result
+            ...
+          }
   
   @Override
   public void onFailure(APIError apiError) {
@@ -381,12 +383,12 @@ Android
 ```java
 String publicKeyId = "{PUBLIC_KEY_ID}";
 clientFactory.getPublicKeyClient().getKey
-	(publicKeyId, new ResponseCallback<PublicKeyInfo>() {
-		  @Override
-		  public void onSuccess(PublicKeyInfo keyInfo) {
-		    // Process result
-		    ...
-		  }
+    (publicKeyId, new ResponseCallback<PublicKeyInfo>() {
+          @Override
+          public void onSuccess(PublicKeyInfo keyInfo) {
+            // Process result
+            ...
+          }
   
   @Override
   public void onFailure(APIError apiError) {
@@ -413,20 +415,20 @@ criteria = new SearchCriteria();
 criteria.setValue("com.virgilsecurity.private-keys");
 
 VirgilCard serviceCard = factory.getPublicKeyClient().searchApp
-	(criteria, keyPair.getPrivate()).get(0);
+    (criteria, keyPair.getPrivate()).get(0);
 ```
 
 Android
 
 ```java
 ResponseCallback<List<VirgilCard>> callback = 
-	new ResponseCallback<List<VirgilCard>>() {
-		  @Override
-		  public void onSuccess(List<VirgilCard> virgilCards) {
-		    VirgilCard serviceCard = virgilCards.get(0);
-		    // Store Service Card
-		    ...
-		  }
+    new ResponseCallback<List<VirgilCard>>() {
+          @Override
+          public void onSuccess(List<VirgilCard> virgilCards) {
+            VirgilCard serviceCard = virgilCards.get(0);
+            // Store Service Card
+            ...
+          }
   
   @Override
   public void onFailure(APIError apiError) {
@@ -446,25 +448,25 @@ Private key can be added for storage only in case you have already registered a 
 
 Use the public key identifier on the Public Keys Service to save the private keys. 
 
-The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend to trasfer the keys which were generated with a password.
+The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend transferring the keys which were generated with a password.
 
 Java
 
 ```java
 factory.getPrivateKeyClient(serviceCard).stash
-	(cardInfo.getId(), keyPair.getPrivate());
+    (cardInfo.getId(), keyPair.getPrivate());
 ```
 
 Android
 
 ```java
 factory.getPrivateKeyClient(serviceCard).stash
-	(cardInfo.getId(), keyPair.getPrivate(), new VoidResponseCallback() {
-		  @Override
-		  public void onSuccess(boolean result) {
-		    // Process operation result
-		    ...
-		  }
+    (cardInfo.getId(), keyPair.getPrivate(), new VoidResponseCallback() {
+          @Override
+          public void onSuccess(boolean result) {
+            // Process operation result
+            ...
+          }
   
   @Override
   public void onFailure(APIError error) {
@@ -484,9 +486,9 @@ Java
 actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, email);
 // use confirmation code that has been sent to you email box.
 identity = factory.getIdentityClient().confirm(actionId, "{CONFIRMATION_CODE}");
-		
+        
 PrivateKeyInfo privateKey = factory.getPrivateKeyClient(serviceCard).get
-	(cardInfo.getId(), identity);
+    (cardInfo.getId(), identity);
 ```
 
 Android
@@ -494,13 +496,13 @@ Android
 ```java
 // Obtain verified identity first
 factory.getPrivateKeyClient(serviceCard).get
-	(cardInfo.getId(), identity, new ResponseCallback<PrivateKeyInfo>() {
+    (cardInfo.getId(), identity, new ResponseCallback<PrivateKeyInfo>() {
   
-		  @Override
-		  public void onSuccess(PrivateKeyInfo keyInfo) {
-		    // Process private key
-		    ...
-		  }
+          @Override
+          public void onSuccess(PrivateKeyInfo keyInfo) {
+            // Process private key
+            ...
+          }
   
   @Override
   public void onFailure(APIError error) {
@@ -518,20 +520,20 @@ Java
   
 ```java
 factory.getPrivateKeyClient(serviceCard).destroy
-	(cardInfo.getId(), keyPair.getPrivate());
+    (cardInfo.getId(), keyPair.getPrivate());
 ```
 
 Android
 
 ```java
 factory.getPrivateKeyClient(serviceCard).destroy
-	(cardInfo.getId(), keyPair.getPrivate(), new VoidResponseCallback() {
+    (cardInfo.getId(), keyPair.getPrivate(), new VoidResponseCallback() {
   
-		  @Override
-		  public void onSuccess(boolean result) {
-		    // Process operation result
-		    ...
-		  }
+          @Override
+          public void onSuccess(boolean result) {
+            // Process operation result
+            ...
+          }
   
   @Override
   public void onFailure(APIError error) {
