@@ -145,7 +145,7 @@ public class PrivateKeyClient extends AbstractClient {
 	 */
 	@Override
 	public Object handleResponse(Response<?> response) throws IOException {
-		if (response.isSuccess()) {
+		if (response.isSuccessful()) {
 			return response.body();
 		} else {
 			APIError error = new PrivateKeyAPIError(response.code(), response.errorBody().string());

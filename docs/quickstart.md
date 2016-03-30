@@ -53,8 +53,8 @@ You can easily add SDK dependency to your project, just follow the examples belo
 
 ```
 compile 'com.virgilsecurity.sdk:android:3.0.1@aar'
-compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
-compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
+compile 'com.squareup.retrofit2:retrofit:2.0.0'
+compile 'com.squareup.retrofit2:converter-gson:2.0.0'
 ```
 
 ## Use Case
@@ -87,12 +87,10 @@ The following code example generates a new public/private key pair.
 KeyPair keyPair = KeyPairGenerator.generate();
 ```
 
-The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service. You can create a Virgil Card with or without identity verification, see both examples [here...](https://github.com/VirgilSecurity/virgil-sdk-java-android/blob/master/docs/keys.md#publish-a-virgil-card)
+The app is registering a Virgil Card which includes a public key and an email address identifier. The Card will be used for the public key identification and searching for it in the Public Keys Service. You can create a Virgil Card with or without identity verification, see both examples [here...](https://github.com/VirgilSecurity/virgil-sdk-java-android/blob/master/docs/keys.md#publish-a-virgil-card)
 
 ```java
-ValidatedIdentity identity = new ValidatedIdentity();
-		identity.setType(IdentityType.EMAIL);
-		identity.setValue(email);
+ValidatedIdentity identity = new ValidatedIdentity(IdentityType.EMAIL, "{EMAIL}");
 
 VirgilCardTemplate.Builder vcBuilder = 
 	new VirgilCardTemplate.Builder().setIdentity(identity).setPublicKey

@@ -84,14 +84,14 @@ public class PublicKeyServiceTest {
 
 		try {
 			Response<VirgilCard> response = publicKeyService.createCard(request).execute();
-			if (response.isSuccess()) {
+			if (response.isSuccessful()) {
 
 			} else {
 				APIError error = new APIError(response.code(), response.errorBody().string());
 				LOGGER.log(Level.SEVERE, "Create card. {0}", error.toString());
 			}
 
-			assertTrue(response.isSuccess());
+			assertTrue(response.isSuccessful());
 			assertNotNull(response.body());
 
 			signerCard = response.body();
@@ -112,13 +112,13 @@ public class PublicKeyServiceTest {
 		try {
 			Response<List<VirgilCard>> response = publicKeyService.search(criteriaBuilder.build()).execute();
 
-			if (response.isSuccess()) {
+			if (response.isSuccessful()) {
 			} else {
 				APIError error = new APIError(response.code(), response.errorBody().string());
 				LOGGER.log(Level.SEVERE, "Search card. {0}", error.toString());
 			}
 
-			assertTrue(response.isSuccess());
+			assertTrue(response.isSuccessful());
 			assertNotNull(response.body());
 
 			List<VirgilCard> cards = response.body();
@@ -141,13 +141,13 @@ public class PublicKeyServiceTest {
 		try {
 			Response<List<VirgilCard>> response = publicKeyService.searchApp(criteria).execute();
 
-			if (response.isSuccess()) {
+			if (response.isSuccessful()) {
 			} else {
 				APIError error = new APIError(response.code(), response.errorBody().string());
 				LOGGER.log(Level.SEVERE, "Search card. {0}", error.toString());
 			}
 
-			assertTrue(response.isSuccess());
+			assertTrue(response.isSuccessful());
 			assertNotNull(response.body());
 
 			cards = response.body();
@@ -195,7 +195,7 @@ public class PublicKeyServiceTest {
 		try {
 			Response<SignResponse> response = publicKeyService.signCard(signerCard.getId(), signerCard.getId(), sign)
 					.execute();
-			assertTrue(response.isSuccess());
+			assertTrue(response.isSuccessful());
 
 			SignResponse signData = response.body();
 
@@ -219,7 +219,7 @@ public class PublicKeyServiceTest {
 		try {
 			Response<Void> response = publicKeyService.unsignCard(signerCard.getId(), signerCard.getId(), sign)
 					.execute();
-			assertTrue(response.isSuccess());
+			assertTrue(response.isSuccessful());
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, null, e);
 			fail(e.getMessage());
@@ -246,10 +246,10 @@ public class PublicKeyServiceTest {
 			Response<Void> response = publicKeyService.delete(signerCard.getId(), signerCard.getId(), request)
 					.execute();
 
-			if (!response.isSuccess()) {
+			if (!response.isSuccessful()) {
 				System.out.println(new APIError(response.code(), response.errorBody().string()));
 			}
-			assertTrue(response.isSuccess());
+			assertTrue(response.isSuccessful());
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, null, e);
 			fail(e.getMessage());

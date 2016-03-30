@@ -51,9 +51,7 @@ public class CreateUnconfirmedCard {
 
 		ClientFactory factory = new ClientFactory(accesToken);
 
-		ValidatedIdentity identity = new ValidatedIdentity();
-		identity.setType(IdentityType.EMAIL);
-		identity.setValue(email);
+		ValidatedIdentity identity = new ValidatedIdentity(IdentityType.EMAIL, email);
 
 		KeyPair keyPair = KeyPairGenerator.generate();
 		VirgilCardTemplate.Builder vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity)

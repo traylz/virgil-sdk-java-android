@@ -38,9 +38,9 @@ import com.virgilsecurity.sdk.client.exceptions.ServiceException;
 import com.virgilsecurity.sdk.client.model.APIError;
 
 import okhttp3.OkHttpClient;
-import retrofit2.GsonConverterFactory;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * This abstract class implements common functionality for all clients.
@@ -88,7 +88,7 @@ public abstract class AbstractClient {
 	 * @throws IOException
 	 */
 	public Object handleResponse(Response<?> response) throws IOException {
-		if (response.isSuccess()) {
+		if (response.isSuccessful()) {
 			return response.body();
 		} else {
 			APIError error = new APIError(response.code(), response.errorBody().string());

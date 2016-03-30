@@ -57,6 +57,8 @@ public class Quickstart {
 
 	public static void main(String[] args) throws Exception {
 		String accesToken = "{ACCESS_TOKEN}";
+		String senderEmail = "sender-test@virgilsecurity.com";
+		
 		ClientFactory factory = new ClientFactory(accesToken);
 
 		// Step 1. Create and Publish the Keys
@@ -74,19 +76,12 @@ public class Quickstart {
 		KeyPair keyPair = KeyPairGenerator.generate(password);
 
 		/*
-		 * The app is verifying whether the user really owns the provided email
-		 * address and getting a temporary token for public key registration on
-		 * the Public Keys Service.
-		 */
-		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, "sender-test@virgilsecurity.com");
-		// use confirmation code sent to your email box.
-		ValidatedIdentity identity = factory.getIdentityClient().confirm(actionId, "{CONFIRMATION_CODE}");
-
-		/*
 		 * The app is registering a Virgil Card which includes a public key and
 		 * an email address identifier. The card will be used for the public key
-		 * identification and searching for it in the Public Keys Service.
+		 * identification and searching for it in the Public Keys Service. You
+		 * can create a Virgil Card with or without identity verification
 		 */
+		ValidatedIdentity identity = new ValidatedIdentity(IdentityType.EMAIL, senderEmail);
 
 		VirgilCardTemplate.Builder vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity)
 				.setPublicKey(keyPair.getPublic());
@@ -138,7 +133,7 @@ public class Quickstart {
 		 * needs to get sender’s Virgil Card from the Public Keys Service.
 		 */
 
-		criteriaBuilder = new Builder().setValue("sender-test@virgilsecurity.com");
+		criteriaBuilder = new Builder().setValue(senderEmail).setIncludeUnconfirmed(true);
 		senderCard = factory.getPublicKeyClient().search(criteriaBuilder.build()).get(0);
 
 		// Step 6. Verify and Decrypt

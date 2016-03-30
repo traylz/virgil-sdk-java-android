@@ -110,7 +110,7 @@ public class IdentityClientTest {
 			// Read email from mail server
 			Response<Inbox> response = mailClient.getService().inbox(account).execute();
 			LOGGER.log(Level.FINE, "Emails. Response code: {}", response.code());
-			if (response.isSuccess() && !response.body().getItems().isEmpty()) {
+			if (response.isSuccessful() && !response.body().getItems().isEmpty()) {
 				// Read email and extract confirmation code
 
 				// Inbox contains only one email because we use new mailbox for
@@ -124,7 +124,7 @@ public class IdentityClientTest {
 					// refuse calls with 429 status)
 					messageResponse = mailClient.getService().message(messageId).execute();
 					LOGGER.log(Level.FINE, "Email. Response code: {}", response.code());
-					if (messageResponse.isSuccess()) {
+					if (messageResponse.isSuccessful()) {
 						break;
 					}
 					// Try to get email in 5 sec

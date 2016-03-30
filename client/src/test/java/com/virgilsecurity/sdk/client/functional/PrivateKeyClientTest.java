@@ -116,14 +116,14 @@ public class PrivateKeyClientTest {
 				Response<Inbox> response;
 
 				response = mailClient.getService().inbox(account).execute();
-				if (response.isSuccess() && !response.body().getItems().isEmpty()) {
+				if (response.isSuccessful() && !response.body().getItems().isEmpty()) {
 					String messageId = response.body().getItems().get(0).getId();
 					assertNotNull(messageId);
 					assertFalse(messageId.isEmpty());
 					Response<MessageData> messageResponse = null;
 					for (int j = 0; j < 5; j++) {
 						messageResponse = mailClient.getService().message(messageId).execute();
-						if (messageResponse.isSuccess()) {
+						if (messageResponse.isSuccessful()) {
 							break;
 						}
 						Thread.sleep(5 * 1000);

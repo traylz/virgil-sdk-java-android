@@ -102,7 +102,7 @@ public class IdentityServiceTest {
 		try {
 			Response<Action> response = identityService.verify(request).execute();
 			LOGGER.log(Level.FINE, "Verify. Response code: {}", response.code());
-			assertTrue(response.isSuccess());
+			assertTrue(response.isSuccessful());
 			assertNotNull(response.body());
 
 			Action verifyResponse = response.body();
@@ -123,7 +123,7 @@ public class IdentityServiceTest {
 			// Read email from mail server
 			Response<Inbox> response = mailClient.getService().inbox(account).execute();
 			LOGGER.log(Level.FINE, "Emails. Response code: {}", response.code());
-			if (response.isSuccess() && !response.body().getItems().isEmpty()) {
+			if (response.isSuccessful() && !response.body().getItems().isEmpty()) {
 				// Read email and extract confirmation code
 
 				// Inbox contains only one email because we use new mailbox for
@@ -137,7 +137,7 @@ public class IdentityServiceTest {
 					// refuse calls with 429 status)
 					messageResponse = mailClient.getService().message(messageId).execute();
 					LOGGER.log(Level.FINE, "Email. Response code: {}", response.code());
-					if (messageResponse.isSuccess()) {
+					if (messageResponse.isSuccessful()) {
 						break;
 					}
 					// Try to get email in 5 sec
@@ -184,7 +184,7 @@ public class IdentityServiceTest {
 		try {
 			Response<ValidatedIdentity> response = identityService.confirm(request).execute();
 			LOGGER.log(Level.FINE, "Confirm. Response code: {}", response.code());
-			assertTrue(response.isSuccess());
+			assertTrue(response.isSuccessful());
 			assertNotNull(response.body());
 
 			ValidatedIdentity confirmResponse = response.body();
@@ -211,7 +211,7 @@ public class IdentityServiceTest {
 			Response<Void> response = identityService.validate(request).execute();
 			LOGGER.log(Level.FINE, "Validate. Response code: {}", response.code());
 
-			assertTrue(response.isSuccess());
+			assertTrue(response.isSuccessful());
 		} catch (IOException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			fail(ex.getMessage());

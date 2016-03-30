@@ -33,6 +33,7 @@ import java.io.IOException;
 
 import com.virgilsecurity.sdk.client.model.APIError;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -43,14 +44,12 @@ import retrofit2.Response;
  *
  */
 public abstract class ResponseCallback<T> implements Callback<T> {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see retrofit2.Callback#onResponse(retrofit2.Response)
+	
+	/* (non-Javadoc)
+	 * @see retrofit2.Callback#onResponse(retrofit2.Call, retrofit2.Response)
 	 */
 	@Override
-	public void onResponse(Response<T> response) {
+	public void onResponse(Call<T> call, Response<T> response) {
 		if (response.code() < 400) {
 			onSuccess(response.body());
 		} else {
@@ -63,14 +62,12 @@ public abstract class ResponseCallback<T> implements Callback<T> {
 			onFailure(new APIError(response.code(), body));
 		}
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see retrofit2.Callback#onFailure(java.lang.Throwable)
+	
+	/* (non-Javadoc)
+	 * @see retrofit2.Callback#onFailure(retrofit2.Call, java.lang.Throwable)
 	 */
 	@Override
-	public void onFailure(Throwable t) {
+	public void onFailure(Call<T> call, Throwable t) {
 		onFailure(new APIError(t));
 	}
 

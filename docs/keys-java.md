@@ -29,7 +29,7 @@ This tutorial explains how to use the Public Keys Service with SDK library in Ja
 ###Gradle
 
 ```
-compile 'com.virgilsecurity.sdk:client:3.0'
+compile 'com.virgilsecurity.sdk:client:3.0.1'
 ```
 
 ###Maven
@@ -39,7 +39,7 @@ compile 'com.virgilsecurity.sdk:client:3.0'
   <dependency>
     <groupId>com.virgilsecurity.sdk</groupId>
     <artifactId>client</artifactId>
-    <version>3.0</version>
+    <version>3.0.1</version>
   </dependency>
 </dependencies>
 ```
@@ -58,44 +58,69 @@ ClientFactory factory = new ClientFactory("{ACCESS_TOKEN}");
 
 ## Identity Check
 
-All the Virgil Security services are strongly interconnected with the Identity Service. It determines the ownership of the identity being checked using particular mechanisms and as a result it generates a temporary token to be used for the operations which require an identity verification. 
+All the Virgil Security services are strongly interconnected with the Identity Service. It determines the ownership of the Identity being checked using particular mechanisms and as a result it generates a temporary token to be used for the operations which require an Identity verification. 
 
 #### Request Verification
 
-Initialize the identity verification process.
+Initialize the Identity verification process.
 
 ```java
-String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, "{YOU EMAIL}");
+String actionId = factory.getIdentityClient()
+    .verify(IdentityType.EMAIL, "{YOU EMAIL}");
 ```
 
 #### Confirm and Get an Identity Token
 
-Confirm the identity and get a temporary token.
+Confirm the Identity and get a temporary token.
 
 ```java
-ValidatedIdentity identity = factory.getIdentityClient().confirm(actionId, "{CONFIRMATION CODE}");
+ValidatedIdentity identity = 
+    factory.getIdentityClient().confirm(actionId, "{CONFIRMATION CODE}");
 ```
 
 ## Cards and Public Keys
 
 A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
+The Virgil Card might be created with a confirmed or unconfirmed Identity. The difference is whether Virgil Services take part in [the Identity verification](#identity-check). With confirmed Cards you can be sure that the account with a particular email has been verified and the email owner is really the Identity owner. Be careful using unconfirmed Cards because they could have been created by any user.   
+
 #### Publish a Virgil Card
 
-An identity token which can be received [here](#identity-check) is used during the registration.
+An Identity token which can be received [here](#identity-check) is used during the confirmation.
 
 ```java
 KeyPair keyPair = KeyPairGenerator.generate();
-VirgilCard card = factory.getPublicKeyClient().createCard(identity, keyPair.getPublic(), keyPair.getPrivate());
+VirgilCard card = factory.getPublicKeyClient().createCard(identity,
+    keyPair.getPublic(), keyPair.getPrivate());
+```
+
+Creating a Card without an Identity verification. Pay attention that you will have to set an additional attribute to include the Cards with unconfirmed Identities into your search, see an [example](#search-for-cards).
+
+```java
+ValidatedIdentity identity = new ValidatedIdentity(IdentityType.EMAIL, "{EMAIL}");
+
+KeyPair keyPair = KeyPairGenerator.generate();
+VirgilCard card = factory.getPublicKeyClient().createCard(identity,
+    keyPair.getPublic(), keyPair.getPrivate());
 ```
 
 #### Search for Cards
 
-Search for the Virgil Card by provided parameters.
+Search for the Virgil Cards by provided parameters.
 
 ```java
-Builder criteriaBuilder = new Builder().setValue("EMAIL ADDRESS").setIncludeUnconfirmed(true);
-List<VirgilCard> cards = factory.getPublicKeyClient().search(criteriaBuilder.build(), keyPair.getPrivate());
+Builder criteriaBuilder = new Builder().setValue("EMAIL ADDRESS");
+List<VirgilCard> cards = factory.getPublicKeyClient()
+    .search(criteriaBuilder.build(), keyPair.getPrivate());
+```
+
+Search for the Virgil Cards including the cards with unconfirmed Identities.
+
+```java
+Builder criteriaBuilder = new Builder().setValue("EMAIL ADDRESS")
+    .setIncludeUnconfirmed(true);
+List<VirgilCard> cards = factory.getPublicKeyClient()
+    .search(criteriaBuilder.build(), keyPair.getPrivate());
 ```
 
 #### Search for Application Cards
@@ -105,7 +130,8 @@ Search for the Virgil Cards by a defined pattern. The example below returns a li
 ```java
 SearchCriteria criteria = new SearchCriteria().setValue(appId);
 
-List<VirgilCard> appCards = factory.licKeyClient().searchApp(criteriaBuilder.build(), keyPair.getPrivate());
+List<VirgilCard> appCards = factory.getPublicKeyClient()
+    .searchApp(criteriaBuilder.build(), keyPair.getPrivate());
 ```
 
 #### Trust a Virgil Card
@@ -118,7 +144,8 @@ The example below demonstrates how to certify a user's Virgil Card by signing it
 String signedCardId = "VIRGIL CARD ID";
 String signedCardHash = "VIRGIL CARD HASH";
 
-SignResponse signData = factory.getPublicKeyClient().signCard(signedCardId, signedCardHash, cardInfo.getId(), keyPair.getPrivate());
+SignResponse signData = factory.getPublicKeyClient().signCard(signedCardId,
+    signedCardHash, cardInfo.getId(), keyPair.getPrivate());
 ```
 
 #### Untrust a Virgil Card
@@ -133,7 +160,8 @@ factory.getPublicKeyClient().unsignCard(signedCardId, cardInfo.getId(), keyPair.
 This operation is used to delete the Virgil Card from the search and mark it as deleted. 
 
 ```java
-factory.getPublicKeyClient().deleteCard(identity, cardInfo.getId(), keyPair.getPrivate());
+factory.getPublicKeyClient().deleteCard(identity, cardInfo.getId(),
+    keyPair.getPrivate());
 ```
 
 #### Get a Public Key
@@ -141,7 +169,8 @@ factory.getPublicKeyClient().deleteCard(identity, cardInfo.getId(), keyPair.getP
 Gets a public key from the Public Keys Service by the specified ID.
 
 ```java
-PublicKeyInfo publicKey = factory.getPublicKeyClient().getKey(cardInfo.getPublicKey().getId());
+PublicKeyInfo publicKey = factory.getPublicKeyClient()
+    .getKey(cardInfo.getPublicKey().getId());
 ```
 
 ## Private Keys
@@ -158,7 +187,8 @@ Usage of this service is optional.
 criteria = new SearchCriteria();
 criteria.setValue("com.virgilsecurity.private-keys");
 
-VirgilCard serviceCard = factory.getPublicKeyClient().searchApp(criteria, keyPair.getPrivate()).get(0);
+VirgilCard serviceCard = factory.getPublicKeyClient()
+    .searchApp(criteria, keyPair.getPrivate()).get(0);
 ```
 
 #### Stash a Private Key
@@ -167,10 +197,11 @@ Private key can be added for storage only in case you have already registered a 
 
 Use the public key identifier on the Public Keys Service to save the private keys. 
 
-The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend to trasfer the keys which were generated with a password.
+The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend transferring the keys which were generated with a password.
 
 ```java
-factory.getPrivateKeyClient(serviceCard).stash(cardInfo.getId(), keyPair.getPrivate());
+factory.getPrivateKeyClient(serviceCard)
+    .stash(cardInfo.getId(), keyPair.getPrivate());
 ```
 
 #### Get a Private Key
@@ -182,7 +213,8 @@ actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, email);
 // use confirmation code that has been sent to you email box.
 identity = factory.getIdentityClient().confirm(actionId, "{CONFIRMATION_CODE}");
 		
-PrivateKeyInfo privateKey = factory.getPrivateKeyClient(serviceCard).get(cardInfo.getId(), identity);
+PrivateKeyInfo privateKey = factory.getPrivateKeyClient(serviceCard)
+    .get(cardInfo.getId(), identity);
 ```
 
 #### Destroy a Private Key
@@ -190,7 +222,8 @@ PrivateKeyInfo privateKey = factory.getPrivateKeyClient(serviceCard).get(cardInf
 This operation deletes the private key from the service without a possibility to be restored. 
   
 ```java
-factory.getPrivateKeyClient(serviceCard).destroy(cardInfo.getId(), keyPair.getPrivate());
+factory.getPrivateKeyClient(serviceCard)
+    .destroy(cardInfo.getId(), keyPair.getPrivate());
 ```
 
 ## See Also

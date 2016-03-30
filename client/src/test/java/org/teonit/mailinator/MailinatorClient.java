@@ -1,9 +1,11 @@
 package org.teonit.mailinator;
 
-import com.google.gson.GsonBuilder;
 import org.teonit.mailinator.api.MailinatorService;
-import retrofit2.GsonConverterFactory;
+
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  *
