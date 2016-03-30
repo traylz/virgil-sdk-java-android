@@ -230,4 +230,3 @@ factory.getPrivateKeyClient(serviceCard)
 
 * [Quickstart](quickstart.md)
 * [Android tutorial](keys-android.md)
-* [Reference API for SDK](sdk-reference-api.md)

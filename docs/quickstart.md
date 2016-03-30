@@ -87,7 +87,7 @@ The following code example generates a new public/private key pair.
 KeyPair keyPair = KeyPairGenerator.generate();
 ```
 
-The app is registering a Virgil Card which includes a public key and an email address identifier. The Card will be used for the public key identification and searching for it in the Public Keys Service. You can create a Virgil Card with or without identity verification, see both examples [here...](https://github.com/VirgilSecurity/virgil-sdk-java-android/blob/master/docs/keys.md#publish-a-virgil-card)
+The app is registering a Virgil Card which includes a public key and an email address identifier. The Card will be used for the public key identification and searching for it in the Public Keys Service. You can create a Virgil Card with or without identity verification, see both examples [here...](https://github.com/VirgilSecurity/virgil-sdk-java-android/blob/master/docs/keys-java.md#publish-a-virgil-card)
 
 ```java
 ValidatedIdentity identity = new ValidatedIdentity(IdentityType.EMAIL, "{EMAIL}");
@@ -164,4 +164,5 @@ if (isValid) {
 ## See Also
 
 * [Tutorial Crypto Library](crypto.md)
-* [Tutorial SDK](public-keys.md)
+* [Tutorial SDK](keys-java.md)
+* [Android tutorial](keys-android.md)
