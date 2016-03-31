@@ -8,18 +8,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.text.InputType;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -27,30 +26,18 @@ import com.google.gson.Gson;
 import com.virgilsecurity.ipmessaginglient.adapter.MessageAdapter;
 import com.virgilsecurity.ipmessaginglient.model.ChatMember;
 import com.virgilsecurity.ipmessaginglient.model.EncryptedMessage;
-import com.virgilsecurity.ipmessaginglient.model.Identifier;
 import com.virgilsecurity.ipmessaginglient.model.Message;
 import com.virgilsecurity.ipmessaginglient.utils.MessagingClient;
-import com.virgilsecurity.sdk.client.model.publickey.SearchCriteria;
-import com.virgilsecurity.sdk.client.model.publickey.VirgilCard;
 import com.virgilsecurity.sdk.client.utils.StringUtils;
-import com.virgilsecurity.sdk.crypto.Base64;
-import com.virgilsecurity.sdk.crypto.Cipher;
-import com.virgilsecurity.sdk.crypto.CryptoHelper;
 import com.virgilsecurity.sdk.crypto.PrivateKey;
 import com.virgilsecurity.sdk.crypto.PublicKey;
-import com.virgilsecurity.sdk.crypto.Recipient;
-import com.virgilsecurity.sdk.crypto.Signer;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import retrofit2.Response;
 
 public class ChannelActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

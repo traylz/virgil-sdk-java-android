@@ -14,10 +14,9 @@ import com.virgilsecurity.ipmessaginglient.model.Message;
 import com.virgilsecurity.ipmessaginglient.service.IPMessagingService;
 import com.virgilsecurity.sdk.client.model.publickey.SearchCriteria;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCard;
-import com.virgilsecurity.sdk.crypto.Base64;
+import com.virgilsecurity.sdk.client.utils.StringUtils;
 import com.virgilsecurity.sdk.crypto.CryptoHelper;
 import com.virgilsecurity.sdk.crypto.PublicKey;
-import com.virgilsecurity.sdk.crypto.Signer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,11 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import retrofit2.GsonConverterFactory;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Andrii Iakovenko.
@@ -166,28 +163,33 @@ public class MessagingClient {
                 messages = response.body();
                 Log.d(TAG, "Received messages count: " + messages.size());
                 for (Message message : messages) {
-                    EncryptedMessage encryptedMessage = gson.fromJson(message.getMessage(), EncryptedMessage.class);
-                    ChatMember sender = cache.getMember(message.getSenderIdentifier());
-                    if (sender != null) {
-                        try {
-                            boolean isValid = CryptoHelper.verifyBase64(encryptedMessage.getMessage(), encryptedMessage.getSign(), sender.getPublicKey());
-                            if (isValid) {
-                                message.setMessage(CryptoHelper.decrypt(encryptedMessage.getMessage(), me.getCardId(), me.getPrivateKey()));
-                            } else {
-                                message.setMessage("The message signature is not valid");
+                    try {
+                        EncryptedMessage encryptedMessage = gson.fromJson(message.getMessage(), EncryptedMessage.class);
+                        ChatMember sender = cache.getMember(message.getSenderIdentifier());
+                        if (sender != null) {
+                            try {
+                                boolean isValid = CryptoHelper.verifyBase64(encryptedMessage.getMessage(), encryptedMessage.getSign(), sender.getPublicKey());
+                                if (isValid) {
+                                    message.setMessage(CryptoHelper.decrypt(encryptedMessage.getMessage(), me.getCardId(), me.getPrivateKey()));
+                                } else {
+                                    message.setMessage("The message signature is not valid");
+                                }
+                            } catch (Exception e) {
+                                Log.w(TAG, "Message '" + message.getId() + "' processing error", e);
+                                message.setMessage("The message couldn't be processed");
                             }
-                        } catch (Exception e) {
-                            Log.w(TAG, "Message '" + message.getId() + "' processing error", e);
-                            message.setMessage("The message couldn't be processed");
+                        } else {
+                            message.setMessage("Sender not found!");
                         }
-                    } else {
-                        message.setMessage("Sender not found!");
+                    }
+                    catch (Exception e) {
+                        Log.e(TAG, "Message '" + message.getId() + "' processing error", e);
                     }
                 }
             } else {
                 Log.e(TAG, "Get channel messages error: " + response.code());
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.e(TAG, "Get channel messages error", e);
         }
         return messages;
@@ -206,13 +208,17 @@ public class MessagingClient {
         }
 
         public ChatMember getMember(String identifier) {
+            if (StringUtils.isBlank(identifier)) {
+                return null;
+            }
+
             // chat member presents in cache
             if (members.containsKey(identifier)) {
                 return members.get(identifier);
             }
 
             // obtain chat member from Virgil Service
-            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setValue(identifier);
+            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setValue(identifier).setIncludeUnconfirmed(true);
             List<VirgilCard> cards = Application.getClientFactory().getPublicKeyClient().search(criteriaBuilder.build());
             if (!cards.isEmpty()) {
                 ChatMember member = new ChatMember(cards.get(0));

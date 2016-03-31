@@ -29,9 +29,9 @@ This tutorial explains how to use the Public Keys Service with SDK library in Ja
 ###Gradle
 
 ```
-compile 'com.virgilsecurity.sdk:android:3.0@aar'
-compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
-compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
+compile 'com.virgilsecurity.sdk:android:3.0.1@aar'
+compile 'com.squareup.retrofit2:retrofit:2.0.0'
+compile 'com.squareup.retrofit2:converter-gson:2.0.0'
 ```
 
 ##Obtaining an Access Token
@@ -48,17 +48,19 @@ ClientFactory factory = new ClientFactory("{ACCESS_TOKEN}");
 
 ## Identity Check
 
-All the Virgil Security services are strongly interconnected with the Identity Service. It determines the ownership of the identity being checked using particular mechanisms and as a result it generates a temporary token to be used for the operations which require an identity verification. 
+All the Virgil Security services are strongly interconnected with the Identity Service. It determines the ownership of the Identity being checked using particular mechanisms and as a result it generates a temporary token to be used for the operations which require an Identity verification. 
 
 #### Request Verification
 
-Initialize the identity verification process.
+Initialize the Identity verification process.
 
 ```java
 String email = "{EMAIL}";
 
 try {
-  factory.getIdentityClient().verify(IdentityType.EMAIL, email, new ResponseCallback<Action>() {
+  factory.getIdentityClient().verify(IdentityType.EMAIL, email,
+      new ResponseCallback<Action>() {
+
     @Override
     public void onSuccess(Action action) {
       // Obtain action identifier
@@ -79,14 +81,16 @@ try {
 
 #### Confirm and Get an Identity Token
 
-Confirm the identity and get a temporary token.
+Confirm the Identity and get a temporary token.
 
 ```java
 String actionId = "{ACTION_ID}";
 String confirmationCode = {CONFIRMATION_CODE};
 
 try {
-  factory.getIdentityClient().confirm(actionId, confirmationCode, new ResponseCallback<ValidatedIdentity>() {
+  factory.getIdentityClient().confirm(actionId, confirmationCode,
+      new ResponseCallback<ValidatedIdentity>() {
+
     @Override
     public void onSuccess(ValidatedIdentity validatedIdentity) {
       // Obtain validation token
@@ -109,21 +113,19 @@ try {
 
 A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
+The Virgil Card might be created with a confirmed or unconfirmed Identity. The difference is whether Virgil Services take part in [the Identity verification](#identity-check). With confirmed Cards you can be sure that the account with a particular email has been verified and the email owner is really the Identity owner. Be careful using unconfirmed Cards because they could have been created by any user.   
+
 #### Publish a Virgil Card
 
-An identity token which can be received [here](#identity-check) is used during the registration.
+An Identity token which can be received [here](#identity-check) is used during the confirmation.
 
 ```java
 KeyPair keyPair = KeyPairGenerator.generate();
+PublicKey publicKey = keyPair.getPublicKey();
 PrivateKey privateKey = keyPair.getPrivateKey();
 
-String accessToken = "{ACCESS_TOKEN}";
-
-ValidatedIdentity identity = new ValidatedIdentity();
-identity.setType(IdentityType.EMAIL);
-identity.setValue("{EMAIL}");
-
-VirgilCardTemplate.Builder vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity).setPublicKey(publicKey);
+VirgilCardTemplate.Builder vcBuilder = new VirgilCardTemplate.Builder()
+    .setIdentity(identity).setPublicKey(publicKey);
 
 ResponseCallback<VirgilCard> callback = new ResponseCallback<VirgilCard>() {
   @Override
@@ -139,15 +141,48 @@ ResponseCallback<VirgilCard> callback = new ResponseCallback<VirgilCard>() {
   }
 };
 
-clientFactory.getPublicKeyClient().createCard(vcBuilder.build(), privateKey, callback);
+clientFactory.getPublicKeyClient()
+    .createCard(vcBuilder.build(), privateKey, callback);
+```
+
+Creating a Card without an Identity verification. Pay attention that you will have to set an additional attribute to include the Cards with unconfirmed Identities into your search, see an [example](#search-for-cards).
+
+```java
+KeyPair keyPair = KeyPairGenerator.generate();
+PublicKey publicKey = keyPair.getPublicKey();
+PrivateKey privateKey = keyPair.getPrivateKey();
+
+ValidatedIdentity identity = new ValidatedIdentity(IdentityType.EMAIL, "{EMAIL}");
+
+VirgilCardTemplate.Builder vcBuilder = new VirgilCardTemplate.Builder()
+    .setIdentity(identity).setPublicKey(publicKey);
+
+ResponseCallback<VirgilCard> callback = new ResponseCallback<VirgilCard>() {
+  @Override
+  public void onSuccess(VirgilCard virgilCard) {
+    // Virgil Card created
+    ...
+  }
+  
+  @Override
+  public void onFailure(APIError apiError) {
+      // Process failure
+      ...
+  }
+};
+
+clientFactory.getPublicKeyClient()
+    .createCard(vcBuilder.build(), privateKey, callback);
 ```
 
 #### Search for Cards
 
-Search for the Virgil Card by provided parameters.
+Search for the Virgil Cards by provided parameters.
 
 ```java
-ResponseCallback<List<VirgilCard>> callback = new ResponseCallback<List<VirgilCard>>() {
+ResponseCallback<List<VirgilCard>> callback =
+    new ResponseCallback<List<VirgilCard>>() {
+
   @Override
   public void onSuccess(List<VirgilCard> virgilCards) {
     // Process list of Virgil Cards
@@ -161,8 +196,34 @@ ResponseCallback<List<VirgilCard>> callback = new ResponseCallback<List<VirgilCa
   }
 };
 
-Builder criteriaBuilder = new Builder().setValue("EMAIL ADDRESS").setIncludeUnconfirmed(true);
-clientFactory.getPublicKeyClient().search(criteriaBuilder.build(), privateKey, callback);
+Builder criteriaBuilder = new Builder().setValue("EMAIL ADDRESS");
+clientFactory.getPublicKeyClient()
+    .search(criteriaBuilder.build(), privateKey, callback);
+```
+
+Search for the Virgil Cards including the cards with unconfirmed Identities.
+
+```java
+ResponseCallback<List<VirgilCard>> callback =
+    new ResponseCallback<List<VirgilCard>>() {
+
+  @Override
+  public void onSuccess(List<VirgilCard> virgilCards) {
+    // Process list of Virgil Cards
+    ...
+  }
+  
+  @Override
+  public void onFailure(APIError apiError) {
+    // Process failure
+    ...
+  }
+};
+
+Builder criteriaBuilder = new Builder().setValue("EMAIL ADDRESS")
+    .setIncludeUnconfirmed(true);
+clientFactory.getPublicKeyClient()
+    .search(criteriaBuilder.build(), privateKey, callback);
 ```
 
 #### Search for Application Cards
@@ -170,7 +231,9 @@ clientFactory.getPublicKeyClient().search(criteriaBuilder.build(), privateKey, c
 Search for the Virgil Cards by a defined pattern. The example below returns a list of applications for Virgil Security company.
 
 ```java
-ResponseCallback<List<VirgilCard>> callback = new ResponseCallback<List<VirgilCard>>() {
+ResponseCallback<List<VirgilCard>> callback = 
+    new ResponseCallback<List<VirgilCard>>() {
+
   @Override
   public void onSuccess(List<VirgilCard> virgilCards) {
     // Process list of Virgil Cards
@@ -199,7 +262,9 @@ The example below demonstrates how to certify a user's Virgil Card by signing it
 String signedCardId = "VIRGIL CARD ID";
 String signedCardHash = "VIRGIL CARD HASH";
 
-clientFactory.getPublicKeyClient().signCard(signedCardId, signedCardHash, signerCardId, privateKey, new ResponseCallback<SignResponse>() {
+clientFactory.getPublicKeyClient().signCard(signedCardId, signedCardHash,
+    signerCardId, privateKey, new ResponseCallback<SignResponse>() {
+
   @Override
   public void onSuccess(SignResponse signResponse) {
     // Virgil Card trusted
@@ -219,7 +284,9 @@ clientFactory.getPublicKeyClient().signCard(signedCardId, signedCardHash, signer
 Naturally it is possible to stop trusting the Virgil Card owner as in all relations. This is not an exception in Virgil Security system.
 
 ```java
-clientFactory.getPublicKeyClient().unsignCard(signedCardId, signerCardId, privateKey, new VoidResponseCallback() {
+clientFactory.getPublicKeyClient().unsignCard(signedCardId, signerCardId, 
+    privateKey, new VoidResponseCallback() {
+
   @Override
   public void onSuccess(boolean b) {
     // Process unsign result
@@ -242,7 +309,9 @@ ValidatedIdentity identity = new ValidatedIdentity();
 identity.setType(IdentityType.EMAIL);
 identity.setValue(email);
 
-clientFactory.getPublicKeyClient().deleteCard(identity, cardId, privateKey, password, new VoidResponseCallback() {
+clientFactory.getPublicKeyClient().deleteCard(identity, cardId, privateKey, 
+    password, new VoidResponseCallback() {
+
   @Override
   public void onSuccess(boolean b) {
     // Process result
@@ -263,7 +332,9 @@ Gets a public key from the Public Keys Service by the specified ID.
 
 ```java
 String publicKeyId = "{PUBLIC_KEY_ID}";
-clientFactory.getPublicKeyClient().getKey(publicKeyId, new ResponseCallback<PublicKeyInfo>() {
+clientFactory.getPublicKeyClient().getKey(publicKeyId,
+    new ResponseCallback<PublicKeyInfo>() {
+
   @Override
   public void onSuccess(PublicKeyInfo keyInfo) {
     // Process result
@@ -289,7 +360,9 @@ Usage of this service is optional.
 ####Obtain key for the Private Keys Service
 
 ```java
-ResponseCallback<List<VirgilCard>> callback = new ResponseCallback<List<VirgilCard>>() {
+ResponseCallback<List<VirgilCard>> callback = 
+    new ResponseCallback<List<VirgilCard>>() {
+
   @Override
   public void onSuccess(List<VirgilCard> virgilCards) {
     VirgilCard serviceCard = virgilCards.get(0);
@@ -315,10 +388,12 @@ Private key can be added for storage only in case you have already registered a 
 
 Use the public key identifier on the Public Keys Service to save the private keys. 
 
-The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend to trasfer the keys which were generated with a password.
+The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend transferring the keys which were generated with a password.
 
 ```java
-factory.getPrivateKeyClient(serviceCard).stash(cardInfo.getId(), keyPair.getPrivate(), new VoidResponseCallback() {
+factory.getPrivateKeyClient(serviceCard).stash(cardInfo.getId(), 
+    keyPair.getPrivate(), new VoidResponseCallback() {
+
   @Override
   public void onSuccess(boolean result) {
     // Process operation result
@@ -339,7 +414,9 @@ To get a private key you need to pass a prior verification of the Virgil Card wh
   
 ```java
 // Obtain verified identity first
-factory.getPrivateKeyClient(serviceCard).get(cardInfo.getId(), identity, new ResponseCallback<PrivateKeyInfo>() {
+factory.getPrivateKeyClient(serviceCard).get(cardInfo.getId(), identity, 
+    new ResponseCallback<PrivateKeyInfo>() {
+
   
   @Override
   public void onSuccess(PrivateKeyInfo keyInfo) {
@@ -360,7 +437,9 @@ factory.getPrivateKeyClient(serviceCard).get(cardInfo.getId(), identity, new Res
 This operation deletes the private key from the service without a possibility to be restored. 
   
 ```java
-factory.getPrivateKeyClient(serviceCard).destroy(cardInfo.getId(), keyPair.getPrivate(), new VoidResponseCallback() {
+factory.getPrivateKeyClient(serviceCard).destroy(cardInfo.getId(), 
+    keyPair.getPrivate(), new VoidResponseCallback() {
+
   
   @Override
   public void onSuccess(boolean result) {
@@ -379,5 +458,5 @@ factory.getPrivateKeyClient(serviceCard).destroy(cardInfo.getId(), keyPair.getPr
 ## See Also
 
 * [Quickstart](quickstart.md)
-* [Java tutorial](keys.md)
+* [Java tutorial](keys-java.md)
 * [Reference API for SDK](sdk-reference-api.md)

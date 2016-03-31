@@ -103,12 +103,28 @@ public class SettingsActivity extends PreferenceActivity {
             return true;
         }
 
-        private void verifyIdentity(String email) {
+        private void verifyIdentity(final String email) {
             try {
                 Application.getClientFactory().getIdentityClient().verify(IdentityType.EMAIL, email, new ResponseCallback<Action>() {
                     @Override
                     public void onSuccess(Action action) {
                         actionId = action.getActionId();
+
+                        // Remove this async task if you want to use confirmed Virgil Cards only
+                        new AsyncTask<Void, Void, Void>() {
+
+                            @Override
+                            protected Void doInBackground(Void... params) {
+                                registerVirgilCard(new ValidatedIdentity(IdentityType.EMAIL, email));
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                super.onPostExecute(aVoid);
+                                CommonUtils.showToast(R.string.virgil_card_register_success);
+                            }
+                        }.execute();
                         CommonUtils.showToast(R.string.pref_confirmation_code_description);
                     }
 
@@ -130,6 +146,8 @@ public class SettingsActivity extends PreferenceActivity {
                         prefs.edit().putString(Constants.PREFERENCES.IDENTITY_TOKEN, identity.getToken()).commit();
                         CommonUtils.showToast(R.string.identity_confirmation_success);
 
+                        // Uncomment this async task if you want to use confirmed Virgil Cards only
+                        /*
                         new AsyncTask<Void, Void, Void>() {
 
                             @Override
@@ -144,6 +162,7 @@ public class SettingsActivity extends PreferenceActivity {
                                 CommonUtils.showToast(R.string.virgil_card_register_success);
                             }
                         }.execute();
+                        */
                     }
 
                     @Override
@@ -166,7 +185,7 @@ public class SettingsActivity extends PreferenceActivity {
             VirgilCard serviceCard = cards.get(0);
 
             // search the card by email identity on Virgil Keys service.
-            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setValue(identity.getValue());
+            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setValue(identity.getValue()).setIncludeUnconfirmed(true);
             cards = Application.getClientFactory().getPublicKeyClient().search(criteriaBuilder.build());
 
             // The app is verifying whether the user really owns the provided email

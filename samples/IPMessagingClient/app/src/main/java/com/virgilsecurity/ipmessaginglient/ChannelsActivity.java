@@ -1,8 +1,6 @@
 package com.virgilsecurity.ipmessaginglient;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,19 +9,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.virgilsecurity.ipmessaginglient.adapter.ChannelAdapter;
 import com.virgilsecurity.ipmessaginglient.db.Contract;
@@ -36,6 +29,7 @@ import com.virgilsecurity.ipmessaginglient.utils.MessagingClient;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -155,7 +149,7 @@ public class ChannelsActivity extends AppCompatActivity {
     private void joinChannel(final String channelName) {
         MessagingClient.getMessagingService().joinChannel(channelName, new Identifier(identifier)).enqueue(new Callback<IdentityToken>() {
             @Override
-            public void onResponse(Response<IdentityToken> response) {
+            public void onResponse(Call<IdentityToken> call, Response<IdentityToken> response) {
                 // Save channel in DB
                 // Gets the data repository in write mode
                 SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -173,7 +167,7 @@ public class ChannelsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<IdentityToken> call, Throwable t) {
                 CommonUtils.showToast(R.string.join_channel_failed);
             }
         });
