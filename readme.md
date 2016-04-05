@@ -25,7 +25,8 @@ mvn clean package source:jar javadoc:jar -DskipTests=true -DAPPLICATION_ID={appl
 * Crypto Library 
   * [Tutorial](/docs/crypto.md) 
 * SDK
-  * [Tutorial](/docs/keys.md)
+  * [Tutorial Java](/docs/keys-java.md)
+  * [Tutorial Android](/docs/keys-android.md)
 
 ## License
 BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
