@@ -21,12 +21,11 @@ mvn clean package source:jar javadoc:jar -DskipTests=true -DAPPLICATION_ID={appl
 
 ## Resources
 
-* [Quickstart](/docs/quickstart.md)
+* [Quickstart](https://github.com/VirgilSecurity/virgil/blob/master/java-android/quickstart/readme.md)
 * Crypto Library 
-  * [Tutorial](/docs/crypto.md) 
+  * [Tutorial](https://github.com/VirgilSecurity/virgil/blob/master/java-android/crypto-library/readme.md) 
 * SDK
-  * [Tutorial Java](/docs/keys-java.md)
-  * [Tutorial Android](/docs/keys-android.md)
+  * [Tutorial](https://github.com/VirgilSecurity/virgil/blob/master/java-android/keys-sdk/readme.md)
 
 ## License
 BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
