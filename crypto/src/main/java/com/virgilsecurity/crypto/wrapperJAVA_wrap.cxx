@@ -1064,6 +1064,70 @@ SWIGEXPORT jlong JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_
 }
 
 
+SWIGEXPORT jstring JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilVersion_1fullName(JNIEnv *jenv, jclass jcls) {
+  jstring jresult = 0 ;
+  std::string result;
+  
+  (void)jenv;
+  (void)jcls;
+  {
+    try {
+      result = virgil::crypto::VirgilVersion::fullName();
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  jresult = jenv->NewStringUTF((&result)->c_str()); 
+  return jresult;
+}
+
+
 SWIGEXPORT jlong JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_new_1VirgilVersion(JNIEnv *jenv, jclass jcls) {
   jlong jresult = 0 ;
   virgil::crypto::VirgilVersion *result = 0 ;

@@ -25,6 +25,8 @@ public class virgil_crypto_javaJNI {
 
 	public final static native long VirgilVersion_patchVersion();
 
+	public final static native String VirgilVersion_fullName();
+
 	public final static native long new_VirgilVersion();
 
 	public final static native void delete_VirgilVersion(long jarg1);
