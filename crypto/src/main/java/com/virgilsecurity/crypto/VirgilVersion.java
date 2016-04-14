@@ -60,6 +60,10 @@ public class VirgilVersion implements java.lang.AutoCloseable {
     return virgil_crypto_javaJNI.VirgilVersion_patchVersion();
   }
 
+  public static String fullName() {
+    return virgil_crypto_javaJNI.VirgilVersion_fullName();
+  }
+
   public VirgilVersion() {
     this(virgil_crypto_javaJNI.new_VirgilVersion(), true);
   }
