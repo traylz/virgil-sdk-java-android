@@ -82,6 +82,9 @@ public class IdentityClient extends AbstractClient {
 	 */
 	public String verify(IdentityType type, String value) {
 		try {
+			// Identity service doesn't support Custom identity type
+			assert !IdentityType.CUSTOM.equals(type);
+
 			Response<Action> response = createService(IdentityService.class).verify(new Identity(type, value))
 					.execute();
 			return ((Action) handleResponse(response)).getActionId();
@@ -101,6 +104,9 @@ public class IdentityClient extends AbstractClient {
 	 * @throws IOException
 	 */
 	public void verify(IdentityType type, String value, ResponseCallback<Action> callback) throws IOException {
+		// Identity service doesn't support Custom identity type
+		assert !IdentityType.CUSTOM.equals(type);
+
 		createService(IdentityService.class).verify(new Identity(type, value)).enqueue(callback);
 	}
 

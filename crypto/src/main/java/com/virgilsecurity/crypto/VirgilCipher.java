@@ -9,59 +9,62 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilCipher extends VirgilCipherBase implements java.lang.AutoCloseable {
-  private long swigCPtr;
+	private long swigCPtr;
 
-  protected VirgilCipher(long cPtr, boolean cMemoryOwn) {
-    super(virgil_crypto_javaJNI.VirgilCipher_SWIGUpcast(cPtr), cMemoryOwn);
-    swigCPtr = cPtr;
-  }
+	protected VirgilCipher(long cPtr, boolean cMemoryOwn) {
+		super(virgil_crypto_javaJNI.VirgilCipher_SWIGUpcast(cPtr), cMemoryOwn);
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(VirgilCipher obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(VirgilCipher obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        virgil_crypto_javaJNI.delete_VirgilCipher(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-    super.delete();
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				virgil_crypto_javaJNI.delete_VirgilCipher(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+		super.delete();
+	}
 
-  @Override
-  public void close() {
-    delete();
-  }
+	@Override
+	public void close() {
+		delete();
+	}
 
-  public byte[] encrypt(byte[] data, boolean embedContentInfo) {
-    return virgil_crypto_javaJNI.VirgilCipher_encrypt__SWIG_0(swigCPtr, this, data, embedContentInfo);
-  }
+	public byte[] encrypt(byte[] data, boolean embedContentInfo) {
+		return virgil_crypto_javaJNI.VirgilCipher_encrypt__SWIG_0(swigCPtr, this, data, embedContentInfo);
+	}
 
-  public byte[] encrypt(byte[] data) {
-    return virgil_crypto_javaJNI.VirgilCipher_encrypt__SWIG_1(swigCPtr, this, data);
-  }
+	public byte[] encrypt(byte[] data) {
+		return virgil_crypto_javaJNI.VirgilCipher_encrypt__SWIG_1(swigCPtr, this, data);
+	}
 
-  public byte[] decryptWithKey(byte[] encryptedData, byte[] recipientId, byte[] privateKey, byte[] privateKeyPassword) {
-    return virgil_crypto_javaJNI.VirgilCipher_decryptWithKey__SWIG_0(swigCPtr, this, encryptedData, recipientId, privateKey, privateKeyPassword);
-  }
+	public byte[] decryptWithKey(byte[] encryptedData, byte[] recipientId, byte[] privateKey,
+			byte[] privateKeyPassword) {
+		return virgil_crypto_javaJNI.VirgilCipher_decryptWithKey__SWIG_0(swigCPtr, this, encryptedData, recipientId,
+				privateKey, privateKeyPassword);
+	}
 
-  public byte[] decryptWithKey(byte[] encryptedData, byte[] recipientId, byte[] privateKey) {
-    return virgil_crypto_javaJNI.VirgilCipher_decryptWithKey__SWIG_1(swigCPtr, this, encryptedData, recipientId, privateKey);
-  }
+	public byte[] decryptWithKey(byte[] encryptedData, byte[] recipientId, byte[] privateKey) {
+		return virgil_crypto_javaJNI.VirgilCipher_decryptWithKey__SWIG_1(swigCPtr, this, encryptedData, recipientId,
+				privateKey);
+	}
 
-  public byte[] decryptWithPassword(byte[] encryptedData, byte[] pwd) {
-    return virgil_crypto_javaJNI.VirgilCipher_decryptWithPassword(swigCPtr, this, encryptedData, pwd);
-  }
+	public byte[] decryptWithPassword(byte[] encryptedData, byte[] pwd) {
+		return virgil_crypto_javaJNI.VirgilCipher_decryptWithPassword(swigCPtr, this, encryptedData, pwd);
+	}
 
-  public VirgilCipher() {
-    this(virgil_crypto_javaJNI.new_VirgilCipher(), true);
-  }
+	public VirgilCipher() {
+		this(virgil_crypto_javaJNI.new_VirgilCipher(), true);
+	}
 
 }

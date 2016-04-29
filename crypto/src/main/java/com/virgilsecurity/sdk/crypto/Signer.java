@@ -107,7 +107,9 @@ public class Signer implements java.lang.AutoCloseable {
 		return signer.verify(data, sign, publicKey.getEncoded());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.AutoCloseable#close()
 	 */
 	@Override

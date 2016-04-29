@@ -183,7 +183,9 @@ public class CustomParams extends Asn1Compatible {
 		wrappedParams.removeData(key.getEncoded());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.virgilsecurity.sdk.crypto.Asn1Compatible#getWrappedASN()
 	 */
 	@Override
@@ -191,7 +193,9 @@ public class CustomParams extends Asn1Compatible {
 		return wrappedParams;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.virgilsecurity.sdk.crypto.Asn1Compatible#close()
 	 */
 	@Override

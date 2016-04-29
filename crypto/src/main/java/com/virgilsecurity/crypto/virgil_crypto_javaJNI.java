@@ -116,6 +116,41 @@ public class virgil_crypto_javaJNI {
 
 	public final static native void delete_VirgilBase64(long jarg1);
 
+	public final static native long VirgilPBKDF_kIterationCount_Default_get();
+
+	public final static native int VirgilPBKDF_None_get();
+
+	public final static native int VirgilPBKDF_SHA1_get();
+
+	public final static native long new_VirgilPBKDF__SWIG_0();
+
+	public final static native long new_VirgilPBKDF__SWIG_1(byte[] jarg1, long jarg2);
+
+	public final static native long new_VirgilPBKDF__SWIG_2(byte[] jarg1);
+
+	public final static native void delete_VirgilPBKDF(long jarg1);
+
+	public final static native byte[] VirgilPBKDF_getSalt(long jarg1, VirgilPBKDF jarg1_);
+
+	public final static native long VirgilPBKDF_getIterationCount(long jarg1, VirgilPBKDF jarg1_);
+
+	public final static native void VirgilPBKDF_setAlgorithm(long jarg1, VirgilPBKDF jarg1_, int jarg2);
+
+	public final static native int VirgilPBKDF_getAlgorithm(long jarg1, VirgilPBKDF jarg1_);
+
+	public final static native void VirgilPBKDF_setHash(long jarg1, VirgilPBKDF jarg1_, int jarg2);
+
+	public final static native int VirgilPBKDF_getHash(long jarg1, VirgilPBKDF jarg1_);
+
+	public final static native void VirgilPBKDF_enableRecommendationsCheck(long jarg1, VirgilPBKDF jarg1_);
+
+	public final static native void VirgilPBKDF_disableRecommendationsCheck(long jarg1, VirgilPBKDF jarg1_);
+
+	public final static native byte[] VirgilPBKDF_derive__SWIG_0(long jarg1, VirgilPBKDF jarg1_, byte[] jarg2,
+			long jarg3);
+
+	public final static native byte[] VirgilPBKDF_derive__SWIG_1(long jarg1, VirgilPBKDF jarg1_, byte[] jarg2);
+
 	public final static native boolean VirgilCustomParams_isEmpty(long jarg1, VirgilCustomParams jarg1_);
 
 	public final static native void VirgilCustomParams_setInteger(long jarg1, VirgilCustomParams jarg1_, byte[] jarg2,
@@ -150,6 +185,8 @@ public class virgil_crypto_javaJNI {
 	public final static native long new_VirgilCustomParams__SWIG_1(long jarg1, VirgilCustomParams jarg1_);
 
 	public final static native int VirgilKeyPair_Default_get();
+
+	public final static native int VirgilKeyPair_EC_Curve25519_get();
 
 	public final static native long VirgilKeyPair_generate__SWIG_0(int jarg1, byte[] jarg2);
 
@@ -228,6 +265,8 @@ public class virgil_crypto_javaJNI {
 	public final static native boolean VirgilKeyPair_checkPrivateKeyPassword(byte[] jarg1, byte[] jarg2);
 
 	public final static native boolean VirgilKeyPair_isPrivateKeyEncrypted(byte[] jarg1);
+
+	public final static native byte[] VirgilKeyPair_resetPrivateKeyPassword(byte[] jarg1, byte[] jarg2, byte[] jarg3);
 
 	public final static native long new_VirgilKeyPair__SWIG_0(byte[] jarg1);
 
@@ -376,6 +415,8 @@ public class virgil_crypto_javaJNI {
 	public final static native void delete_VirgilByteArrayUtils(long jarg1);
 
 	public final static native long VirgilHash_SWIGUpcast(long jarg1);
+
+	public final static native long VirgilPBKDF_SWIGUpcast(long jarg1);
 
 	public final static native long VirgilCustomParams_SWIGUpcast(long jarg1);
 

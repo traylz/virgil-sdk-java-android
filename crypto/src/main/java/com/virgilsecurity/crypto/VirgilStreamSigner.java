@@ -9,55 +9,58 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilStreamSigner implements java.lang.AutoCloseable {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected VirgilStreamSigner(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected VirgilStreamSigner(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(VirgilStreamSigner obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(VirgilStreamSigner obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        virgil_crypto_javaJNI.delete_VirgilStreamSigner(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				virgil_crypto_javaJNI.delete_VirgilStreamSigner(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  @Override
-  public void close() {
-    delete();
-  }
+	@Override
+	public void close() {
+		delete();
+	}
 
-  public VirgilStreamSigner(VirgilHash hash) {
-    this(virgil_crypto_javaJNI.new_VirgilStreamSigner__SWIG_0(VirgilHash.getCPtr(hash), hash), true);
-  }
+	public VirgilStreamSigner(VirgilHash hash) {
+		this(virgil_crypto_javaJNI.new_VirgilStreamSigner__SWIG_0(VirgilHash.getCPtr(hash), hash), true);
+	}
 
-  public VirgilStreamSigner() {
-    this(virgil_crypto_javaJNI.new_VirgilStreamSigner__SWIG_1(), true);
-  }
+	public VirgilStreamSigner() {
+		this(virgil_crypto_javaJNI.new_VirgilStreamSigner__SWIG_1(), true);
+	}
 
-  public byte[] sign(VirgilDataSource source, byte[] privateKey, byte[] privateKeyPassword) {
-    return virgil_crypto_javaJNI.VirgilStreamSigner_sign__SWIG_0(swigCPtr, this, VirgilDataSource.getCPtr(source), source, privateKey, privateKeyPassword);
-  }
+	public byte[] sign(VirgilDataSource source, byte[] privateKey, byte[] privateKeyPassword) {
+		return virgil_crypto_javaJNI.VirgilStreamSigner_sign__SWIG_0(swigCPtr, this, VirgilDataSource.getCPtr(source),
+				source, privateKey, privateKeyPassword);
+	}
 
-  public byte[] sign(VirgilDataSource source, byte[] privateKey) {
-    return virgil_crypto_javaJNI.VirgilStreamSigner_sign__SWIG_1(swigCPtr, this, VirgilDataSource.getCPtr(source), source, privateKey);
-  }
+	public byte[] sign(VirgilDataSource source, byte[] privateKey) {
+		return virgil_crypto_javaJNI.VirgilStreamSigner_sign__SWIG_1(swigCPtr, this, VirgilDataSource.getCPtr(source),
+				source, privateKey);
+	}
 
-  public boolean verify(VirgilDataSource source, byte[] sign, byte[] publicKey) {
-    return virgil_crypto_javaJNI.VirgilStreamSigner_verify(swigCPtr, this, VirgilDataSource.getCPtr(source), source, sign, publicKey);
-  }
+	public boolean verify(VirgilDataSource source, byte[] sign, byte[] publicKey) {
+		return virgil_crypto_javaJNI.VirgilStreamSigner_verify(swigCPtr, this, VirgilDataSource.getCPtr(source), source,
+				sign, publicKey);
+	}
 
 }

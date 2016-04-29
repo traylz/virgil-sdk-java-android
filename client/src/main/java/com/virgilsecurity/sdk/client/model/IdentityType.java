@@ -38,5 +38,10 @@ import com.google.gson.annotations.SerializedName;
  */
 public enum IdentityType {
 
-	@SerializedName("email") EMAIL;
+	@SerializedName("email") EMAIL,
+	@SerializedName("custom") CUSTOM;
+	
+	public String toString() {
+		return super.toString().toLowerCase();
+	};
 }

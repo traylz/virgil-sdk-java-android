@@ -37,52 +37,55 @@ import java.nio.charset.Charset;
  * @author Andrii Iakovenko
  */
 public class Recipient {
-	
-    private byte[] id;
 
-    /**
-     * Create new instance of Recipient.
-     *
-     * @param id the recipient ID
-     */
-    public Recipient(byte[] id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Recipient ID can't be null");
-        }
-        this.id = id;
-    }
+	private byte[] id;
 
-    /**
-     * Create new instance of Recipient.
-     *
-     * @param id the recipient ID
-     */
-    public Recipient(String id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Recipient ID can't be null");
-        }
-        this.id = id.getBytes();
-    }
+	/**
+	 * Create new instance of Recipient.
+	 *
+	 * @param id
+	 *            the recipient ID
+	 */
+	public Recipient(byte[] id) {
+		if (id == null) {
+			throw new IllegalArgumentException("Recipient ID can't be null");
+		}
+		this.id = id;
+	}
 
-    /**
-     * Create new instance of Recipient.
-     *
-     * @param id the recipient ID
-     * @param charset
-     */
-    public Recipient(String id, Charset charset) {
-        if (id == null) {
-            throw new IllegalArgumentException("Recipient ID can't be null");
-        }
-        this.id = id.getBytes(charset);
-    }
+	/**
+	 * Create new instance of Recipient.
+	 *
+	 * @param id
+	 *            the recipient ID
+	 */
+	public Recipient(String id) {
+		if (id == null) {
+			throw new IllegalArgumentException("Recipient ID can't be null");
+		}
+		this.id = id.getBytes();
+	}
 
-    /**
-     *
-     * @return recipient ID value
-     */
-    public byte[] getId() {
-        return id;
-    }
+	/**
+	 * Create new instance of Recipient.
+	 *
+	 * @param id
+	 *            the recipient ID
+	 * @param charset
+	 */
+	public Recipient(String id, Charset charset) {
+		if (id == null) {
+			throw new IllegalArgumentException("Recipient ID can't be null");
+		}
+		this.id = id.getBytes(charset);
+	}
+
+	/**
+	 *
+	 * @return recipient ID value
+	 */
+	public byte[] getId() {
+		return id;
+	}
 
 }

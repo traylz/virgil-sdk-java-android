@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.virgilsecurity.sdk</groupId>
 	<artifactId>parent</artifactId>
-	<version>3.0.2</version>
+	<version>3.1.0</version>
 	<packaging>pom</packaging>
 	<name>Virgil SDK - Parent</name>
 	<description>Virgil is a stack of security libraries (ECIES with Crypto Agility wrapped in Virgil Cryptogram) and all the necessary infrastructure to enable seamless, end-to-end encryption for any application, platform or device. Get in touch with us to get preview access to our key infrastructure.</description>

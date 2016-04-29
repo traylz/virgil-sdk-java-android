@@ -9,63 +9,63 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilDataSink implements java.lang.AutoCloseable {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected VirgilDataSink(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected VirgilDataSink(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(VirgilDataSink obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(VirgilDataSink obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        virgil_crypto_javaJNI.delete_VirgilDataSink(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				virgil_crypto_javaJNI.delete_VirgilDataSink(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  protected void swigDirectorDisconnect() {
-    swigCMemOwn = false;
-    delete();
-  }
+	protected void swigDirectorDisconnect() {
+		swigCMemOwn = false;
+		delete();
+	}
 
-  public void swigReleaseOwnership() {
-    swigCMemOwn = false;
-    virgil_crypto_javaJNI.VirgilDataSink_change_ownership(this, swigCPtr, false);
-  }
+	public void swigReleaseOwnership() {
+		swigCMemOwn = false;
+		virgil_crypto_javaJNI.VirgilDataSink_change_ownership(this, swigCPtr, false);
+	}
 
-  public void swigTakeOwnership() {
-    swigCMemOwn = true;
-    virgil_crypto_javaJNI.VirgilDataSink_change_ownership(this, swigCPtr, true);
-  }
+	public void swigTakeOwnership() {
+		swigCMemOwn = true;
+		virgil_crypto_javaJNI.VirgilDataSink_change_ownership(this, swigCPtr, true);
+	}
 
-  @Override
-  public void close() throws java.io.IOException {
-    delete();
-  }
+	@Override
+	public void close() throws java.io.IOException {
+		delete();
+	}
 
-  public boolean isGood() throws java.io.IOException {
-    return virgil_crypto_javaJNI.VirgilDataSink_isGood(swigCPtr, this);
-  }
+	public boolean isGood() throws java.io.IOException {
+		return virgil_crypto_javaJNI.VirgilDataSink_isGood(swigCPtr, this);
+	}
 
-  public void write(byte[] data) throws java.io.IOException {
-    virgil_crypto_javaJNI.VirgilDataSink_write(swigCPtr, this, data);
-  }
+	public void write(byte[] data) throws java.io.IOException {
+		virgil_crypto_javaJNI.VirgilDataSink_write(swigCPtr, this, data);
+	}
 
-  public VirgilDataSink() {
-    this(virgil_crypto_javaJNI.new_VirgilDataSink(), true);
-    virgil_crypto_javaJNI.VirgilDataSink_director_connect(this, swigCPtr, swigCMemOwn, true);
-  }
+	public VirgilDataSink() {
+		this(virgil_crypto_javaJNI.new_VirgilDataSink(), true);
+		virgil_crypto_javaJNI.VirgilDataSink_director_connect(this, swigCPtr, swigCMemOwn, true);
+	}
 
 }

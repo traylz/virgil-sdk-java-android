@@ -50,7 +50,7 @@ public class PrivateKey extends Key {
 	public PrivateKey(byte[] encoded) {
 		super(encoded);
 	}
-	
+
 	/**
 	 * Create a new instance of {@code PrivateKey}.
 	 *

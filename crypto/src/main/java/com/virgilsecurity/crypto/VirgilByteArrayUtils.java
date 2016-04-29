@@ -9,59 +9,59 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilByteArrayUtils implements java.lang.AutoCloseable {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected VirgilByteArrayUtils(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected VirgilByteArrayUtils(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(VirgilByteArrayUtils obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(VirgilByteArrayUtils obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        virgil_crypto_javaJNI.delete_VirgilByteArrayUtils(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				virgil_crypto_javaJNI.delete_VirgilByteArrayUtils(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  @Override
-  public void close() {
-    delete();
-  }
+	@Override
+	public void close() {
+		delete();
+	}
 
-  public static byte[] jsonToBytes(String json) {
-    return virgil_crypto_javaJNI.VirgilByteArrayUtils_jsonToBytes(json);
-  }
+	public static byte[] jsonToBytes(String json) {
+		return virgil_crypto_javaJNI.VirgilByteArrayUtils_jsonToBytes(json);
+	}
 
-  public static byte[] stringToBytes(String str) {
-    return virgil_crypto_javaJNI.VirgilByteArrayUtils_stringToBytes(str);
-  }
+	public static byte[] stringToBytes(String str) {
+		return virgil_crypto_javaJNI.VirgilByteArrayUtils_stringToBytes(str);
+	}
 
-  public static String bytesToString(byte[] array) {
-    return virgil_crypto_javaJNI.VirgilByteArrayUtils_bytesToString(array);
-  }
+	public static String bytesToString(byte[] array) {
+		return virgil_crypto_javaJNI.VirgilByteArrayUtils_bytesToString(array);
+	}
 
-  public static byte[] hexToBytes(String hexStr) {
-    return virgil_crypto_javaJNI.VirgilByteArrayUtils_hexToBytes(hexStr);
-  }
+	public static byte[] hexToBytes(String hexStr) {
+		return virgil_crypto_javaJNI.VirgilByteArrayUtils_hexToBytes(hexStr);
+	}
 
-  public static String bytesToHex(byte[] array, boolean formatted) {
-    return virgil_crypto_javaJNI.VirgilByteArrayUtils_bytesToHex__SWIG_0(array, formatted);
-  }
+	public static String bytesToHex(byte[] array, boolean formatted) {
+		return virgil_crypto_javaJNI.VirgilByteArrayUtils_bytesToHex__SWIG_0(array, formatted);
+	}
 
-  public static String bytesToHex(byte[] array) {
-    return virgil_crypto_javaJNI.VirgilByteArrayUtils_bytesToHex__SWIG_1(array);
-  }
+	public static String bytesToHex(byte[] array) {
+		return virgil_crypto_javaJNI.VirgilByteArrayUtils_bytesToHex__SWIG_1(array);
+	}
 
 }

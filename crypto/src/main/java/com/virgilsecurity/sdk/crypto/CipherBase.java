@@ -155,7 +155,9 @@ public class CipherBase implements AutoCloseable {
 
 	/**
 	 * Define size of content information.
-	 * @param data the content information.
+	 * 
+	 * @param data
+	 *            the content information.
 	 * @return the size of content information
 	 */
 	public static long defineContentInfoSize(byte[] data) {
@@ -171,7 +173,9 @@ public class CipherBase implements AutoCloseable {
 		return new CustomParams(cipher.customParams());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.AutoCloseable#close()
 	 */
 	@Override

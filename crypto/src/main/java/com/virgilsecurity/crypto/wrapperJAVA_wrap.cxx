@@ -506,6 +506,9 @@ SWIGINTERN void SWIG_JavaException(JNIEnv *jenv, int code, const char *msg) {
 #include <virgil/crypto/foundation/VirgilBase64.h>
 
 
+#include <virgil/crypto/foundation/VirgilPBKDF.h>
+
+
 #include <virgil/crypto/VirgilCustomParams.h>
 
 
@@ -3431,6 +3434,1011 @@ SWIGEXPORT void JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_d
 }
 
 
+SWIGEXPORT jlong JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1kIterationCount_1Default_1get(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  unsigned int result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (unsigned int)virgil::crypto::foundation::VirgilPBKDF::kIterationCount_Default;
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1None_1get(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  virgil::crypto::foundation::VirgilPBKDF::Algorithm result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (virgil::crypto::foundation::VirgilPBKDF::Algorithm)virgil::crypto::foundation::VirgilPBKDF::Algorithm_None;
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1SHA1_1get(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  virgil::crypto::foundation::VirgilPBKDF::Hash result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (virgil::crypto::foundation::VirgilPBKDF::Hash)virgil::crypto::foundation::VirgilPBKDF::Hash_SHA1;
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_new_1VirgilPBKDF_1_1SWIG_10(JNIEnv *jenv, jclass jcls) {
+  jlong jresult = 0 ;
+  virgil::crypto::foundation::VirgilPBKDF *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  {
+    try {
+      result = (virgil::crypto::foundation::VirgilPBKDF *)new virgil::crypto::foundation::VirgilPBKDF();
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  *(virgil::crypto::foundation::VirgilPBKDF **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_new_1VirgilPBKDF_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jbyteArray jarg1, jlong jarg2) {
+  jlong jresult = 0 ;
+  virgil::crypto::VirgilByteArray *arg1 = 0 ;
+  unsigned int arg2 ;
+  virgil::crypto::foundation::VirgilPBKDF *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  if(!jarg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
+    return 0;
+  }
+  jbyte *arg1_pdata = (jbyte *)jenv->GetByteArrayElements(jarg1, 0);
+  size_t arg1_size = (size_t)jenv->GetArrayLength(jarg1);
+  if (!arg1_pdata) return 0;
+  virgil::crypto::VirgilByteArray arg1_data(arg1_pdata, arg1_pdata + arg1_size);
+  arg1 = &arg1_data;
+  jenv->ReleaseByteArrayElements(jarg1, arg1_pdata, 0); 
+  arg2 = (unsigned int)jarg2; 
+  {
+    try {
+      result = (virgil::crypto::foundation::VirgilPBKDF *)new virgil::crypto::foundation::VirgilPBKDF((virgil::crypto::VirgilByteArray const &)*arg1,arg2);
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  *(virgil::crypto::foundation::VirgilPBKDF **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_new_1VirgilPBKDF_1_1SWIG_12(JNIEnv *jenv, jclass jcls, jbyteArray jarg1) {
+  jlong jresult = 0 ;
+  virgil::crypto::VirgilByteArray *arg1 = 0 ;
+  virgil::crypto::foundation::VirgilPBKDF *result = 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  if(!jarg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
+    return 0;
+  }
+  jbyte *arg1_pdata = (jbyte *)jenv->GetByteArrayElements(jarg1, 0);
+  size_t arg1_size = (size_t)jenv->GetArrayLength(jarg1);
+  if (!arg1_pdata) return 0;
+  virgil::crypto::VirgilByteArray arg1_data(arg1_pdata, arg1_pdata + arg1_size);
+  arg1 = &arg1_data;
+  jenv->ReleaseByteArrayElements(jarg1, arg1_pdata, 0); 
+  {
+    try {
+      result = (virgil::crypto::foundation::VirgilPBKDF *)new virgil::crypto::foundation::VirgilPBKDF((virgil::crypto::VirgilByteArray const &)*arg1);
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  *(virgil::crypto::foundation::VirgilPBKDF **)&jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_delete_1VirgilPBKDF(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  {
+    try {
+      delete arg1;
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return ;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return ; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return ; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return ; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return ; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return ; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return ; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return ; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return ; 
+      };
+    }
+  }
+}
+
+
+SWIGEXPORT jbyteArray JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1getSalt(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jbyteArray jresult = 0 ;
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  virgil::crypto::VirgilByteArray result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  {
+    try {
+      result = ((virgil::crypto::foundation::VirgilPBKDF const *)arg1)->getSalt();
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  
+  jresult = jenv->NewByteArray((&result)->size());
+  jenv->SetByteArrayRegion(jresult, 0, (&result)->size(), (const jbyte *)&result[0]);
+  
+  return jresult;
+}
+
+
+SWIGEXPORT jlong JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1getIterationCount(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jlong jresult = 0 ;
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  unsigned int result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  {
+    try {
+      result = (unsigned int)((virgil::crypto::foundation::VirgilPBKDF const *)arg1)->getIterationCount();
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  jresult = (jlong)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1setAlgorithm(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  virgil::crypto::foundation::VirgilPBKDF::Algorithm arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  arg2 = (virgil::crypto::foundation::VirgilPBKDF::Algorithm)jarg2; 
+  {
+    try {
+      (arg1)->setAlgorithm(arg2);
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return ;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return ; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return ; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return ; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return ; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return ; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return ; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return ; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return ; 
+      };
+    }
+  }
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1getAlgorithm(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  virgil::crypto::foundation::VirgilPBKDF::Algorithm result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  {
+    try {
+      result = (virgil::crypto::foundation::VirgilPBKDF::Algorithm)((virgil::crypto::foundation::VirgilPBKDF const *)arg1)->getAlgorithm();
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1setHash(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  virgil::crypto::foundation::VirgilPBKDF::Hash arg2 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  arg2 = (virgil::crypto::foundation::VirgilPBKDF::Hash)jarg2; 
+  {
+    try {
+      (arg1)->setHash(arg2);
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return ;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return ; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return ; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return ; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return ; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return ; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return ; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return ; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return ; 
+      };
+    }
+  }
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1getHash(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  jint jresult = 0 ;
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  virgil::crypto::foundation::VirgilPBKDF::Hash result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  {
+    try {
+      result = (virgil::crypto::foundation::VirgilPBKDF::Hash)((virgil::crypto::foundation::VirgilPBKDF const *)arg1)->getHash();
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1enableRecommendationsCheck(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  {
+    try {
+      (arg1)->enableRecommendationsCheck();
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return ;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return ; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return ; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return ; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return ; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return ; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return ; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return ; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return ; 
+      };
+    }
+  }
+}
+
+
+SWIGEXPORT void JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1disableRecommendationsCheck(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  {
+    try {
+      (arg1)->disableRecommendationsCheck();
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return ;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return ; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return ; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return ; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return ; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return ; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return ; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return ; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return ; 
+      };
+    }
+  }
+}
+
+
+SWIGEXPORT jbyteArray JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1derive_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2, jlong jarg3) {
+  jbyteArray jresult = 0 ;
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  virgil::crypto::VirgilByteArray *arg2 = 0 ;
+  size_t arg3 ;
+  virgil::crypto::VirgilByteArray result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
+    return 0;
+  }
+  jbyte *arg2_pdata = (jbyte *)jenv->GetByteArrayElements(jarg2, 0);
+  size_t arg2_size = (size_t)jenv->GetArrayLength(jarg2);
+  if (!arg2_pdata) return 0;
+  virgil::crypto::VirgilByteArray arg2_data(arg2_pdata, arg2_pdata + arg2_size);
+  arg2 = &arg2_data;
+  jenv->ReleaseByteArrayElements(jarg2, arg2_pdata, 0); 
+  arg3 = (size_t)jarg3; 
+  {
+    try {
+      result = (arg1)->derive((virgil::crypto::VirgilByteArray const &)*arg2,arg3);
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  
+  jresult = jenv->NewByteArray((&result)->size());
+  jenv->SetByteArrayRegion(jresult, 0, (&result)->size(), (const jbyte *)&result[0]);
+  
+  return jresult;
+}
+
+
+SWIGEXPORT jbyteArray JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1derive_1_1SWIG_11(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2) {
+  jbyteArray jresult = 0 ;
+  virgil::crypto::foundation::VirgilPBKDF *arg1 = (virgil::crypto::foundation::VirgilPBKDF *) 0 ;
+  virgil::crypto::VirgilByteArray *arg2 = 0 ;
+  virgil::crypto::VirgilByteArray result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
+    return 0;
+  }
+  jbyte *arg2_pdata = (jbyte *)jenv->GetByteArrayElements(jarg2, 0);
+  size_t arg2_size = (size_t)jenv->GetArrayLength(jarg2);
+  if (!arg2_pdata) return 0;
+  virgil::crypto::VirgilByteArray arg2_data(arg2_pdata, arg2_pdata + arg2_size);
+  arg2 = &arg2_data;
+  jenv->ReleaseByteArrayElements(jarg2, arg2_pdata, 0); 
+  {
+    try {
+      result = (arg1)->derive((virgil::crypto::VirgilByteArray const &)*arg2);
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  
+  jresult = jenv->NewByteArray((&result)->size());
+  jenv->SetByteArrayRegion(jresult, 0, (&result)->size(), (const jbyte *)&result[0]);
+  
+  return jresult;
+}
+
+
 SWIGEXPORT jboolean JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilCustomParams_1isEmpty(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jboolean jresult = 0 ;
   virgil::crypto::VirgilCustomParams *arg1 = (virgil::crypto::VirgilCustomParams *) 0 ;
@@ -4473,6 +5481,18 @@ SWIGEXPORT jint JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_V
   (void)jenv;
   (void)jcls;
   result = (virgil::crypto::VirgilKeyPair::Type)virgil::crypto::VirgilKeyPair::Type_Default;
+  jresult = (jint)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jint JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilKeyPair_1EC_1Curve25519_1get(JNIEnv *jenv, jclass jcls) {
+  jint jresult = 0 ;
+  virgil::crypto::VirgilKeyPair::Type result;
+  
+  (void)jenv;
+  (void)jcls;
+  result = (virgil::crypto::VirgilKeyPair::Type)virgil::crypto::VirgilKeyPair::Type_EC_Curve25519;
   jresult = (jint)result; 
   return jresult;
 }
@@ -7249,6 +8269,106 @@ SWIGEXPORT jboolean JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJ
     }
   }
   jresult = (jboolean)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT jbyteArray JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilKeyPair_1resetPrivateKeyPassword(JNIEnv *jenv, jclass jcls, jbyteArray jarg1, jbyteArray jarg2, jbyteArray jarg3) {
+  jbyteArray jresult = 0 ;
+  virgil::crypto::VirgilByteArray *arg1 = 0 ;
+  virgil::crypto::VirgilByteArray *arg2 = 0 ;
+  virgil::crypto::VirgilByteArray *arg3 = 0 ;
+  virgil::crypto::VirgilByteArray result;
+  
+  (void)jenv;
+  (void)jcls;
+  if(!jarg1) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
+    return 0;
+  }
+  jbyte *arg1_pdata = (jbyte *)jenv->GetByteArrayElements(jarg1, 0);
+  size_t arg1_size = (size_t)jenv->GetArrayLength(jarg1);
+  if (!arg1_pdata) return 0;
+  virgil::crypto::VirgilByteArray arg1_data(arg1_pdata, arg1_pdata + arg1_size);
+  arg1 = &arg1_data;
+  jenv->ReleaseByteArrayElements(jarg1, arg1_pdata, 0); 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
+    return 0;
+  }
+  jbyte *arg2_pdata = (jbyte *)jenv->GetByteArrayElements(jarg2, 0);
+  size_t arg2_size = (size_t)jenv->GetArrayLength(jarg2);
+  if (!arg2_pdata) return 0;
+  virgil::crypto::VirgilByteArray arg2_data(arg2_pdata, arg2_pdata + arg2_size);
+  arg2 = &arg2_data;
+  jenv->ReleaseByteArrayElements(jarg2, arg2_pdata, 0); 
+  if(!jarg3) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
+    return 0;
+  }
+  jbyte *arg3_pdata = (jbyte *)jenv->GetByteArrayElements(jarg3, 0);
+  size_t arg3_size = (size_t)jenv->GetArrayLength(jarg3);
+  if (!arg3_pdata) return 0;
+  virgil::crypto::VirgilByteArray arg3_data(arg3_pdata, arg3_pdata + arg3_size);
+  arg3 = &arg3_data;
+  jenv->ReleaseByteArrayElements(jarg3, arg3_pdata, 0); 
+  {
+    try {
+      result = virgil::crypto::VirgilKeyPair::resetPrivateKeyPassword((virgil::crypto::VirgilByteArray const &)*arg1,(virgil::crypto::VirgilByteArray const &)*arg2,(virgil::crypto::VirgilByteArray const &)*arg3);
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  
+  jresult = jenv->NewByteArray((&result)->size());
+  jenv->SetByteArrayRegion(jresult, 0, (&result)->size(), (const jbyte *)&result[0]);
+  
   return jresult;
 }
 
@@ -11893,6 +13013,14 @@ SWIGEXPORT jlong JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_
     (void)jenv;
     (void)jcls;
     *(virgil::crypto::foundation::asn1::VirgilAsn1Compatible **)&baseptr = *(virgil::crypto::foundation::VirgilHash **)&jarg1;
+    return baseptr;
+}
+
+SWIGEXPORT jlong JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilPBKDF_1SWIGUpcast(JNIEnv *jenv, jclass jcls, jlong jarg1) {
+    jlong baseptr = 0;
+    (void)jenv;
+    (void)jcls;
+    *(virgil::crypto::foundation::asn1::VirgilAsn1Compatible **)&baseptr = *(virgil::crypto::foundation::VirgilPBKDF **)&jarg1;
     return baseptr;
 }
 

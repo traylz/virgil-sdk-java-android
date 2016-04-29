@@ -29,6 +29,7 @@
  */
 package com.virgilsecurity.sdk.client.functional;
 
+import org.apache.commons.lang.StringUtils;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeSuite;
 
@@ -48,6 +49,9 @@ public class ContextOfFunctionalTest {
 	// System properties
 	public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	public static final String APPLICATION_ID = "APPLICATION_ID";
+	public static final String APPLICATION_PUBLIC_KEY = "APPLICATION_PUBLIC_KEY";
+	public static final String APPLICATION_PRIVATE_KEY = "APPLICATION_PRIVATE_KEY";
+	public static final String APPLICATION_PRIVATE_KEY_PASSWORD = "APPLICATION_PRIVATE_KEY_PASSWORD";
 	public static final String SERVICE_ACCOUNT = "SERVICE_ACCOUNT";
 	public static final String CLIENT_ACCOUNT = "CLIENT_ACCOUNT";
 
@@ -70,6 +74,12 @@ public class ContextOfFunctionalTest {
 		ctx.setAttribute(CLIENT_ACCOUNT, System.getProperty(CLIENT_ACCOUNT));
 		ctx.setAttribute(SERVICE_EMAIL, System.getProperty(SERVICE_ACCOUNT) + EMAIL_SERVICE);
 		ctx.setAttribute(CLIENT_EMAIL, System.getProperty(CLIENT_ACCOUNT) + EMAIL_SERVICE);
+
+		ctx.setAttribute(APPLICATION_PUBLIC_KEY,
+				StringUtils.replace(System.getProperty(APPLICATION_PUBLIC_KEY), "\\n", "\n"));
+		ctx.setAttribute(APPLICATION_PRIVATE_KEY,
+				StringUtils.replace(System.getProperty(APPLICATION_PRIVATE_KEY), "\\n", "\n"));
+		ctx.setAttribute(APPLICATION_PRIVATE_KEY_PASSWORD, System.getProperty(APPLICATION_PRIVATE_KEY_PASSWORD));
 
 		// Initialize Client factory
 		ClientFactory factory = new ClientFactory(System.getProperty(ACCESS_TOKEN));

@@ -9,47 +9,47 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilBase64 implements java.lang.AutoCloseable {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected VirgilBase64(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected VirgilBase64(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(VirgilBase64 obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(VirgilBase64 obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        virgil_crypto_javaJNI.delete_VirgilBase64(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				virgil_crypto_javaJNI.delete_VirgilBase64(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  @Override
-  public void close() {
-    delete();
-  }
+	@Override
+	public void close() {
+		delete();
+	}
 
-  public static String encode(byte[] data) {
-    return virgil_crypto_javaJNI.VirgilBase64_encode(data);
-  }
+	public static String encode(byte[] data) {
+		return virgil_crypto_javaJNI.VirgilBase64_encode(data);
+	}
 
-  public static byte[] decode(String base64str) {
-    return virgil_crypto_javaJNI.VirgilBase64_decode(base64str);
-  }
+	public static byte[] decode(String base64str) {
+		return virgil_crypto_javaJNI.VirgilBase64_decode(base64str);
+	}
 
-  public VirgilBase64() {
-    this(virgil_crypto_javaJNI.new_VirgilBase64(), true);
-  }
+	public VirgilBase64() {
+		this(virgil_crypto_javaJNI.new_VirgilBase64(), true);
+	}
 
 }

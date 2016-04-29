@@ -9,63 +9,63 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilVersion implements java.lang.AutoCloseable {
-  private long swigCPtr;
-  protected boolean swigCMemOwn;
+	private long swigCPtr;
+	protected boolean swigCMemOwn;
 
-  protected VirgilVersion(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
+	protected VirgilVersion(long cPtr, boolean cMemoryOwn) {
+		swigCMemOwn = cMemoryOwn;
+		swigCPtr = cPtr;
+	}
 
-  protected static long getCPtr(VirgilVersion obj) {
-    return (obj == null) ? 0 : obj.swigCPtr;
-  }
+	protected static long getCPtr(VirgilVersion obj) {
+		return (obj == null) ? 0 : obj.swigCPtr;
+	}
 
-  protected void finalize() {
-    delete();
-  }
+	protected void finalize() {
+		delete();
+	}
 
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        virgil_crypto_javaJNI.delete_VirgilVersion(swigCPtr);
-      }
-      swigCPtr = 0;
-    }
-  }
+	public synchronized void delete() {
+		if (swigCPtr != 0) {
+			if (swigCMemOwn) {
+				swigCMemOwn = false;
+				virgil_crypto_javaJNI.delete_VirgilVersion(swigCPtr);
+			}
+			swigCPtr = 0;
+		}
+	}
 
-  @Override
-  public void close() {
-    delete();
-  }
+	@Override
+	public void close() {
+		delete();
+	}
 
-  public static long asNumber() {
-    return virgil_crypto_javaJNI.VirgilVersion_asNumber();
-  }
+	public static long asNumber() {
+		return virgil_crypto_javaJNI.VirgilVersion_asNumber();
+	}
 
-  public static String asString() {
-    return virgil_crypto_javaJNI.VirgilVersion_asString();
-  }
+	public static String asString() {
+		return virgil_crypto_javaJNI.VirgilVersion_asString();
+	}
 
-  public static long majorVersion() {
-    return virgil_crypto_javaJNI.VirgilVersion_majorVersion();
-  }
+	public static long majorVersion() {
+		return virgil_crypto_javaJNI.VirgilVersion_majorVersion();
+	}
 
-  public static long minorVersion() {
-    return virgil_crypto_javaJNI.VirgilVersion_minorVersion();
-  }
+	public static long minorVersion() {
+		return virgil_crypto_javaJNI.VirgilVersion_minorVersion();
+	}
 
-  public static long patchVersion() {
-    return virgil_crypto_javaJNI.VirgilVersion_patchVersion();
-  }
+	public static long patchVersion() {
+		return virgil_crypto_javaJNI.VirgilVersion_patchVersion();
+	}
 
-  public static String fullName() {
-    return virgil_crypto_javaJNI.VirgilVersion_fullName();
-  }
+	public static String fullName() {
+		return virgil_crypto_javaJNI.VirgilVersion_fullName();
+	}
 
-  public VirgilVersion() {
-    this(virgil_crypto_javaJNI.new_VirgilVersion(), true);
-  }
+	public VirgilVersion() {
+		this(virgil_crypto_javaJNI.new_VirgilVersion(), true);
+	}
 
 }
