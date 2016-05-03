@@ -54,11 +54,6 @@ import com.virgilsecurity.sdk.client.ClientFactory;
  *
  */
 public class GenericFunctionalTest {
-	private static final Logger LOGGER = Logger.getLogger(GenericFunctionalTest.class.getName());
-
-	static final String IDENTITY_STG_HOST = "https://identity-stg.virgilsecurity.com";
-	static final String PUBLIC_KEYS_STG_HOST = "https://keys-stg.virgilsecurity.com";
-	static final String PRIVATE_KEYS_STG_HOST = "https://keys-private-stg.virgilsecurity.com";
 
 	// System properties
 	public static final String IDENTITY_HOST = "IDENTITY_HOST";

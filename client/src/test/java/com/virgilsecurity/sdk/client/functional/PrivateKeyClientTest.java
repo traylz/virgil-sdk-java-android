@@ -54,7 +54,7 @@ public class PrivateKeyClientTest extends GenericFunctionalTest {
 
 	private KeyPair keyPair;
 
-	@BeforeClass
+	@BeforeClass(dependsOnGroups = {PublicKeyClientTest.PUBLIC_KEY_CLIENT_GROUP})
 	public void setUp() {
 		appId = getPropertyByName(APPLICATION_ID);
 		emailAddress = getPropertyByName(CLIENT_EMAIL);

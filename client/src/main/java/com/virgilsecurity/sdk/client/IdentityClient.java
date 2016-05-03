@@ -106,7 +106,7 @@ public class IdentityClient extends AbstractClient {
 	}
 
 	/**
-	 * Confirms the identity from the {@linkplain #verify(IdentityType, String)
+	 * Confirms the identity from the {@linkplain #verify(String, String)
 	 * verify} step to obtain an identity confirmation token.
 	 * 
 	 * @param actionId
@@ -121,7 +121,7 @@ public class IdentityClient extends AbstractClient {
 	}
 
 	/**
-	 * Confirms the identity from the {@linkplain #verify(IdentityType, String)
+	 * Confirms the identity from the {@linkplain #verify(String, String)
 	 * verify} step to obtain an identity confirmation token.
 	 * 
 	 * @param actionId
@@ -149,7 +149,7 @@ public class IdentityClient extends AbstractClient {
 	}
 
 	/**
-	 * Confirms the identity from the {@linkplain #verify(IdentityType, String)
+	 * Confirms the identity from the {@linkplain #verify(String, String)
 	 * verify} step to obtain an identity confirmation token.
 	 * 
 	 * @param actionId
@@ -166,7 +166,7 @@ public class IdentityClient extends AbstractClient {
 	}
 
 	/**
-	 * Confirms the identity from the {@linkplain #verify(IdentityType, String)
+	 * Confirms the identity from the {@linkplain #verify(String, String)
 	 * verify} step to obtain an identity confirmation token.
 	 * 
 	 * @param actionId

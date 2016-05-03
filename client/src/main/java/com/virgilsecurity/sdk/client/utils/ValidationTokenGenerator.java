@@ -56,6 +56,7 @@ public class ValidationTokenGenerator {
 	 *            The application's private key.
 	 * @return Generated validation token.
 	 * @throws Exception
+	 *             if validation token could not be generated.
 	 */
 	public static String generate(String type, String value, PrivateKey privateKey) throws Exception {
 
@@ -78,6 +79,7 @@ public class ValidationTokenGenerator {
 	 *            The private key password.
 	 * @return Generated validation token.
 	 * @throws Exception
+	 *             if validation token could not be generated.
 	 */
 	public static String generate(String type, String value, PrivateKey privateKey, Password privateKeyPassword)
 			throws Exception {
