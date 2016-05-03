@@ -39,7 +39,7 @@ import com.google.gson.annotations.SerializedName;
 public class Identity {
 
 	@SerializedName("type")
-	private IdentityType type;
+	private String type;
 
 	@SerializedName("value")
 	private String value;
@@ -59,7 +59,7 @@ public class Identity {
 	 * @param value
 	 *            the identity value
 	 */
-	public Identity(IdentityType type, String value) {
+	public Identity(String type, String value) {
 		this.type = type;
 		this.value = value;
 	}
@@ -69,7 +69,7 @@ public class Identity {
 	 * 
 	 * @return the identity type.
 	 */
-	public IdentityType getType() {
+	public String getType() {
 		return type;
 	}
 
@@ -79,7 +79,7 @@ public class Identity {
 	 * @param type
 	 *            the identity type.
 	 */
-	public void setType(IdentityType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

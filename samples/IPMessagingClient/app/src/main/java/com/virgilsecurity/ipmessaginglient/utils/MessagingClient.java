@@ -218,7 +218,7 @@ public class MessagingClient {
             }
 
             // obtain chat member from Virgil Service
-            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setValue(identifier).setIncludeUnconfirmed(true);
+            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setValue(identifier).setIncludeUnauthorized(true);
             List<VirgilCard> cards = Application.getClientFactory().getPublicKeyClient().search(criteriaBuilder.build());
             if (!cards.isEmpty()) {
                 ChatMember member = new ChatMember(cards.get(0));

@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
-import com.virgilsecurity.sdk.client.model.IdentityType;
 import com.virgilsecurity.sdk.client.utils.StringUtils;
 
 /**
@@ -45,8 +44,8 @@ import com.virgilsecurity.sdk.client.utils.StringUtils;
  * Virgil Card's Identity
  * <li>the {@code relations} parameter is optional and contains the list of
  * Virgil Cards UDIDs to perform the search within
- * <li>the {@code includeUnconfirmed} parameter specifies whether an unconfirmed
- * Virgil Cards should be returned.
+ * <li>the {@code includeUnauthorized} parameter specifies whether an
+ * unauthorized Virgil Cards should be returned.
  * </ul>
  *
  * @author Andrii Iakovenko
@@ -60,15 +59,11 @@ public class SearchCriteria {
 
 	/** The type of Virgil Card's Identity */
 	@SerializedName("type")
-	private IdentityType type;
+	private String type;
 
-	/** The list of Virgil Cards UDIDs to perform the search within */
-	@SerializedName("relations")
-	private List<String> relations;
-
-	/** Specifies whether an unconfirmed Virgil Cards should be returned */
-	@SerializedName("include_unconfirmed")
-	private Boolean includeUnconfirmed;
+	/** Specifies whether an unauthorized Virgil Cards should be returned */
+	@SerializedName("include_unauthorized")
+	private Boolean includeUnauthorized;
 
 	/**
 	 * @return the value
@@ -88,7 +83,7 @@ public class SearchCriteria {
 	/**
 	 * @return the type
 	 */
-	public IdentityType getType() {
+	public String getType() {
 		return type;
 	}
 
@@ -96,38 +91,23 @@ public class SearchCriteria {
 	 * @param type
 	 *            the type to set
 	 */
-	public void setType(IdentityType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
 	/**
-	 * @return the relations
+	 * @return the includeUnauthorized
 	 */
-	public List<String> getRelations() {
-		return relations;
+	public Boolean getIncludeUnauthorized() {
+		return includeUnauthorized;
 	}
 
 	/**
-	 * @param relations
-	 *            the relations to set
+	 * @param includeUnauthorized
+	 *            the includeUnauthorized to set
 	 */
-	public void setRelations(List<String> relations) {
-		this.relations = relations;
-	}
-
-	/**
-	 * @return the includeUnconfirmed
-	 */
-	public Boolean getIncludeUnconfirmed() {
-		return includeUnconfirmed;
-	}
-
-	/**
-	 * @param includeUnconfirmed
-	 *            the includeUnconfirmed to set
-	 */
-	public void setIncludeUnconfirmed(Boolean includeUnconfirmed) {
-		this.includeUnconfirmed = includeUnconfirmed;
+	public void setIncludeUnauthorized(Boolean includeUnauthorized) {
+		this.includeUnauthorized = includeUnauthorized;
 	}
 
 	/**
@@ -138,20 +118,19 @@ public class SearchCriteria {
 	 */
 	public static class Builder {
 
-		private IdentityType type;
+		private String type;
 
 		private String value;
 
 		private List<String> relations;
 
-		private Boolean includeUnconfirmed;
+		private Boolean includeUnauthorized;
 
 		/**
 		 * Create a new instance of Builder.
 		 *
 		 */
 		public Builder() {
-			this.type = IdentityType.EMAIL;
 			this.relations = new ArrayList<>();
 		}
 
@@ -162,7 +141,7 @@ public class SearchCriteria {
 		 *            the identity type.
 		 * @return the {@code Builder}
 		 */
-		public Builder setType(IdentityType type) {
+		public Builder setType(String type) {
 			this.type = type;
 			return this;
 		}
@@ -192,13 +171,15 @@ public class SearchCriteria {
 		}
 
 		/**
-		 * This flag allows to include unconfirmed Virgil Cards into search result.
+		 * This flag allows to include unconfirmed Virgil Cards into search
+		 * result.
 		 * 
-		 * @param includeUnconfirmed the flag for unconfirmed cards.
+		 * @param includeUnauthorized
+		 *            the flag for unauthorized cards.
 		 * @return the {@code Builder}
 		 */
-		public Builder setIncludeUnconfirmed(Boolean includeUnconfirmed) {
-			this.includeUnconfirmed = includeUnconfirmed;
+		public Builder setIncludeUnauthorized(Boolean includeUnauthorized) {
+			this.includeUnauthorized = includeUnauthorized;
 
 			return this;
 		}
@@ -216,12 +197,8 @@ public class SearchCriteria {
 			request.setType(this.type);
 			request.setValue(this.value);
 
-			if (includeUnconfirmed != null) {
-				request.setIncludeUnconfirmed(this.includeUnconfirmed);
-			}
-
-			if (!relations.isEmpty()) {
-				request.setRelations(this.relations);
+			if (includeUnauthorized != null) {
+				request.setIncludeUnauthorized(this.includeUnauthorized);
 			}
 
 			return request;

@@ -29,10 +29,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
+import java.util.UUID;
 
 import com.virgilsecurity.sdk.client.ClientFactory;
 import com.virgilsecurity.sdk.client.model.IdentityType;
@@ -41,11 +39,14 @@ import com.virgilsecurity.sdk.client.model.privatekey.PrivateKeyInfo;
 import com.virgilsecurity.sdk.client.model.publickey.PublicKeyInfo;
 import com.virgilsecurity.sdk.client.model.publickey.SearchCriteria;
 import com.virgilsecurity.sdk.client.model.publickey.SearchCriteria.Builder;
-import com.virgilsecurity.sdk.client.model.publickey.SignResponse;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCard;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCardTemplate;
+import com.virgilsecurity.sdk.client.utils.ValidationTokenGenerator;
 import com.virgilsecurity.sdk.crypto.KeyPair;
 import com.virgilsecurity.sdk.crypto.KeyPairGenerator;
+import com.virgilsecurity.sdk.crypto.Password;
+import com.virgilsecurity.sdk.crypto.PrivateKey;
+import com.virgilsecurity.sdk.crypto.utils.ConversionUtils;
 
 /**
  * This sample shows how to make synchronous calls to Identity service.
@@ -53,51 +54,39 @@ import com.virgilsecurity.sdk.crypto.KeyPairGenerator;
  * @author Andrii Iakovenko
  *
  */
-public class KeysSampleSync {
+public class PrivateCardSampleSync {
 
-	/**
-	 * @param args
-	 * @throws IOException
-	 * @throws InterruptedException
-	 */
-	public static void main(String[] args) throws IOException, InterruptedException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static final String PRIVATE_IDENTITY_TYPE = "guid";
 
-		String accesToken = "{ACCESS_TOKEN}";
+	private static final String ACCESS_TOKEN = "{ACCESS_TOKEN}";
 
-		/** Identity Check */
+	// Obtain your App's private key at https://developer.virgilsecurity.com
+	// Don't save App's private key at your client application!
+	private static final String APP_PRIVATE_KEY = "{PRIVATE_KEY}";
+	private static final String APP_PRIVATE_KEY_PASSWORD = "{PRIVATE_KEY_PASSWORD}";
 
-		// Register an identity
-		System.out.println("Enter email address: ");
-		String email = br.readLine();
+	public static void main(String[] args) throws Exception {
+		ClientFactory factory = new ClientFactory(ACCESS_TOKEN);
 
-		ClientFactory factory = new ClientFactory(accesToken);
-
-		// Initialize the identity verification process.
-		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, email);
-
-		System.out.println("Action id: " + actionId);
-
-		// Use confirmation code sent to your email box
-		System.out.println("Check your email box");
-		System.out.println("Enter confirmation code: ");
-		String confirmationCode = br.readLine();
-
-		// Confirm the identity and get a temporary token
-		ValidatedIdentity identity = factory.getIdentityClient().confirm(actionId, confirmationCode);
-
-		System.out.println("Validation token: " + identity.getToken());
-
-		// Validate identity
-		boolean validated = factory.getIdentityClient().validate(identity);
-
-		if (validated) {
-			System.out.println("You identity is validated");
-		} else {
-			System.out.println("You identity is not validated");
-		}
+		PrivateKey appPrivateKey = new PrivateKey(APP_PRIVATE_KEY);
+		Password appPrivateKeyPassword = new Password(APP_PRIVATE_KEY_PASSWORD);
 
 		/** Cards and Public Keys */
+
+		// Build an identity
+		String identityValue = UUID.randomUUID().toString();
+
+		System.out.println("Generated identity:");
+		System.out.println("guid : " + identityValue);
+
+		ValidatedIdentity identity = new ValidatedIdentity(PRIVATE_IDENTITY_TYPE, identityValue);
+
+		// You should generate new validation token for each call to Virgil
+		// Services.
+		// The best solution is to obtain this token from your server.
+		String validationToken = ValidationTokenGenerator.generate(PRIVATE_IDENTITY_TYPE, identityValue, appPrivateKey,
+				appPrivateKeyPassword);
+		identity.setToken(validationToken);
 
 		// Publish a Virgil Card
 		KeyPair keyPair = KeyPairGenerator.generate();
@@ -108,10 +97,7 @@ public class KeysSampleSync {
 		System.out.println("Created Virgil Card with ID: " + cardInfo.getId());
 
 		// Search for Cards
-		Builder criteriaBuilder = new Builder().setValue(email)
-				// Created card is unconfirmed, thus we should include
-				// unconfirmed cards
-				.setIncludeUnconfirmed(true);
+		Builder criteriaBuilder = new Builder().setType(PRIVATE_IDENTITY_TYPE).setValue(identityValue);
 		List<VirgilCard> cards = factory.getPublicKeyClient().search(criteriaBuilder.build());
 
 		System.out.println("Virgil Cards found by criteria:");
@@ -119,49 +105,32 @@ public class KeysSampleSync {
 			System.out.println(card.getId());
 		}
 
-		// Search for Application Cards
-		System.out.println();
-		System.out.println("Enter application ID: ");
-		String appId = br.readLine();
-
-		SearchCriteria criteria = new SearchCriteria();
-		criteria.setValue(appId);
-
-		List<VirgilCard> appCards = factory.getPublicKeyClient().searchApp(criteriaBuilder.build());
-		System.out.println("Virgil Cards found by application:");
-		for (VirgilCard card : appCards) {
-			System.out.println(card.getId());
-		}
-
-		// Trust Virgil Card
-		System.out.println("Enter signed card ID");
-		String signedCardId = br.readLine();
-		System.out.println("Enter signed card hash");
-		String signedCardHash = br.readLine();
-
-		SignResponse signData = factory.getPublicKeyClient().signCard(signedCardId, signedCardHash, cardInfo.getId(),
-				keyPair.getPrivate());
-
 		// Get a Public Key
 		PublicKeyInfo publicKey = factory.getPublicKeyClient().getKey(cardInfo.getPublicKey().getId());
-
-		// Untrust a Virgil Card
-		factory.getPublicKeyClient().unsignCard(signedCardId, cardInfo.getId(), keyPair.getPrivate());
+		System.out.println("Public key found:");
+		System.out.println(ConversionUtils.fromBase64String(publicKey.getKey()));
 
 		// Revoke a Virgil Card
+		identity.setToken(ValidationTokenGenerator.generate(PRIVATE_IDENTITY_TYPE, identityValue, appPrivateKey,
+				appPrivateKeyPassword));
+
 		factory.getPublicKeyClient().deleteCard(identity, cardInfo.getId(), keyPair.getPrivate());
 
 		/** Private Keys */
 
-		// Obtain public key for the Private Keys Service retrived from the
+		// Obtain public key for the Private Keys Service retrieved from the
 		// Public Keys Service
-		criteria = new SearchCriteria();
+		SearchCriteria criteria = new SearchCriteria();
+		criteria.setType(IdentityType.APPLICATION);
 		criteria.setValue("com.virgilsecurity.private-keys");
 
-		cards = factory.getPublicKeyClient().searchApp(criteria);
+		cards = factory.getPublicKeyClient().search(criteria);
 		VirgilCard serviceCard = cards.get(0);
 
 		// Create Virgil Card because previous one was removed
+		identity.setToken(ValidationTokenGenerator.generate(PRIVATE_IDENTITY_TYPE, identityValue, appPrivateKey,
+				appPrivateKeyPassword));
+
 		vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity).setPublicKey(keyPair.getPublic());
 		cardInfo = factory.getPublicKeyClient().createCard(vcBuilder.build(), keyPair.getPrivate());
 
@@ -169,14 +138,12 @@ public class KeysSampleSync {
 		factory.getPrivateKeyClient(serviceCard).stash(cardInfo.getId(), keyPair.getPrivate());
 
 		// Get a Private Key
-		actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, email);
-		System.out.println("Check your email box");
-		System.out.println("Enter confirmation code: ");
-		confirmationCode = br.readLine();
-		// use confirmation code that has been sent to you email box.
-		identity = factory.getIdentityClient().confirm(actionId, confirmationCode);
+		identity.setToken(ValidationTokenGenerator.generate(PRIVATE_IDENTITY_TYPE, identityValue, appPrivateKey,
+				appPrivateKeyPassword));
 
 		PrivateKeyInfo privateKey = factory.getPrivateKeyClient(serviceCard).get(cardInfo.getId(), identity);
+		System.out.println("Private key found:");
+		System.out.println(ConversionUtils.fromBase64String(privateKey.getKey()));
 
 		// Destroy a Private Key
 		factory.getPrivateKeyClient(serviceCard).destroy(cardInfo.getId(), keyPair.getPrivate());

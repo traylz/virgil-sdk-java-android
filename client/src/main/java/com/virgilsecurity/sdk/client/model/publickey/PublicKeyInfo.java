@@ -29,8 +29,9 @@
  */
 package com.virgilsecurity.sdk.client.model.publickey;
 
-import com.google.gson.annotations.SerializedName;
 import java.util.Date;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * This class represents Public Key information.

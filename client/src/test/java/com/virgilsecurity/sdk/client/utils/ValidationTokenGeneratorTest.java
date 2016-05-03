@@ -53,9 +53,9 @@ public class ValidationTokenGeneratorTest {
 	@Test
 	public void generate() {
 		KeyPair keyPair = KeyPairGenerator.generate();
-		
-		for (IdentityType type : IdentityType.values()) {
-			for (String value : new String[] {null, "", "Some string value"}) {
+
+		for (String type : new String[] { IdentityType.EMAIL, IdentityType.APPLICATION, "custom" }) {
+			for (String value : new String[] { null, "", "Some string value" }) {
 				try {
 					String token = ValidationTokenGenerator.generate(type, value, keyPair.getPrivate());
 					assertNotNull(token);
@@ -72,16 +72,17 @@ public class ValidationTokenGeneratorTest {
 			}
 		}
 	}
-	
+
 	@Test
 	public void generate_privateKey_protected_with_password() {
 		String password = "SoMePassWord123";
 		KeyPair keyPair = KeyPairGenerator.generate(password);
-		
-		for (IdentityType type : IdentityType.values()) {
-			for (String value : new String[] {null, "", "Some string value"}) {
+
+		for (String type : new String[] { IdentityType.EMAIL, IdentityType.APPLICATION, "custom" }) {
+			for (String value : new String[] { null, "", "Some string value" }) {
 				try {
-					String token = ValidationTokenGenerator.generate(type, value, keyPair.getPrivate(), new Password(password));
+					String token = ValidationTokenGenerator.generate(type, value, keyPair.getPrivate(),
+							new Password(password));
 					assertNotNull(token);
 					String decodedToken = ConversionUtils.fromBase64String(token);
 					int pos = decodedToken.indexOf(".");

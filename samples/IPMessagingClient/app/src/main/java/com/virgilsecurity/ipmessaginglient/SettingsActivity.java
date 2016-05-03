@@ -22,12 +22,9 @@ import com.virgilsecurity.sdk.client.model.privatekey.PrivateKeyInfo;
 import com.virgilsecurity.sdk.client.model.publickey.SearchCriteria;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCard;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCardTemplate;
-import com.virgilsecurity.sdk.client.utils.StringUtils;
 import com.virgilsecurity.sdk.crypto.Base64;
 import com.virgilsecurity.sdk.crypto.KeyPair;
 import com.virgilsecurity.sdk.crypto.KeyPairGenerator;
-import com.virgilsecurity.sdk.crypto.PrivateKey;
-import com.virgilsecurity.sdk.crypto.PublicKey;
 
 import java.io.IOException;
 import java.util.List;
@@ -115,7 +112,7 @@ public class SettingsActivity extends PreferenceActivity {
 
                             @Override
                             protected Void doInBackground(Void... params) {
-                                registerVirgilCard(new ValidatedIdentity(IdentityType.EMAIL, email));
+//                                registerVirgilCard(new ValidatedIdentity(IdentityType.EMAIL, email));
                                 return null;
                             }
 
@@ -147,7 +144,6 @@ public class SettingsActivity extends PreferenceActivity {
                         CommonUtils.showToast(R.string.identity_confirmation_success);
 
                         // Uncomment this async task if you want to use confirmed Virgil Cards only
-                        /*
                         new AsyncTask<Void, Void, Void>() {
 
                             @Override
@@ -162,7 +158,6 @@ public class SettingsActivity extends PreferenceActivity {
                                 CommonUtils.showToast(R.string.virgil_card_register_success);
                             }
                         }.execute();
-                        */
                     }
 
                     @Override
@@ -179,13 +174,14 @@ public class SettingsActivity extends PreferenceActivity {
             // Obtain public key for the Private Keys Service retrieved from the
             // Public Keys Service
             SearchCriteria criteria = new SearchCriteria();
+            criteria.setType(IdentityType.APPLICATION);
             criteria.setValue("com.virgilsecurity.private-keys");
 
-            List<VirgilCard> cards = Application.getClientFactory().getPublicKeyClient().searchApp(criteria);
+            List<VirgilCard> cards = Application.getClientFactory().getPublicKeyClient().search(criteria);
             VirgilCard serviceCard = cards.get(0);
 
             // search the card by email identity on Virgil Keys service.
-            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setValue(identity.getValue()).setIncludeUnconfirmed(true);
+            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setValue(identity.getValue()).setIncludeUnauthorized(true);
             cards = Application.getClientFactory().getPublicKeyClient().search(criteriaBuilder.build());
 
             // The app is verifying whether the user really owns the provided email

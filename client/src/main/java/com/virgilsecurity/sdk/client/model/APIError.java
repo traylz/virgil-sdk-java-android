@@ -99,10 +99,18 @@ public class APIError {
 		if (message != null) {
 			return message;
 		}
+		ResourceBundle bundle = null;
 		try {
-			return ResourceBundle.getBundle("Messages").getString(getErrorPrefix() + errorCode);
+			bundle = ResourceBundle.getBundle("Messages");
+			String key = getErrorPrefix() + errorCode;
+			if (bundle.containsKey(key)) {
+				return bundle.getString(key);
+			} else if (bundle.containsKey("error_unknown")) {
+				return bundle.getString("error_unknown");
+			}
+			return "";
 		} catch (MissingResourceException e) {
-			return ResourceBundle.getBundle("Messages").getString("error_unknown");
+			return "";
 		}
 	}
 

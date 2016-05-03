@@ -54,6 +54,20 @@ public class ConversionUtils {
 	}
 
 	/**
+	 * Convert byte array to base4-encoded string.
+	 * 
+	 * @param data
+	 *            The data to be encoded.
+	 * @return Base64-encoded string.
+	 */
+	public static String toBase64String(byte[] data) {
+		if (data == null) {
+			return null;
+		}
+		return Base64.encode(data);
+	}
+
+	/**
 	 * Decode base64-encoded string and return result as string.
 	 * 
 	 * @param base64String

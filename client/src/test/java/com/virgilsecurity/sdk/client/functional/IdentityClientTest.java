@@ -29,31 +29,22 @@
  */
 package com.virgilsecurity.sdk.client.functional;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.fail;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.teonit.mailinator.MailinatorClient;
-import org.teonit.mailinator.model.Inbox;
-import org.teonit.mailinator.model.Message;
-import org.teonit.mailinator.model.MessageData;
-import org.testng.ITestContext;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeGroups;
+import org.apache.commons.lang.StringUtils;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.virgilsecurity.sdk.client.ClientFactory;
+import com.virgilsecurity.sdk.client.exceptions.ServiceException;
 import com.virgilsecurity.sdk.client.model.IdentityType;
 import com.virgilsecurity.sdk.client.model.identity.ValidatedIdentity;
-
-import retrofit2.Response;
 
 /**
  * Functional tests for Identity client.
@@ -61,122 +52,171 @@ import retrofit2.Response;
  * @author Andrii Iakovenko
  *
  */
-public class IdentityClientTest {
+public class IdentityClientTest extends GenericFunctionalTest {
 
-	private static final Logger LOGGER = Logger.getLogger(IdentityClientTest.class.getName());
+	public static final String IDENTITY_CLIENT_GROUP = "IDENTITY_CLIENT_GROUP";
 
-	static final String IDENTITY_CLIENT_GROUP = "identity_client";
+	private String emailAddress;
+	private String accessToken;
 
-	private ClientFactory factory;
+	@BeforeClass
+	public void setUp() {
+		emailAddress = getPropertyByName(CLIENT_EMAIL);
+		accessToken = getPropertyByName(ACCESS_TOKEN);
 
-	private MailinatorClient mailClient;
-	private String account;
-	private String email;
-
-	private String actionId = null;
-	private String confirmationCode;
-	private String validationToken;
-
-	@BeforeGroups(groups = { IDENTITY_CLIENT_GROUP }, dependsOnGroups = { IdentityServiceTest.IDENTITY_SERVICE_GROUP })
-	public void beforeGroups(ITestContext ctx) {
-		account =  (String) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_ACCOUNT);
-		email = (String) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_EMAIL);
-		mailClient = new MailinatorClient();
-		
-		factory = (ClientFactory) ctx.getAttribute(ContextOfFunctionalTest.CLIENT_FACTORY);
-	}
-	
-	@AfterClass
-	public void afterClass(ITestContext ctx) {
-		ctx.setAttribute(ContextOfFunctionalTest.CLIENT_VALIDATION_TOKEN, validationToken);
-	}
-
-	@BeforeGroups(groups = { IDENTITY_CLIENT_GROUP })
-	public void beforeIdentity() {
-	}
-
-	@Test(groups = { IDENTITY_CLIENT_GROUP })
-	public void identity_verify() {
-		actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, email);
-
-		assertNotNull(actionId);
-		assertFalse(actionId.isEmpty());
-	}
-
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, dependsOnMethods = "identity_verify")
-	public void identity_waitForEmail() throws IOException, InterruptedException {
-		// Wait email during 2 minutes
-		for (int i = 0; i < 12; i++) {
-			// Read email from mail server
-			Response<Inbox> response = mailClient.getService().inbox(account).execute();
-			LOGGER.log(Level.FINE, "Emails. Response code: {}", response.code());
-			if (response.isSuccessful() && !response.body().getItems().isEmpty()) {
-				// Read email and extract confirmation code
-
-				// Inbox contains only one email because we use new mailbox for
-				// each test
-				String messageId = response.body().getItems().get(0).getId();
-				assertNotNull(messageId);
-				assertFalse(messageId.isEmpty());
-				Response<MessageData> messageResponse = null;
-				for (int j = 0; j < 5; j++) {
-					// Make several attempts to read email (mailinator can
-					// refuse calls with 429 status)
-					messageResponse = mailClient.getService().message(messageId).execute();
-					LOGGER.log(Level.FINE, "Email. Response code: {}", response.code());
-					if (messageResponse.isSuccessful()) {
-						break;
-					}
-					// Try to get email in 5 sec
-					Thread.sleep(5 * 1000);
-				}
-				assertNotNull(messageResponse.body());
-				Message message = messageResponse.body().getData();
-				assertNotNull(message);
-				String body = message.getParts().get(0).getBody();
-
-				// Parse confirmation email an extract confirmation code
-				Pattern pattern = Pattern.compile("(Your confirmation code is [^>]+[>])(\\w+)");
-				Matcher matcher = pattern.matcher(body);
-				if (matcher.find()) {
-					confirmationCode = matcher.group(2);
-
-					// Delete email
-					try {
-						mailClient.getService().delete(messageId).execute();
-					} catch (Exception e) {
-
-					}
-				} else {
-					fail("Can't find confirmation code in email");
-				}
-				break;
-			}
-			// There is no email yet. Let's wait for 10 seconds
-			Thread.sleep(10 * 1000);
+		try {
+			clearMailbox(emailAddress);
+		} catch (IOException e) {
+			fail("Mailbox is not empty");
 		}
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, dependsOnMethods = "identity_waitForEmail")
-	public void identity_confirm() {
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
+	public void verifyEmailIdentity_success() throws IOException, InterruptedException {
+		ClientFactory factory = createClientFactory(accessToken);
+		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
 
-		ValidatedIdentity identity = factory.getIdentityClient().confirm(actionId, confirmationCode);
-		validationToken = identity.getToken();
+		assertNotNull(getConfirmationCodeFromEmail(emailAddress));
 
-		assertNotNull(validationToken);
-		assertFalse(validationToken.isEmpty());
+		assertNotNull(actionId);
+		assertFalse(StringUtils.isBlank(actionId));
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, dependsOnMethods = "identity_confirm")
-	public void identity_validate() {
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
+	public void verifyEmailIdentityNoAccessToken_success() throws IOException, InterruptedException {
+		ClientFactory factory = createClientFactory(null);
+		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
 
-		ValidatedIdentity identity = new ValidatedIdentity();
-		identity.setType(IdentityType.EMAIL);
-		identity.setValue(email);
-		identity.setToken(validationToken);
+		assertNotNull(getConfirmationCodeFromEmail(emailAddress));
+
+		assertNotNull(actionId);
+		assertFalse(StringUtils.isBlank(actionId));
+	}
+
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class })
+	public void verifyApplicationIdentity_fail() {
+		ClientFactory factory = createClientFactory(accessToken);
+		factory.getIdentityClient().verify(IdentityType.APPLICATION, emailAddress);
+	}
+
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class })
+	public void verifyApplicationIdentityNoAccessToken_fail() {
+		ClientFactory factory = createClientFactory(null);
+		factory.getIdentityClient().verify(IdentityType.APPLICATION, emailAddress);
+	}
+
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class })
+	public void verifyCustomIdentity_fail() {
+		ClientFactory factory = createClientFactory(accessToken);
+		factory.getIdentityClient().verify("custom", emailAddress);
+	}
+
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class })
+	public void verifyCustomIdentityNoAccessToken_fail() {
+		ClientFactory factory = createClientFactory(null);
+		factory.getIdentityClient().verify("custom", emailAddress);
+	}
+
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
+	public void confirmValidConfirmationCodeWithAccessToken_success() throws IOException, InterruptedException {
+		ClientFactory factory = createClientFactory(null);
+		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
+
+		assertNotNull(actionId);
+
+		String confirmationCode = getConfirmationCodeFromEmail(emailAddress);
+
+		assertNotNull(confirmationCode);
+
+		factory = createClientFactory(accessToken);
+
+		ValidatedIdentity identity = factory.getIdentityClient().confirm(actionId, confirmationCode);
+
+		assertNotNull(identity);
+		assertEquals(emailAddress, identity.getValue());
+		assertEquals(IdentityType.EMAIL, identity.getType());
+		assertNotNull(identity.getToken());
+		assertFalse(identity.getToken().isEmpty());
+	}
+
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
+	public void confirmValidConfirmationCodeNoAccessToken_success() throws IOException, InterruptedException {
+		ClientFactory factory = createClientFactory(null);
+		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
+
+		assertNotNull(actionId);
+
+		String confirmationCode = getConfirmationCodeFromEmail(emailAddress);
+
+		assertNotNull(confirmationCode);
+
+		ValidatedIdentity identity = factory.getIdentityClient().confirm(actionId, confirmationCode);
+
+		assertNotNull(identity);
+		assertEquals(emailAddress, identity.getValue());
+		assertEquals(IdentityType.EMAIL, identity.getType());
+		assertNotNull(identity.getToken());
+		assertFalse(identity.getToken().isEmpty());
+	}
+
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class })
+	public void confirmInalidConfirmationCode_fail() throws IOException, InterruptedException {
+		ClientFactory factory = createClientFactory(null);
+		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
+
+		assertNotNull(actionId);
+
+		getConfirmationCodeFromEmail(emailAddress);
+		factory.getIdentityClient().confirm(actionId, "InVaLiDCoDe");
+	}
+
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, enabled = false)
+	public void validate_success() throws IOException, InterruptedException {
+		ClientFactory factory = createClientFactory(accessToken);
+		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
+
+		assertNotNull(actionId);
+
+		String confirmationCode = getConfirmationCodeFromEmail(emailAddress);
+
+		assertNotNull(confirmationCode);
+
+		ValidatedIdentity identity = factory.getIdentityClient().confirm(actionId, confirmationCode);
+
+		assertNotNull(identity);
 
 		boolean validated = factory.getIdentityClient().validate(identity);
 		assertTrue(validated);
+	}
+
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
+	public void validateNoAccessToken_success() throws IOException, InterruptedException {
+		ClientFactory factory = createClientFactory(null);
+		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
+
+		assertNotNull(actionId);
+
+		String confirmationCode = getConfirmationCodeFromEmail(emailAddress);
+
+		assertNotNull(confirmationCode);
+
+		ValidatedIdentity identity = factory.getIdentityClient().confirm(actionId, confirmationCode);
+
+		assertNotNull(identity);
+
+		boolean validated = factory.getIdentityClient().validate(identity);
+		assertTrue(validated);
+	}
+
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
+	public void validateInvalidToken_fail() {
+		ClientFactory factory = createClientFactory(accessToken);
+
+		ValidatedIdentity identity = new ValidatedIdentity(IdentityType.EMAIL, emailAddress);
+		identity.setToken("InVaLidToKeN");
+
+		boolean validated = factory.getIdentityClient().validate(identity);
+		assertFalse(validated);
 	}
 
 }

@@ -29,13 +29,11 @@
  */
 package com.virgilsecurity.sdk.client.model.publickey;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
-import com.virgilsecurity.sdk.client.model.identity.ValidatedIdentity;
+import com.virgilsecurity.sdk.client.model.Identity;
 import com.virgilsecurity.sdk.client.utils.StringUtils;
 import com.virgilsecurity.sdk.crypto.PublicKey;
 
@@ -62,13 +60,10 @@ public class VirgilCardTemplate {
 	private String publicKey;
 
 	@SerializedName("identity")
-	private ValidatedIdentity identity;
+	private Identity identity;
 
 	@SerializedName("data")
 	private Map<String, String> data;
-
-	@SerializedName("signs")
-	private List<Sign> signs;
 
 	/**
 	 * Returns the public key's identifier.
@@ -122,7 +117,7 @@ public class VirgilCardTemplate {
 	 * 
 	 * @return the Virgil identity.
 	 */
-	public ValidatedIdentity getIdentity() {
+	public Identity getIdentity() {
 		return identity;
 	}
 
@@ -132,7 +127,7 @@ public class VirgilCardTemplate {
 	 * @param identity
 	 *            the Virgil identity.
 	 */
-	public void setIdentity(ValidatedIdentity identity) {
+	public void setIdentity(Identity identity) {
 		this.identity = identity;
 	}
 
@@ -154,24 +149,6 @@ public class VirgilCardTemplate {
 	}
 
 	/**
-	 * To automatically create a list of signs for created Virgil Card it's
-	 * possible to pass the list of signs as {@code signs}.
-	 * 
-	 * @return the Virgil Card signs.
-	 */
-	public List<Sign> getSigns() {
-		return signs;
-	}
-
-	/**
-	 * @param signs
-	 *            the Virgil Card signs.
-	 */
-	public void setSigns(List<Sign> signs) {
-		this.signs = signs;
-	}
-
-	/**
 	 * Use this builder to construct {@code VirgilCardTemplate}.
 	 *
 	 * @author Andrii Iakovenko
@@ -180,9 +157,8 @@ public class VirgilCardTemplate {
 	public static class Builder {
 		private String publicKeyId;
 		private String publicKey;
-		private ValidatedIdentity identity;
+		private Identity identity;
 		private Map<String, String> data;
-		private List<Sign> signs;
 
 		/**
 		 * Set public key's identifier.
@@ -241,7 +217,7 @@ public class VirgilCardTemplate {
 		 *            the identity associated with card.
 		 * @return the {@code Builder}.
 		 */
-		public Builder setIdentity(ValidatedIdentity identity) {
+		public Builder setIdentity(Identity identity) {
 			this.identity = identity;
 
 			return this;
@@ -266,22 +242,6 @@ public class VirgilCardTemplate {
 		}
 
 		/**
-		 * Add sign to card.
-		 * 
-		 * @param sign
-		 *            the sign.
-		 * @return the {@code Builder}.
-		 */
-		public Builder addSign(Sign sign) {
-			if (this.signs == null) {
-				signs = new ArrayList<>();
-			}
-			signs.add(sign);
-
-			return this;
-		}
-
-		/**
 		 * @return the {@code VirgilCardTemplate} build.
 		 */
 		public VirgilCardTemplate build() {
@@ -290,7 +250,6 @@ public class VirgilCardTemplate {
 			request.setPublicKey(this.publicKey);
 			request.setIdentity(this.identity);
 			request.setData(this.data);
-			request.setSigns(this.signs);
 
 			return request;
 		}

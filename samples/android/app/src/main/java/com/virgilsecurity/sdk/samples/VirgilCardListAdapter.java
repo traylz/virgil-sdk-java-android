@@ -25,15 +25,11 @@ public class VirgilCardListAdapter extends ArrayAdapter<VirgilCard> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.vc_list_item, parent, false);
         TextView label = (TextView) rowView.findViewById(R.id.label);
-        TextView confirmed = (TextView) rowView.findViewById(R.id.confirmed);
+        TextView authorizedBy = (TextView) rowView.findViewById(R.id.authorizedBy);
 
         VirgilCard card = getItem(position);
         label.setText(card.getId());
-        if (card.getConfirmed()) {
-            confirmed.setText("Confirmed");
-        } else {
-            confirmed.setText("Unconfirmed");
-        }
+        authorizedBy.setText(card.getAuthorizedBy());
 
         return rowView;
     }

@@ -35,8 +35,6 @@ import com.virgilsecurity.sdk.client.model.publickey.DeleteRequest;
 import com.virgilsecurity.sdk.client.model.publickey.Identities;
 import com.virgilsecurity.sdk.client.model.publickey.PublicKeyInfo;
 import com.virgilsecurity.sdk.client.model.publickey.SearchCriteria;
-import com.virgilsecurity.sdk.client.model.publickey.Sign;
-import com.virgilsecurity.sdk.client.model.publickey.SignResponse;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCard;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCardTemplate;
 import com.virgilsecurity.sdk.client.utils.Constants;
@@ -106,7 +104,7 @@ public interface PublicKeyService {
 	 * @see Identities
 	 */
 	@DELETE("/v3/public-key/{public-key-id}")
-	// FIXME
+	// TODO
 	Call<Void> deleteKey(@Path("public-key-id") String id, Identities identities);
 
 	/**
@@ -135,11 +133,11 @@ public interface PublicKeyService {
 	 * @see PublicKeyInfo
 	 */
 	@GET("/v3/public-key/{public-key-id}")
-	// TODO
 	Call<PublicKeyInfo> getKey(@Path("public-key-id") String id);
 
 	/**
-	 * Performs the search by search criteria.
+	 * Performs the search of a private application's Virgil Cards by search
+	 * criteria:
 	 * 
 	 * @param searchCriteria
 	 *            the criteria which used for Virgil Cards filtering during
@@ -169,43 +167,18 @@ public interface PublicKeyService {
 	Call<List<VirgilCard>> searchApp(@Body SearchCriteria searchCriteria);
 
 	/**
-	 * Signs another Virgil Card addressed in the request to share the
-	 * information for the signed Virgil Card.
+	 * Performs the global search for the emails' Virgil Cards.
 	 * 
-	 * @param signerCardId
-	 *            the identifier of Virgil Card used for signing.
-	 * @param requestSingVCID
-	 *            the {@code X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID} header's
-	 *            value which is the same as Virgil Card's identifier.
-	 * @param sign
-	 *            the sign.
+	 * @param searchCriteria
+	 *            the criteria which used for Virgil Cards filtering during
+	 *            search.
 	 * @return
 	 * 
 	 * @see retrofit2.Call
-	 * @see Sign
-	 * @see SignResponse
+	 * @see SearchCriteria
+	 * @see VirgilCard
 	 */
-	@POST("/v3/virgil-card/{virgil-card-id}/actions/sign")
-	Call<SignResponse> signCard(@Path("virgil-card-id") String signerCardId,
-			@Header(Constants.Header.X_VIRGIL_REQUEST_SIGN_VIRGIL_CARD_ID) String requestSingVCID, @Body Sign sign);
-
-	/**
-	 * Removes the Sign of another Virgil Card.
-	 * 
-	 * @param signerCardId
-	 *            the identifier of Virgil Card used for signing.
-	 * @param requestSingVCID
-	 *            the {@code X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID} header's
-	 *            value which is the same as Virgil Card's identifier.
-	 * @param sign
-	 *            the sign.
-	 * @return
-	 * 
-	 * @see retrofit2.Call
-	 * @see Sign
-	 */
-	@POST("/v3/virgil-card/{virgil-card-id}/actions/unsign")
-	Call<Void> unsignCard(@Path("virgil-card-id") String signerCardId,
-			@Header(Constants.Header.X_VIRGIL_REQUEST_SIGN_VIRGIL_CARD_ID) String requestSingVCID, @Body Sign sign);
+	@POST("/v3/virgil-card/actions/search/email")
+	Call<List<VirgilCard>> searchEmail(@Body SearchCriteria searchCriteria);
 
 }

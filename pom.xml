@@ -4,14 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.virgilsecurity.sdk</groupId>
 	<artifactId>parent</artifactId>
-	<version>3.1.0</version>
+	<version>3.2.0</version>
 	<packaging>pom</packaging>
 	<name>Virgil SDK - Parent</name>
 	<description>Virgil is a stack of security libraries (ECIES with Crypto Agility wrapped in Virgil Cryptogram) and all the necessary infrastructure to enable seamless, end-to-end encryption for any application, platform or device. Get in touch with us to get preview access to our key infrastructure.</description>
 	<url>https://www.virgilsecurity.com/</url>
 	<scm>
 		<connection>scm:git:https://github.com/VirgilSecurity/virgil-sdk-java.git</connection>
-    <url>https://github.com/VirgilSecurity/virgil-sdk-java-android</url>
+		<url>https://github.com/VirgilSecurity/virgil-sdk-java-android</url>
 	</scm>
 	<licenses>
 		<license>
@@ -25,10 +25,10 @@
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
 	</distributionManagement>
 
 	<developers>
@@ -91,6 +91,12 @@
 				<groupId>org.testng</groupId>
 				<artifactId>testng</artifactId>
 				<version>${version.testng}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.googlecode.json-simple</groupId>
+				<artifactId>json-simple</artifactId>
+				<version>1.1.1</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -169,10 +175,10 @@
 							<goals>
 								<goal>sign</goal>
 							</goals>
-              <configuration>
-                <keyname>${gpg.keyname}</keyname>
-                <passphraseServerId>${gpg.keyname}</passphraseServerId>
-              </configuration>
+							<configuration>
+								<keyname>${gpg.keyname}</keyname>
+								<passphraseServerId>${gpg.keyname}</passphraseServerId>
+							</configuration>
 						</execution>
 					</executions>
 				</plugin>

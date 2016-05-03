@@ -29,9 +29,10 @@
  */
 package com.virgilsecurity.sdk.client.model.publickey;
 
-import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 import java.util.Map;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * This class represents Virgil Card.
@@ -52,9 +53,9 @@ public class VirgilCard {
 	@SerializedName("created_at")
 	private Date createdAt;
 
-	/** Set to <code>true</code> if VirgilCard is confirmed. */
-	@SerializedName("is_confirmed")
-	private Boolean confirmed;
+	/** Set to <code>null</code> if VirgilCard is not autorized. */
+	@SerializedName("authorized_by")
+	private String authorizedBy;
 
 	/**
 	 * VirgilCard hash.
@@ -117,27 +118,27 @@ public class VirgilCard {
 	}
 
 	/**
-	 * Return the confirmed flag. This flag set to {@code true} if Virgil Card
-	 * confirmed.
+	 * Return the name of App this card autorized by.
 	 * 
-	 * @return the confirmed flag.
+	 * @return the authorizedBy flag.
 	 */
-	public Boolean getConfirmed() {
-		return confirmed;
+	public String getAuthorizedBy() {
+		return authorizedBy;
 	}
 
 	/**
-	 * Sets the confirmed flag.
+	 * Set the name of App this card autorized by.
 	 * 
-	 * @param confirmed
-	 *            the confirmed flag.
+	 * @param authorizedBy
+	 *            the authorizedBy flag.
 	 */
-	public void setConfirmed(Boolean confirmed) {
-		this.confirmed = confirmed;
+	public void setAuthorizedBy(String authorizedBy) {
+		this.authorizedBy = authorizedBy;
 	}
 
 	/**
 	 * Returns Virgil Card's hash.
+	 * 
 	 * @return the Virgil Card's hash.
 	 */
 	public String getHash() {
@@ -146,6 +147,7 @@ public class VirgilCard {
 
 	/**
 	 * Sets Virgil Card's hash.
+	 * 
 	 * @param hash
 	 *            the Virgil Card's hash.
 	 */
@@ -177,7 +179,7 @@ public class VirgilCard {
 
 	/**
 	 * @param identity
-	 *            the the Virgil Card's  identity
+	 *            the the Virgil Card's identity
 	 */
 	public void setIdentity(IdentityInfo identity) {
 		this.identity = identity;

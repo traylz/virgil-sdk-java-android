@@ -44,8 +44,8 @@ public class StringUtils {
 	/**
 	 * Checks if a String is null or empty.
 	 * 
-	 * @param string
-	 * @return
+	 * @param string the String to check, may be null
+	 * @return <code>true</code> if the String is empty or null
 	 */
 	public static boolean isEmpty(String string) {
 		return string == null || string.isEmpty();

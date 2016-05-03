@@ -49,25 +49,27 @@ public class TokenInterceptor implements Interceptor {
 	/**
 	 * Create a new instance of {@code TokenInterceptor}
 	 *
-	 * @param accessToken the access token.
+	 * @param accessToken
+	 *            the access token.
 	 */
 	public TokenInterceptor(String accessToken) {
 		this.accessToken = accessToken;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see okhttp3.Interceptor#intercept(okhttp3.Interceptor.Chain)
 	 */
 	@Override
 	public Response intercept(Chain chain) throws IOException {
-		 Request original = chain.request();
+		Request original = chain.request();
 
-         Request.Builder requestBuilder = original.newBuilder()
-             .header(Constants.Header.X_VIRGIL_ACCESS_TOKEN, accessToken)
-             .method(original.method(), original.body());
+		Request.Builder requestBuilder = original.newBuilder()
+				.header(Constants.Header.X_VIRGIL_ACCESS_TOKEN, accessToken).method(original.method(), original.body());
 
-         Request request = requestBuilder.build();
-         return chain.proceed(request);
+		Request request = requestBuilder.build();
+		return chain.proceed(request);
 	}
 
 }
