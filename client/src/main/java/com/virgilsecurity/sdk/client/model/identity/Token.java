@@ -45,7 +45,28 @@ public class Token {
 	private Integer countToLive;
 
 	/**
+	 * Create a new instance of {@code Token}
+	 *
+	 */
+	public Token() {
+	}
+
+	/**
+	 * Create a new instance of {@code Token}
+	 *
+	 * @param timeToLive
+	 *            token's time to live.
+	 * @param countToLive
+	 *            token's count to live.
+	 */
+	public Token(Integer timeToLive, Integer countToLive) {
+		this.timeToLive = timeToLive;
+		this.countToLive = countToLive;
+	}
+
+	/**
 	 * Returns token's time to live.
+	 * 
 	 * @return the token's time to live.
 	 */
 	public Integer getTimeToLive() {
@@ -54,7 +75,9 @@ public class Token {
 
 	/**
 	 * Sets the token's time to live.
-	 * @param timeToLive the token's time to live.
+	 * 
+	 * @param timeToLive
+	 *            the token's time to live.
 	 */
 	public void setTimeToLive(Integer timeToLive) {
 		this.timeToLive = timeToLive;
@@ -62,6 +85,7 @@ public class Token {
 
 	/**
 	 * Returns the token's count to live.
+	 * 
 	 * @return the token's count to live.
 	 */
 	public Integer getCountToLive() {
@@ -70,7 +94,9 @@ public class Token {
 
 	/**
 	 * Sets the token's count to live.
-	 * @param countToLive the token's count to live.
+	 * 
+	 * @param countToLive
+	 *            the token's count to live.
 	 */
 	public void setCountToLive(Integer countToLive) {
 		this.countToLive = countToLive;

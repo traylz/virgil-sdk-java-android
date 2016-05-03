@@ -1,14 +1,10 @@
 package com.virgilsecurity.sdk.samples;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,7 +17,6 @@ import com.virgilsecurity.sdk.client.model.APIError;
 import com.virgilsecurity.sdk.client.model.IdentityType;
 import com.virgilsecurity.sdk.client.model.identity.ValidatedIdentity;
 import com.virgilsecurity.sdk.client.model.publickey.SearchCriteria;
-import com.virgilsecurity.sdk.client.model.publickey.SignResponse;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCard;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCardTemplate;
 import com.virgilsecurity.sdk.crypto.Password;
@@ -29,10 +24,11 @@ import com.virgilsecurity.sdk.crypto.PrivateKey;
 import com.virgilsecurity.sdk.crypto.PublicKey;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class PublicKeysActivity extends AppCompatActivity {
+
+    private static final String IDENTITY_TYPE = "EmailAddress";
 
     private Password password;
     private PublicKey publicKey;
@@ -79,44 +75,19 @@ public class PublicKeysActivity extends AppCompatActivity {
         m_emailET = (EditText) findViewById(R.id.emailET);
         m_appIDET = (EditText) findViewById(R.id.appIDET);
 
+        m_emailET.setText(email);
+
         m_virgilCards = (ListView) findViewById(R.id.virgilCardsLV);
 
         virgilCardsAdapter = new VirgilCardListAdapter(PublicKeysActivity.this, new ArrayList<VirgilCard>());
         m_virgilCards.setAdapter(virgilCardsAdapter);
-        m_virgilCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PublicKeysActivity.this);
-                builder.setTitle("Virgil Card signing")
-                        .setMessage("Would you like to process this Virgil Card?")
-                        .setPositiveButton("Sing", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                sign(virgilCardsAdapter.getItem(position));
-                            }
-                        })
-                        .setNegativeButton("Unsing", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                unsign(virgilCardsAdapter.getItem(position));
-                            }
-                        })
-                        .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-                builder.create().show();
-            }
-        });
     }
 
     public void createVC(View view) {
         String accessToken = m_accessToken.getText().toString();
 
         ValidatedIdentity identity = new ValidatedIdentity();
-        identity.setType(IdentityType.EMAIL);
+        identity.setType(IDENTITY_TYPE);
         identity.setValue(email);
 
         VirgilCardTemplate.Builder vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity)
@@ -147,7 +118,7 @@ public class PublicKeysActivity extends AppCompatActivity {
         }
 
         ValidatedIdentity identity = new ValidatedIdentity();
-        identity.setType(IdentityType.EMAIL);
+        identity.setType(IDENTITY_TYPE);
         identity.setValue(email);
 
         clientFactory.getPublicKeyClient().deleteCard(identity, cardId, privateKey, password, new VoidResponseCallback() {
@@ -188,85 +159,14 @@ public class PublicKeysActivity extends AppCompatActivity {
 
             String email = m_emailET.getText().toString();
 
-            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setValue(email).setIncludeUnconfirmed(true);
-            clientFactory.getPublicKeyClient().search(criteriaBuilder.build(), privateKey, password, callback);
+            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setType(IDENTITY_TYPE).setValue(email).setIncludeUnauthorized(true);
+            clientFactory.getPublicKeyClient().search(criteriaBuilder.build(), callback);
         } else {
             String appId = m_appIDET.getText().toString();
 
-            SearchCriteria criteria = new SearchCriteria();
-            criteria.setValue(appId);
-            clientFactory.getPublicKeyClient().searchApp(criteria, privateKey, password, callback);
+            SearchCriteria.Builder criteriaBuilder = new SearchCriteria.Builder().setType(IdentityType.APPLICATION).setValue(appId);
+            clientFactory.getPublicKeyClient().search(criteriaBuilder.build(), callback);
         }
-    }
-
-    private void sign(VirgilCard virgilCard) {
-        final String signerCardId = m_vcID.getText().toString();
-
-        if (signerCardId.trim().isEmpty()) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Please, generate Virgil Card first", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        clientFactory.getPublicKeyClient().signCard(virgilCard.getId(), virgilCard.getHash(), signerCardId, privateKey, new ResponseCallback<SignResponse>() {
-            @Override
-            public void onSuccess(SignResponse signResponse) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Signed", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-
-            @Override
-            public void onFailure(APIError apiError) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Sign error: " + apiError.getErrorCode(), Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-    }
-
-    private void unsign(VirgilCard virgilCard) {
-        final String signerCardId = m_vcID.getText().toString();
-
-        if (signerCardId.trim().isEmpty()) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Please, generate Virgil Card first", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-        clientFactory.getPublicKeyClient().unsignCard(virgilCard.getId(), signerCardId, privateKey, new VoidResponseCallback() {
-            @Override
-            public void onSuccess(boolean b) {
-                String text = "Virgil Card unsigned";
-                if (!b) {
-                    text = "Not unsigned";
-                }
-                Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT);
-                toast.show();
-            }
-
-            @Override
-            public void onFailure(APIError apiError) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Sign error: " + apiError.getErrorCode(), Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-    }
-
-    public void openPrivateKeys(View view) {
-
-//        try {
-//            Intent intent = new Intent(this, PublicKeysActivity.class);
-//
-//            intent.putExtra(Constants.ACCESS_TOKEN, m_accessToken.getText().toString());
-//            intent.putExtra(Constants.EMAIL, m_email.getText().toString());
-//
-//            if (password != null) {
-//                intent.putExtra(Constants.PASSWORD, password.toString());
-//            }
-//            intent.putExtra(Constants.PUBLIC_KEY, publicKey);
-//            intent.putExtra(Constants.PRIVATE_KEY, privateKey);
-//
-//            startActivity(intent);
-//        }
-//        catch (Exception e) {
-//            Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);
-//            toast.show();
-//        }
     }
 
 }

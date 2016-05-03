@@ -11,7 +11,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium">
     </TextView>
     <TextView
-        android:id="@+id/confirmed"
+        android:id="@+id/authorizedBy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20px" >

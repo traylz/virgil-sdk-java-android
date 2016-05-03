@@ -29,9 +29,7 @@
  */
 package com.virgilsecurity.sdk.client.model.publickey;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
@@ -66,9 +64,6 @@ public class VirgilCardTemplate {
 
 	@SerializedName("data")
 	private Map<String, String> data;
-
-	@SerializedName("signs")
-	private List<Sign> signs;
 
 	/**
 	 * Returns the public key's identifier.
@@ -154,24 +149,6 @@ public class VirgilCardTemplate {
 	}
 
 	/**
-	 * To automatically create a list of signs for created Virgil Card it's
-	 * possible to pass the list of signs as {@code signs}.
-	 * 
-	 * @return the Virgil Card signs.
-	 */
-	public List<Sign> getSigns() {
-		return signs;
-	}
-
-	/**
-	 * @param signs
-	 *            the Virgil Card signs.
-	 */
-	public void setSigns(List<Sign> signs) {
-		this.signs = signs;
-	}
-
-	/**
 	 * Use this builder to construct {@code VirgilCardTemplate}.
 	 *
 	 * @author Andrii Iakovenko
@@ -182,7 +159,6 @@ public class VirgilCardTemplate {
 		private String publicKey;
 		private Identity identity;
 		private Map<String, String> data;
-		private List<Sign> signs;
 
 		/**
 		 * Set public key's identifier.
@@ -266,22 +242,6 @@ public class VirgilCardTemplate {
 		}
 
 		/**
-		 * Add sign to card.
-		 * 
-		 * @param sign
-		 *            the sign.
-		 * @return the {@code Builder}.
-		 */
-		public Builder addSign(Sign sign) {
-			if (this.signs == null) {
-				signs = new ArrayList<>();
-			}
-			signs.add(sign);
-
-			return this;
-		}
-
-		/**
 		 * @return the {@code VirgilCardTemplate} build.
 		 */
 		public VirgilCardTemplate build() {
@@ -290,7 +250,6 @@ public class VirgilCardTemplate {
 			request.setPublicKey(this.publicKey);
 			request.setIdentity(this.identity);
 			request.setData(this.data);
-			request.setSigns(this.signs);
 
 			return request;
 		}

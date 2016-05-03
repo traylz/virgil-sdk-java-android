@@ -43,12 +43,9 @@ import com.virgilsecurity.sdk.client.model.publickey.DeleteRequest;
 import com.virgilsecurity.sdk.client.model.publickey.Identities;
 import com.virgilsecurity.sdk.client.model.publickey.PublicKeyInfo;
 import com.virgilsecurity.sdk.client.model.publickey.SearchCriteria;
-import com.virgilsecurity.sdk.client.model.publickey.Sign;
-import com.virgilsecurity.sdk.client.model.publickey.SignResponse;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCard;
 import com.virgilsecurity.sdk.client.model.publickey.VirgilCardTemplate;
 import com.virgilsecurity.sdk.client.service.PublicKeyService;
-import com.virgilsecurity.sdk.crypto.CryptoHelper;
 import com.virgilsecurity.sdk.crypto.Password;
 import com.virgilsecurity.sdk.crypto.PrivateKey;
 
@@ -317,201 +314,18 @@ public class PublicKeyClient extends AbstractClient {
 	 * @param callback
 	 */
 	public void search(SearchCriteria searchCriteria, ResponseCallback<List<VirgilCard>> callback) {
-		createService(PublicKeyService.class).search(searchCriteria).enqueue(callback);
-	}
+		Call<List<VirgilCard>> call = null;
+		PublicKeyService service = createService(PublicKeyService.class);
 
-	/**
-	 * Performs the global search for the applications' Virgil Cards.
-	 * 
-	 * @param searchCriteria
-	 *            the criteria to search
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public List<VirgilCard> searchApp(SearchCriteria searchCriteria) {
-
-		try {
-			Response<List<VirgilCard>> response = createService(PublicKeyService.class).searchApp(searchCriteria)
-					.execute();
-			return ((List<VirgilCard>) handleResponse(response));
-		} catch (IOException e) {
-			throw new ServiceException(e);
+		if (IdentityType.EMAIL.equals(searchCriteria.getType())) {
+			call = service.searchEmail(searchCriteria);
+		} else if (IdentityType.APPLICATION.equals(searchCriteria.getType())) {
+			call = service.searchApp(searchCriteria);
+		} else {
+			call = service.search(searchCriteria);
 		}
-	}
 
-	/**
-	 * Performs the global search for the applications' Virgil Cards.
-	 * 
-	 * @param searchCriteria
-	 *            the criteria to search
-	 * @param callback
-	 */
-	public void searchApp(SearchCriteria searchCriteria, ResponseCallback<List<VirgilCard>> callback) {
-		createService(PublicKeyService.class).searchApp(searchCriteria).enqueue(callback);
-	}
-
-	/**
-	 * Signs another Virgil Card addressed in the request to share the
-	 * information for the signed Virgil Card.
-	 * 
-	 * @param signedCardId
-	 *            the identified for Virgil Card to be signed
-	 * @param signedCardHash
-	 *            the hash for Virgil Card to be signed
-	 * @param signerCardId
-	 *            the identified for Virgil Card which signs
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @return
-	 */
-	public SignResponse signCard(String signedCardId, String signedCardHash, String signerCardId,
-			PrivateKey privateKey) {
-		return signCard(signedCardId, signedCardHash, signerCardId, privateKey, (Password) null);
-	}
-
-	/**
-	 * Signs another Virgil Card addressed in the request to share the
-	 * information for the signed Virgil Card.
-	 * 
-	 * @param signedCardId
-	 *            the identified for Virgil Card to be signed
-	 * @param signedCardHash
-	 *            the hash for Virgil Card to be signed
-	 * @param signerCardId
-	 *            the identified for Virgil Card which signs
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @param password
-	 *            the {@code Password} used for {@code PrivateKey} protection
-	 * @return
-	 */
-	public SignResponse signCard(String signedCardId, String signedCardHash, String signerCardId, PrivateKey privateKey,
-			Password password) {
-		try {
-			Sign sign = new Sign();
-			sign.setSignedCardId(signedCardId);
-			sign.setSignedDigest(CryptoHelper.sign(signedCardHash, privateKey));
-			Response<SignResponse> response = createService(PublicKeyService.class, privateKey, password)
-					.signCard(signerCardId, signerCardId, sign).execute();
-			return (SignResponse) handleResponse(response);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-	}
-
-	/**
-	 * Signs another Virgil Card addressed in the request to share the
-	 * information for the signed Virgil Card.
-	 * 
-	 * @param signedCardId
-	 *            the identified for Virgil Card to be signed
-	 * @param signedCardHash
-	 *            the hash for Virgil Card to be signed
-	 * @param signerCardId
-	 *            the identified for Virgil Card which signs
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @param callback
-	 */
-	public void signCard(String signedCardId, String signedCardHash, String signerCardId, PrivateKey privateKey,
-			ResponseCallback<SignResponse> callback) {
-		signCard(signedCardId, signedCardHash, signerCardId, privateKey, (Password) null, callback);
-	}
-
-	/**
-	 * Signs another Virgil Card addressed in the request to share the
-	 * information for the signed Virgil Card.
-	 * 
-	 * @param signedCardId
-	 *            the identified for Virgil Card to be signed
-	 * @param signedCardHash
-	 *            the hash for Virgil Card to be signed
-	 * @param signerCardId
-	 *            the identified for Virgil Card which signs
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @param password
-	 *            the {@code Password} used for {@code PrivateKey} protection
-	 * @param callback
-	 */
-	public void signCard(String signedCardId, String signedCardHash, String signerCardId, PrivateKey privateKey,
-			Password password, ResponseCallback<SignResponse> callback) {
-		try {
-			Sign sign = new Sign();
-			sign.setSignedCardId(signedCardId);
-			sign.setSignedDigest(CryptoHelper.sign(signedCardHash, privateKey));
-			createService(PublicKeyService.class, privateKey, password).signCard(signerCardId, signerCardId, sign)
-					.enqueue(callback);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-	}
-
-	/**
-	 * Removes the Sign of another Virgil Card.
-	 * 
-	 * @param signedCardId
-	 * @param signerCardId
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 */
-	public void unsignCard(String signedCardId, String signerCardId, PrivateKey privateKey) {
-		unsignCard(signedCardId, signerCardId, privateKey, (Password) null);
-	}
-
-	/**
-	 * Removes the Sign of another Virgil Card.
-	 * 
-	 * @param signedCardId
-	 * @param signerCardId
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @param password
-	 *            the {@code Password} used for {@code PrivateKey} protection
-	 */
-	public void unsignCard(String signedCardId, String signerCardId, PrivateKey privateKey, Password password) {
-		try {
-			Sign sign = new Sign();
-			sign.setSignedCardId(signedCardId);
-			Response<Void> response = createService(PublicKeyService.class, privateKey, password)
-					.unsignCard(signerCardId, signerCardId, sign).execute();
-			handleResponse(response);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-	}
-
-	/**
-	 * Removes the Sign of another Virgil Card.
-	 * 
-	 * @param signedCardId
-	 * @param signerCardId
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @param callback
-	 */
-	public void unsignCard(String signedCardId, String signerCardId, PrivateKey privateKey,
-			VoidResponseCallback callback) {
-		unsignCard(signedCardId, signerCardId, privateKey, (Password) null, callback);
-	}
-
-	/**
-	 * Removes the Sign of another Virgil Card.
-	 * 
-	 * @param signedCardId
-	 * @param signerCardId
-	 * @param privateKey
-	 *            the {@code PrivateKey} used for request signing
-	 * @param password
-	 *            the {@code Password} used for {@code PrivateKey} protection
-	 * @param callback
-	 */
-	public void unsignCard(String signedCardId, String signerCardId, PrivateKey privateKey, Password password,
-			VoidResponseCallback callback) {
-		Sign sign = new Sign();
-		sign.setSignedCardId(signedCardId);
-		createService(PublicKeyService.class, privateKey, password).unsignCard(signerCardId, signerCardId, sign)
-				.enqueue(callback);
+		call.enqueue(callback);
 	}
 
 	/**

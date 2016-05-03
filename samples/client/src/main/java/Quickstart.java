@@ -35,6 +35,7 @@ import java.util.Map;
 
 import com.google.gson.JsonObject;
 import com.virgilsecurity.sdk.client.ClientFactory;
+import com.virgilsecurity.sdk.client.model.Identity;
 import com.virgilsecurity.sdk.client.model.IdentityType;
 import com.virgilsecurity.sdk.client.model.identity.ValidatedIdentity;
 import com.virgilsecurity.sdk.client.model.publickey.SearchCriteria.Builder;
@@ -58,42 +59,49 @@ public class Quickstart {
 	public static void main(String[] args) throws Exception {
 		String accesToken = "{ACCESS_TOKEN}";
 		String senderEmail = "sender-test@virgilsecurity.com";
-		
-		ClientFactory factory = new ClientFactory(accesToken);
 
-		// Step 1. Create and Publish the Keys
+		// Step 0. Initialization
 
 		/**
-		 * First a mail exchange application is generating the keys and
-		 * publishing them to the Public Keys Service where they are available
-		 * in an open access for other users (e.g. recipient) to verify and
-		 * encrypt the data for the key owner. The following code example
-		 * creates a new public/private key pair.
+		 * Initialize the client factory instance using access token.
+		 */
+
+		ClientFactory factory = new ClientFactory(accesToken);
+
+		// Step 1. Generate and Publish the Keys
+
+		/**
+		 * First a simple IP messaging chat application is generating the keys
+		 * and publishing them to the Public Keys Service where they are
+		 * available in open access for other users (e.g. recipient) to verify
+		 * and encrypt the data for the key owner.
+		 * 
+		 * The following code example generates a new public/private key pair.
 		 */
 
 		String password = "jUfreBR7";
 		// the private key's password is optional
 		KeyPair keyPair = KeyPairGenerator.generate(password);
 
-		/*
+		/**
 		 * The app is registering a Virgil Card which includes a public key and
-		 * an email address identifier. The card will be used for the public key
+		 * an email address identifier. The Card will be used for the public key
 		 * identification and searching for it in the Public Keys Service. You
 		 * can create a Virgil Card with or without identity verification
 		 */
-		ValidatedIdentity identity = new ValidatedIdentity(IdentityType.EMAIL, senderEmail);
+		Identity identity = new ValidatedIdentity(IdentityType.EMAIL, senderEmail);
 
 		VirgilCardTemplate.Builder vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity)
 				.setPublicKey(keyPair.getPublic());
-		VirgilCard senderCard = factory.getPublicKeyClient().createCard(vcBuilder.build(), keyPair.getPrivate());
+		VirgilCard card = factory.getPublicKeyClient().createCard(vcBuilder.build(), keyPair.getPrivate());
 
 		// Step 2. Encrypt and Sign
 
-		/*
-		 * The app is searching for the recipient’s public key on the Public
-		 * Keys Service to encrypt a message for him. The app is signing the
+		/**
+		 * The app is searching for all channel members' public keys on the Keys
+		 * Service to encrypt a message for them. The app is signing the
 		 * encrypted message with sender’s private key so that the recipient can
-		 * make sure the message had been sent from the declared sender.
+		 * make sure the message had been sent by the declared sender.
 		 */
 
 		String message = "Encrypt me, Please!!!";
@@ -102,45 +110,41 @@ public class Quickstart {
 		List<VirgilCard> recipientCards = factory.getPublicKeyClient().search(criteriaBuilder.build());
 
 		Map<String, PublicKey> recipients = new HashMap<>();
-		for (VirgilCard card : recipientCards) {
-			recipients.put(card.getId(), new PublicKey(card.getPublicKey().getKey()));
+		for (VirgilCard recipientCard : recipientCards) {
+			recipients.put(recipientCard.getId(), new PublicKey(recipientCard.getPublicKey().getKey()));
 		}
 
 		String encryptedMessage = CryptoHelper.encrypt(message, recipients);
 		String signature = CryptoHelper.sign(encryptedMessage, keyPair.getPrivate());
 
-		// Step 3. Send an Email
+		// Step 3. Send a Message
 
-		/*
-		 * The app is merging the message and the signature into one structure
-		 * and sending the letter to the recipient using a simple mail client.
+		/**
+		 * The app merges the message text and the signature into one structure
+		 * then serializes it to json string and sends the message to the
+		 * channel using a simple IP messaging client.
 		 */
 		JsonObject encryptedBody = new JsonObject();
 		encryptedBody.addProperty("Content", encryptedMessage);
 		encryptedBody.addProperty("Signature", signature);
 
-		// Step 4. Receive an Email
+		// Step 4. Receive a Message
 
-		/*
-		 * An encrypted letter is received on the recipient’s side using a
-		 * simple mail client.
+		/**
+		 * An encrypted message is received on the recipient’s side using an IP
+		 * messaging client.
+		 * 
+		 * In order to decrypt and verify the received data, the app on
+		 * recipient’s side needs to get sender’s Virgil Card from the Keys
+		 * Service.
 		 */
 
-		// Step 5. Get Sender’s Card
+		// Step 5. Verify and Decrypt
 
 		/*
-		 * In order to decrypt the received data the app on recipient’s side
-		 * needs to get sender’s Virgil Card from the Public Keys Service.
-		 */
-
-		criteriaBuilder = new Builder().setValue(senderEmail).setIncludeUnauthorized(true);
-		senderCard = factory.getPublicKeyClient().search(criteriaBuilder.build()).get(0);
-
-		// Step 6. Verify and Decrypt
-		/*
-		 * We are making sure the letter came from the declared sender by
-		 * getting his card on Public Keys Service. In case of success we are
-		 * decrypting the letter using the recipient’s private key.
+		 * The application is making sure the message came from the declared
+		 * sender by getting his card on Virgil Public Keys Service. In case of
+		 * success, the message is decrypted using the recipient's private key.
 		 */
 
 		PrivateKey recipientPrivateKey = new PrivateKey("{RECIPIENT_KEY}");
@@ -148,7 +152,7 @@ public class Quickstart {
 		String encryptedContent = encryptedBody.get("Content").getAsString();
 		String encryptedContentSignature = encryptedBody.get("Signature").getAsString();
 		boolean isValid = CryptoHelper.verify(encryptedContent, encryptedContentSignature,
-				new PublicKey(senderCard.getPublicKey().getKey()));
+				new PublicKey(card.getPublicKey().getKey()));
 		if (!isValid) {
 			throw new Exception("Signature is not valid.");
 		}
