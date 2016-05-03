@@ -133,7 +133,7 @@ public class Quickstart {
 		 * needs to get sender’s Virgil Card from the Public Keys Service.
 		 */
 
-		criteriaBuilder = new Builder().setValue(senderEmail).setIncludeUnconfirmed(true);
+		criteriaBuilder = new Builder().setValue(senderEmail).setIncludeUnauthorized(true);
 		senderCard = factory.getPublicKeyClient().search(criteriaBuilder.build()).get(0);
 
 		// Step 6. Verify and Decrypt

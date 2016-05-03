@@ -29,19 +29,14 @@
  */
 package com.virgilsecurity.sdk.client.model;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
- * This enum contains identity types supported by Virgil services.
+ * This interface contains identity types supported by Virgil services.
  * 
  * @author Andrii Iakovenko
  */
-public enum IdentityType {
+public interface IdentityType {
 
-	@SerializedName("email") EMAIL,
-	@SerializedName("custom") CUSTOM;
-	
-	public String toString() {
-		return super.toString().toLowerCase();
-	};
+	String EMAIL = "email";
+	String APPLICATION = "application";
+
 }

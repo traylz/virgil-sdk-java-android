@@ -37,6 +37,7 @@ import com.virgilsecurity.sdk.client.http.ResponseCallback;
 import com.virgilsecurity.sdk.client.http.VoidResponseCallback;
 import com.virgilsecurity.sdk.client.http.interceptors.RequestSignInterceptor;
 import com.virgilsecurity.sdk.client.http.interceptors.TokenInterceptor;
+import com.virgilsecurity.sdk.client.model.IdentityType;
 import com.virgilsecurity.sdk.client.model.identity.ValidatedIdentity;
 import com.virgilsecurity.sdk.client.model.publickey.DeleteRequest;
 import com.virgilsecurity.sdk.client.model.publickey.Identities;
@@ -52,6 +53,7 @@ import com.virgilsecurity.sdk.crypto.Password;
 import com.virgilsecurity.sdk.crypto.PrivateKey;
 
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -130,7 +132,9 @@ public class PublicKeyClient extends AbstractClient {
 	public <S> S createService(Class<S> serviceClass, PrivateKey privateKey, Password password) {
 		OkHttpClient.Builder buider = new OkHttpClient.Builder();
 
-		buider.addInterceptor(new TokenInterceptor(accessToken));
+		if (accessToken != null) {
+			buider.addInterceptor(new TokenInterceptor(accessToken));
+		}
 
 		if (privateKey != null) {
 			buider.addInterceptor(new RequestSignInterceptor(privateKey, password));
@@ -286,12 +290,23 @@ public class PublicKeyClient extends AbstractClient {
 	public List<VirgilCard> search(SearchCriteria searchCriteria) {
 
 		try {
-			Response<List<VirgilCard>> response = createService(PublicKeyService.class).search(searchCriteria)
-					.execute();
+			Call<List<VirgilCard>> call = null;
+			PublicKeyService service = createService(PublicKeyService.class);
+
+			if (IdentityType.EMAIL.equals(searchCriteria.getType())) {
+				call = service.searchEmail(searchCriteria);
+			} else if (IdentityType.APPLICATION.equals(searchCriteria.getType())) {
+				call = service.searchApp(searchCriteria);
+			} else {
+				call = service.search(searchCriteria);
+			}
+
+			Response<List<VirgilCard>> response = call.execute();
 			return ((List<VirgilCard>) handleResponse(response));
 		} catch (IOException e) {
 			throw new ServiceException(e);
 		}
+
 	}
 
 	/**

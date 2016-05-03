@@ -47,7 +47,7 @@ public class ConversionUtilsTest {
 
 	@Test
 	public void toBase64String_null() {
-		String base64 = ConversionUtils.toBase64String(null);
+		String base64 = ConversionUtils.toBase64String((String) null);
 
 		assertNull(base64);
 	}

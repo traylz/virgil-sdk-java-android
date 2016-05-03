@@ -31,7 +31,6 @@ package com.virgilsecurity.sdk.client.utils;
 
 import java.util.UUID;
 
-import com.virgilsecurity.sdk.client.model.IdentityType;
 import com.virgilsecurity.sdk.crypto.CryptoHelper;
 import com.virgilsecurity.sdk.crypto.Password;
 import com.virgilsecurity.sdk.crypto.PrivateKey;
@@ -58,7 +57,7 @@ public class ValidationTokenGenerator {
 	 * @return Generated validation token.
 	 * @throws Exception
 	 */
-	public static String generate(IdentityType type, String value, PrivateKey privateKey) throws Exception {
+	public static String generate(String type, String value, PrivateKey privateKey) throws Exception {
 
 		String guid = UUID.randomUUID().toString();
 
@@ -80,7 +79,7 @@ public class ValidationTokenGenerator {
 	 * @return Generated validation token.
 	 * @throws Exception
 	 */
-	public static String generate(IdentityType type, String value, PrivateKey privateKey, Password privateKeyPassword)
+	public static String generate(String type, String value, PrivateKey privateKey, Password privateKeyPassword)
 			throws Exception {
 
 		String guid = UUID.randomUUID().toString();

@@ -210,7 +210,7 @@ public class KeysSampleAsync {
 		Builder criteriaBuilder = new Builder().setValue(email)
 				// Created card is unconfirmed, thus we should include
 				// unconfirmed cards
-				.setIncludeUnconfirmed(true);
+				.setIncludeUnauthorized(true);
 		factory.getPublicKeyClient().search(criteriaBuilder.build(), new ResponseCallback<List<VirgilCard>>() {
 
 			@Override

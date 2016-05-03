@@ -39,6 +39,7 @@ import com.virgilsecurity.sdk.client.model.Identity;
 import com.virgilsecurity.sdk.client.model.IdentityType;
 import com.virgilsecurity.sdk.client.model.identity.Action;
 import com.virgilsecurity.sdk.client.model.identity.Confirmation;
+import com.virgilsecurity.sdk.client.model.identity.Token;
 import com.virgilsecurity.sdk.client.model.identity.ValidatedIdentity;
 import com.virgilsecurity.sdk.client.service.IdentityService;
 
@@ -80,11 +81,8 @@ public class IdentityClient extends AbstractClient {
 	 *            The value of verified identity.
 	 * @return action id.
 	 */
-	public String verify(IdentityType type, String value) {
+	public String verify(String type, String value) {
 		try {
-			// Identity service doesn't support Custom identity type
-			assert !IdentityType.CUSTOM.equals(type);
-
 			Response<Action> response = createService(IdentityService.class).verify(new Identity(type, value))
 					.execute();
 			return ((Action) handleResponse(response)).getActionId();
@@ -103,10 +101,7 @@ public class IdentityClient extends AbstractClient {
 	 * @param callback
 	 * @throws IOException
 	 */
-	public void verify(IdentityType type, String value, ResponseCallback<Action> callback) throws IOException {
-		// Identity service doesn't support Custom identity type
-		assert !IdentityType.CUSTOM.equals(type);
-
+	public void verify(String type, String value, ResponseCallback<Action> callback) throws IOException {
 		createService(IdentityService.class).verify(new Identity(type, value)).enqueue(callback);
 	}
 
@@ -122,9 +117,28 @@ public class IdentityClient extends AbstractClient {
 	 * @throws ServiceException
 	 */
 	public ValidatedIdentity confirm(String actionId, String confirmationCode) {
+		return confirm(actionId, confirmationCode, (Token) null);
+	}
+
+	/**
+	 * Confirms the identity from the {@linkplain #verify(IdentityType, String)
+	 * verify} step to obtain an identity confirmation token.
+	 * 
+	 * @param actionId
+	 *            the action identifier.
+	 * @param confirmationCode
+	 *            the confirmation code.
+	 * @param confirmationToken
+	 *            the confirmation token.
+	 * 
+	 * @return
+	 * @throws ServiceException
+	 */
+	public ValidatedIdentity confirm(String actionId, String confirmationCode, Token confirmationToken) {
 		Confirmation confirmation = new Confirmation();
 		confirmation.setActionId(actionId);
 		confirmation.setConfirmationCode(confirmationCode);
+		confirmation.setToken(confirmationToken);
 
 		try {
 			Response<ValidatedIdentity> response = createService(IdentityService.class).confirm(confirmation).execute();
@@ -148,9 +162,29 @@ public class IdentityClient extends AbstractClient {
 	 */
 	public void confirm(String actionId, String confirmationCode, ResponseCallback<ValidatedIdentity> callback)
 			throws IOException {
+		confirm(actionId, confirmationCode, null, callback);
+	}
+
+	/**
+	 * Confirms the identity from the {@linkplain #verify(IdentityType, String)
+	 * verify} step to obtain an identity confirmation token.
+	 * 
+	 * @param actionId
+	 *            the action identifier.
+	 * @param confirmationCode
+	 *            the confirmation code.
+	 * @param confirmationToken
+	 *            the confirmation token.
+	 * @param callback
+	 *            the retrofit callback.
+	 * @throws IOException
+	 */
+	public void confirm(String actionId, String confirmationCode, Token confirmationToken,
+			ResponseCallback<ValidatedIdentity> callback) throws IOException {
 		Confirmation confirmation = new Confirmation();
 		confirmation.setActionId(actionId);
 		confirmation.setConfirmationCode(confirmationCode);
+		confirmation.setToken(confirmationToken);
 
 		createService(IdentityService.class).confirm(confirmation).enqueue(callback);
 	}

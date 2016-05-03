@@ -31,7 +31,6 @@ package com.virgilsecurity.sdk.client.model.identity;
 
 import com.google.gson.annotations.SerializedName;
 import com.virgilsecurity.sdk.client.model.Identity;
-import com.virgilsecurity.sdk.client.model.IdentityType;
 
 /**
  * This class represents validated identity.
@@ -56,7 +55,7 @@ public class ValidatedIdentity extends Identity {
 	 *            the identity value
 	 *
 	 */
-	public ValidatedIdentity(IdentityType type, String value) {
+	public ValidatedIdentity(String type, String value) {
 		setType(type);
 		setValue(value);
 	}

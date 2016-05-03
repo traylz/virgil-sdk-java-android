@@ -106,7 +106,7 @@ public interface PublicKeyService {
 	 * @see Identities
 	 */
 	@DELETE("/v3/public-key/{public-key-id}")
-	// FIXME
+	// TODO
 	Call<Void> deleteKey(@Path("public-key-id") String id, Identities identities);
 
 	/**
@@ -135,11 +135,10 @@ public interface PublicKeyService {
 	 * @see PublicKeyInfo
 	 */
 	@GET("/v3/public-key/{public-key-id}")
-	// TODO
 	Call<PublicKeyInfo> getKey(@Path("public-key-id") String id);
 
 	/**
-	 * Performs the search by search criteria.
+	 * Performs the search of a private application's Virgil Cards by search criteria:
 	 * 
 	 * @param searchCriteria
 	 *            the criteria which used for Virgil Cards filtering during
@@ -167,6 +166,21 @@ public interface PublicKeyService {
 	 */
 	@POST("/v3/virgil-card/actions/search/app")
 	Call<List<VirgilCard>> searchApp(@Body SearchCriteria searchCriteria);
+	
+	/**
+	 * Performs the global search for the emails' Virgil Cards.
+	 * 
+	 * @param searchCriteria
+	 *            the criteria which used for Virgil Cards filtering during
+	 *            search.
+	 * @return
+	 * 
+	 * @see retrofit2.Call
+	 * @see SearchCriteria
+	 * @see VirgilCard
+	 */
+	@POST("/v3/virgil-card/actions/search/email")
+	Call<List<VirgilCard>> searchEmail(@Body SearchCriteria searchCriteria);
 
 	/**
 	 * Signs another Virgil Card addressed in the request to share the

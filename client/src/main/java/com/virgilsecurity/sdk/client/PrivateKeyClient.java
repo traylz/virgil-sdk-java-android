@@ -119,7 +119,9 @@ public class PrivateKeyClient extends AbstractClient {
 			Password responsePassword) {
 		OkHttpClient.Builder buider = new OkHttpClient.Builder();
 
-		buider.addInterceptor(new TokenInterceptor(accessToken));
+		if (accessToken != null) {
+			buider.addInterceptor(new TokenInterceptor(accessToken));
+		}
 
 		if (privateKey != null) {
 			buider.addInterceptor(new RequestSignInterceptor(privateKey, privateKeyPassword));

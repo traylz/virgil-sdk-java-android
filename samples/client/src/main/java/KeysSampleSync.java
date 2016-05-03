@@ -111,7 +111,7 @@ public class KeysSampleSync {
 		Builder criteriaBuilder = new Builder().setValue(email)
 				// Created card is unconfirmed, thus we should include
 				// unconfirmed cards
-				.setIncludeUnconfirmed(true);
+				.setIncludeUnauthorized(true);
 		List<VirgilCard> cards = factory.getPublicKeyClient().search(criteriaBuilder.build());
 
 		System.out.println("Virgil Cards found by criteria:");
