@@ -67,7 +67,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		keyPair = KeyPairGenerator.generate();
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void createGlobalCardUnautorized_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -91,7 +91,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		assertNotNull(card.getPublicKey().getCreatedAt());
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void createGlobalCardAutorized_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -120,7 +120,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		assertNotNull(card.getPublicKey().getCreatedAt());
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void createPrivateCard_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -154,7 +154,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		assertNotNull(card.getPublicKey().getCreatedAt());
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void createPrivateCardWithoutValiadtionToken_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -180,7 +180,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		assertNotNull(card.getPublicKey().getCreatedAt());
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void searchNonExistingCard_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -194,7 +194,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		assertTrue(cards.isEmpty());
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void searchGlobalCardByEmail_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -236,7 +236,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		assertTrue("Created card should be found", found);
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void searchGlobalCardByApplication_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -258,7 +258,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		}
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void searchPrivateCard_Authorized_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -334,7 +334,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		}
 	}
 	
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void searchPrivateCard_Unauthorized_IncludeUnauthorized_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -373,7 +373,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		assertTrue("Created card should be found", found);
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void getGlobalCardsPublicKey_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -402,7 +402,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		factory.getPublicKeyClient().getKey(UUID.randomUUID().toString());
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void deleteGlobalCard_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 
@@ -425,7 +425,7 @@ public class PublicKeyClientTest extends GenericFunctionalTest {
 		factory.getPublicKeyClient().deleteCard((ValidatedIdentity) identity, card.getId(), keyPair.getPrivate());
 	}
 
-	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { PUBLIC_KEY_CLIENT_GROUP })
 	public void deletePrivateCard_success() {
 		ClientFactory factory = createClientFactory(accessToken);
 

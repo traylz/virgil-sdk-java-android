@@ -71,7 +71,7 @@ public class IdentityClientTest extends GenericFunctionalTest {
 		}
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, enabled = true)
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
 	public void verifyEmailIdentity_success() throws IOException, InterruptedException {
 		ClientFactory factory = createClientFactory(accessToken);
 		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
@@ -82,7 +82,7 @@ public class IdentityClientTest extends GenericFunctionalTest {
 		assertFalse(StringUtils.isBlank(actionId));
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, enabled = true)
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
 	public void verifyEmailIdentityNoAccessToken_success() throws IOException, InterruptedException {
 		ClientFactory factory = createClientFactory(null);
 		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
@@ -93,31 +93,31 @@ public class IdentityClientTest extends GenericFunctionalTest {
 		assertFalse(StringUtils.isBlank(actionId));
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class }, enabled = true)
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class })
 	public void verifyApplicationIdentity_fail() {
 		ClientFactory factory = createClientFactory(accessToken);
 		factory.getIdentityClient().verify(IdentityType.APPLICATION, emailAddress);
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class }, enabled = true)
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class })
 	public void verifyApplicationIdentityNoAccessToken_fail() {
 		ClientFactory factory = createClientFactory(null);
 		factory.getIdentityClient().verify(IdentityType.APPLICATION, emailAddress);
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class }, enabled = true)
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class })
 	public void verifyCustomIdentity_fail() {
 		ClientFactory factory = createClientFactory(accessToken);
 		factory.getIdentityClient().verify("custom", emailAddress);
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class }, enabled = true)
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class })
 	public void verifyCustomIdentityNoAccessToken_fail() {
 		ClientFactory factory = createClientFactory(null);
 		factory.getIdentityClient().verify("custom", emailAddress);
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, enabled = true)
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
 	public void confirmValidConfirmationCodeWithAccessToken_success() throws IOException, InterruptedException {
 		ClientFactory factory = createClientFactory(null);
 		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
@@ -139,7 +139,7 @@ public class IdentityClientTest extends GenericFunctionalTest {
 		assertFalse(identity.getToken().isEmpty());
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, enabled = true)
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
 	public void confirmValidConfirmationCodeNoAccessToken_success() throws IOException, InterruptedException {
 		ClientFactory factory = createClientFactory(null);
 		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
@@ -159,7 +159,7 @@ public class IdentityClientTest extends GenericFunctionalTest {
 		assertFalse(identity.getToken().isEmpty());
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class }, enabled = true)
+	@Test(groups = { IDENTITY_CLIENT_GROUP }, expectedExceptions = { ServiceException.class })
 	public void confirmInalidConfirmationCode_fail() throws IOException, InterruptedException {
 		ClientFactory factory = createClientFactory(null);
 		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
@@ -189,7 +189,7 @@ public class IdentityClientTest extends GenericFunctionalTest {
 		assertTrue(validated);
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
 	public void validateNoAccessToken_success() throws IOException, InterruptedException {
 		ClientFactory factory = createClientFactory(null);
 		String actionId = factory.getIdentityClient().verify(IdentityType.EMAIL, emailAddress);
@@ -208,7 +208,7 @@ public class IdentityClientTest extends GenericFunctionalTest {
 		assertTrue(validated);
 	}
 
-	@Test(groups = { IDENTITY_CLIENT_GROUP }, enabled = false)
+	@Test(groups = { IDENTITY_CLIENT_GROUP })
 	public void validateInvalidToken_fail() {
 		ClientFactory factory = createClientFactory(accessToken);
 
