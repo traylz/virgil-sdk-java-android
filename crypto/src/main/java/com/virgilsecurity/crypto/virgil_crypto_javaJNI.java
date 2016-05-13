@@ -292,6 +292,9 @@ public class virgil_crypto_javaJNI {
 	public final static native void VirgilCipherBase_removeKeyRecipient(long jarg1, VirgilCipherBase jarg1_,
 			byte[] jarg2);
 
+	public final static native boolean VirgilCipherBase_keyRecipientExists(long jarg1, VirgilCipherBase jarg1_,
+			byte[] jarg2);
+
 	public final static native void VirgilCipherBase_addPasswordRecipient(long jarg1, VirgilCipherBase jarg1_,
 			byte[] jarg2);
 
@@ -471,10 +474,15 @@ public class virgil_crypto_javaJNI {
 		for (String os : new String[] { "linux", "windows", "mac os" }) {
 			if (osName.startsWith(os)) {
 				resourceName.append(os);
+
+				if ("windows".equals(os)) {
+					resourceName.append(File.separator).append(osArch);
+				}
+
 				break;
 			}
 		}
-		resourceName.append(File.separator).append(osArch).append(File.separator).append(libraryName);
+		resourceName.append(File.separator).append(libraryName);
 
 		InputStream in = virgil_crypto_javaJNI.class.getClassLoader().getResourceAsStream(resourceName.toString());
 		if (in == null) {

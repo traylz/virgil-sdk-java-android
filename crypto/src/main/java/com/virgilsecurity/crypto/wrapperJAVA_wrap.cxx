@@ -9156,6 +9156,84 @@ SWIGEXPORT void JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_V
 }
 
 
+SWIGEXPORT jboolean JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilCipherBase_1keyRecipientExists(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2) {
+  jboolean jresult = 0 ;
+  virgil::crypto::VirgilCipherBase *arg1 = (virgil::crypto::VirgilCipherBase *) 0 ;
+  virgil::crypto::VirgilByteArray *arg2 = 0 ;
+  bool result;
+  
+  (void)jenv;
+  (void)jcls;
+  (void)jarg1_;
+  arg1 = *(virgil::crypto::VirgilCipherBase **)&jarg1; 
+  if(!jarg2) {
+    SWIG_JavaThrowException(jenv, SWIG_JavaNullPointerException, "null byte array");
+    return 0;
+  }
+  jbyte *arg2_pdata = (jbyte *)jenv->GetByteArrayElements(jarg2, 0);
+  size_t arg2_size = (size_t)jenv->GetArrayLength(jarg2);
+  if (!arg2_pdata) return 0;
+  virgil::crypto::VirgilByteArray arg2_data(arg2_pdata, arg2_pdata + arg2_size);
+  arg2 = &arg2_data;
+  jenv->ReleaseByteArrayElements(jarg2, arg2_pdata, 0); 
+  {
+    try {
+      result = (bool)((virgil::crypto::VirgilCipherBase const *)arg1)->keyRecipientExists((virgil::crypto::VirgilByteArray const &)*arg2);
+    }
+    
+    
+    
+    
+    
+    
+    catch (virgil::crypto::VirgilCryptoException &e) {
+      jclass clazz = jenv->FindClass("java/lang/Exception");
+      jenv->ThrowNew(clazz, e.what());
+      return 0;
+    }
+    
+    /*@SWIG:/usr/share/swig2.0/exception.i,263,SWIG_CATCH_STDEXCEPT@*/  /* catching std::exception  */
+    catch (std::invalid_argument& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::domain_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_ValueError, e.what()); return 0; 
+      };
+    } catch (std::overflow_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_OverflowError, e.what()); return 0; 
+      };
+    } catch (std::out_of_range& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::length_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_IndexError, e.what()); return 0; 
+      };
+    } catch (std::runtime_error& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_RuntimeError, e.what()); return 0; 
+      };
+    } catch (std::exception& e) {
+      {
+        SWIG_JavaException(jenv, SWIG_SystemError, e.what()); return 0; 
+      };
+    }
+    /*@SWIG@*/
+    catch (...) {
+      {
+        SWIG_JavaException(jenv, SWIG_UnknownError, "Unknown exception"); return 0; 
+      };
+    }
+  }
+  jresult = (jboolean)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT void JNICALL Java_com_virgilsecurity_crypto_virgil_1crypto_1javaJNI_VirgilCipherBase_1addPasswordRecipient(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jbyteArray jarg2) {
   virgil::crypto::VirgilCipherBase *arg1 = (virgil::crypto::VirgilCipherBase *) 0 ;
   virgil::crypto::VirgilByteArray *arg2 = 0 ;

@@ -52,6 +52,10 @@ public class VirgilCipherBase implements java.lang.AutoCloseable {
 		virgil_crypto_javaJNI.VirgilCipherBase_removeKeyRecipient(swigCPtr, this, recipientId);
 	}
 
+	public boolean keyRecipientExists(byte[] recipientId) {
+		return virgil_crypto_javaJNI.VirgilCipherBase_keyRecipientExists(swigCPtr, this, recipientId);
+	}
+
 	public void addPasswordRecipient(byte[] pwd) {
 		virgil_crypto_javaJNI.VirgilCipherBase_addPasswordRecipient(swigCPtr, this, pwd);
 	}
