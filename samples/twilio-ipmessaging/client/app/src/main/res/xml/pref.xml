@@ -3,7 +3,7 @@
     <EditTextPreference
         android:inputType="textEmailAddress"
         android:key="access_token"
-        android:defaultValue="eyJpZCI6IjZiOWZhZTI3LThkYTMtNGYzOC1hZWU4LWUzNjM5YmI4YzdmZSIsImFwcGxpY2F0aW9uX2NhcmRfaWQiOiI3MzNkMzQ3Yy00MWM5LTQxMjEtYjNjOC03NzM1ZmJiMWIyNTAiLCJ0dGwiOi0xLCJjdGwiOi0xLCJwcm9sb25nIjowfQ==.MFkwDQYJYIZIAWUDBAICBQAESDBGAiEA9lRB/ka/UjEgJkw/ex6qaDDapLQ9v2eYKsWG2F190O8CIQC84A3VpyRERAiePPl2kwZT7p/jcMNDoOlXMExtdhoWmw=="
+        android:defaultValue="{PUT_YOUR_ACCESS_TOKEN_HERE}"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
@@ -19,7 +19,7 @@
     <EditTextPreference
         android:inputType="textUri"
         android:key="token_service"
-        android:defaultValue="http://192.168.1.102:4567/token"
+        android:defaultValue="http://localhost:4567/token"
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"

@@ -387,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
                     List<VirgilCard> cards = clientFactory.getPublicKeyClient().search(criteriaBuilder.build());
 
                     if (!cards.isEmpty()) {
-                        VirgilCard card = cards.get(0);
+                        VirgilCard card = cards.get(cards.size()-1);
 
                         String cardId = card.getId();
                         PublicKey publicKey = new PublicKey(Base64.decode(card.getPublicKey().getKey()));
