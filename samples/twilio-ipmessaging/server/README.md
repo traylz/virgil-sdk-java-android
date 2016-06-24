@@ -1,6 +1,6 @@
-# Secured Twillio IP Messaging Quickstart for Java
+# Secured Twilio IP Messaging Quickstart for Java
 
-This example based on [Twillio IP Messaging Quickstart for Java](https://github.com/TwilioDevEd/ipm-quickstart-java)
+This example based on [Twilio IP Messaging Quickstart for Java](https://github.com/TwilioDevEd/ipm-quickstart-java)
 
 This application should give you a ready-made starting point for writing your
 own messaging apps with Twilio IP Messaging. Before we begin, we need to collect
@@ -56,7 +56,7 @@ Now we should be all set! Run the application using the `java -jar` command.
 java -jar target/twilio-ipmessaging-server-1.0-SNAPSHOT.jar
 ```
 
-Your application should now be running at [http://localhost:4567](http://localhost:4567). 
+Your application should now be running at [http://localhost:4567](http://localhost:4567).
 Open this page in a couple browsers or tabs, and start chatting!
 
 ![screenshot of chat app](https://s3.amazonaws.com/howtodocs/quickstart/ipm-browser-quickstart.png)
