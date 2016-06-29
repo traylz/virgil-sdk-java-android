@@ -6,11 +6,15 @@
 	<parent>
 		<groupId>com.virgilsecurity.sdk</groupId>
 		<artifactId>parent</artifactId>
-		<version>3.2.0</version>
+		<version>3.2.1</version>
 	</parent>
 	<artifactId>client</artifactId>
 	<packaging>jar</packaging>
 	<name>Virgil SDK - Client</name>
+	<description>
+		Virgil is a stack of security libraries (ECIES with Crypto Agility wrapped in Virgil Cryptogram) and all the necessary infrastructure to enable seamless, end-to-end encryption for any application, platform or device.
+		Learn about Virgil Java/Android SDK https://virgilsecurity.com/api-docs/java-android/quickstart
+	</description>
 
 	<dependencies>
 		<dependency>
