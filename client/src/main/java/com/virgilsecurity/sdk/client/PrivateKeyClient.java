@@ -238,7 +238,7 @@ public class PrivateKeyClient extends AbstractClient {
 	 */
 	public PrivateKeyInfo get(String virgilCardId, ValidatedIdentity identity) {
 		try {
-			String responsePassword = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 31);
+			String responsePassword = generatePassword();
 
 			PrivateKeyRequestPayload payload = new PrivateKeyRequestPayload();
 			payload.setCardId(virgilCardId);
@@ -249,7 +249,6 @@ public class PrivateKeyClient extends AbstractClient {
 					new Password(responsePassword)).get(payload).execute();
 			return (PrivateKeyInfo) handleResponse(response);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new ServiceException(e);
 		}
 	}
@@ -263,7 +262,7 @@ public class PrivateKeyClient extends AbstractClient {
 	 *            the validated identity token with.
 	 */
 	public void get(String virgilCardId, ValidatedIdentity identity, ResponseCallback<PrivateKeyInfo> callback) {
-		String responsePassword = UUID.randomUUID().toString().replaceAll("-", "");
+		String responsePassword = generatePassword();
 
 		PrivateKeyRequestPayload payload = new PrivateKeyRequestPayload();
 		payload.setCardId(virgilCardId);
@@ -342,6 +341,15 @@ public class PrivateKeyClient extends AbstractClient {
 		info.setCardId(virgilCardId);
 
 		createService(PrivateKeyService.class, privateKey, password, null).destroy(info).enqueue(callback);
+	}
+
+	/**
+	 * Generate 32 symbol length password.
+	 * 
+	 * @return password as {@code String}.
+	 */
+	private String generatePassword() {
+		return UUID.randomUUID().toString().replaceAll("-", "").substring(0, 31);
 	}
 
 }
