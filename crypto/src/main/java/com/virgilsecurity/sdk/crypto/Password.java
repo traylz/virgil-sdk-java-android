@@ -77,8 +77,6 @@ public class Password {
 	private void setEncoded(byte[] encoded) {
 		if (encoded == null) {
 			throw new IllegalArgumentException("Password can't be null");
-		} else if (encoded.length > 32) {
-			throw new IllegalArgumentException("Encoded password length shoudn't exceed 32 bytes");
 		}
 		this.encoded = encoded;
 	}

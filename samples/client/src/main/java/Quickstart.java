@@ -46,6 +46,7 @@ import com.virgilsecurity.sdk.crypto.KeyPair;
 import com.virgilsecurity.sdk.crypto.KeyPairGenerator;
 import com.virgilsecurity.sdk.crypto.PrivateKey;
 import com.virgilsecurity.sdk.crypto.PublicKey;
+import com.virgilsecurity.sdk.crypto.utils.ConversionUtils;
 
 /**
  * This sample will help you get started using the Crypto Library and Virgil
@@ -78,10 +79,7 @@ public class Quickstart {
 		 * 
 		 * The following code example generates a new public/private key pair.
 		 */
-
-		String password = "jUfreBR7";
-		// the private key's password is optional
-		KeyPair keyPair = KeyPairGenerator.generate(password);
+		KeyPair keyPair = KeyPairGenerator.generate();
 
 		/**
 		 * The app is registering a Virgil Card which includes a public key and
@@ -105,13 +103,15 @@ public class Quickstart {
 		 */
 
 		String message = "Encrypt me, Please!!!";
+		String recipientIdentity = "recipient-test@virgilsecurity.com";
 
-		Builder criteriaBuilder = new Builder().setValue("recipient-test@virgilsecurity.com");
+		Builder criteriaBuilder = new Builder().setValue(recipientIdentity);
 		List<VirgilCard> recipientCards = factory.getPublicKeyClient().search(criteriaBuilder.build());
 
 		Map<String, PublicKey> recipients = new HashMap<>();
 		for (VirgilCard recipientCard : recipientCards) {
-			recipients.put(recipientCard.getId(), new PublicKey(recipientCard.getPublicKey().getKey()));
+			recipients.put(recipientCard.getId(),
+					new PublicKey(ConversionUtils.fromBase64String(recipientCard.getPublicKey().getKey())));
 		}
 
 		String encryptedMessage = CryptoHelper.encrypt(message, recipients);
@@ -152,12 +152,15 @@ public class Quickstart {
 		String encryptedContent = encryptedBody.get("Content").getAsString();
 		String encryptedContentSignature = encryptedBody.get("Signature").getAsString();
 		boolean isValid = CryptoHelper.verify(encryptedContent, encryptedContentSignature,
-				new PublicKey(card.getPublicKey().getKey()));
+				new PublicKey(ConversionUtils.fromBase64String(card.getPublicKey().getKey())));
 		if (!isValid) {
 			throw new Exception("Signature is not valid.");
 		}
 
-		String originalMessage = CryptoHelper.decrypt(encryptedContent, "{RECIPIENT_CARD_ID}", recipientPrivateKey);
+		String recipientCardId = recipientCards.get(0).getId();
+		String originalMessage = CryptoHelper.decrypt(encryptedContent, recipientCardId, recipientPrivateKey);
+
+		System.out.println(originalMessage);
 	}
 
 }
