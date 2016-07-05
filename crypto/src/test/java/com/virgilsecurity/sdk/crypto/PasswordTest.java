@@ -36,6 +36,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 /**
@@ -76,23 +78,18 @@ public class PasswordTest {
 	}
 
 	@Test
-	public void create_Password_OfValidLength() {
-		for (int i = 1; i <= 32; i++) {
+	public void create_Password_OfAnyLength() {
+		for (int i = 1; i <= 255; i++) {
 			Password password = new Password(new byte[i]);
 			assertNotNull(password.getEncoded());
 			assertEquals(i, password.getEncoded().length);
 		}
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void create_TooLongPassword_throws_exception() {
-		Password password = new Password(new byte[33]);
-	}
-
 	@Test
-	public void create_PasswordFromString_OfValidLength() {
-		for (int i = 1; i <= 32; i++) {
-			Password password = new Password(UUID.randomUUID().toString().substring(0, i));
+	public void create_PasswordFromString_OfAnyLength() {
+		for (int i = 1; i <= 255; i++) {
+			Password password = new Password(RandomStringUtils.random(i));
 			assertNotNull(password.getEncoded());
 			assertTrue(password.getEncoded().length > 0);
 		}

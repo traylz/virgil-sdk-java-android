@@ -50,7 +50,7 @@ public class EncryptionWithPassword {
 		System.out.println();
 
 		// Generate random password for password recipient
-		String password = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8);
+		String password = UUID.randomUUID().toString();
 		System.out.println(String.format("Generated password: %1$s", password));
 
 		// Encrypt data with password
@@ -61,6 +61,5 @@ public class EncryptionWithPassword {
 		// Decrypt data with password
 		String decryptedText = CryptoHelper.decrypt(encryptedText, password);
 		System.out.println(String.format("Decrypted Text: %1$s", decryptedText));
-
 	}
 }
