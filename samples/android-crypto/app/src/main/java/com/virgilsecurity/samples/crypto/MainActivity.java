@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
 
     public File getProcessedFilesStorageDir() {
         // Get the directory for the app's private pictures directory.
-        File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Processed");
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "Processed");
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 Log.e(TAG, "Directory not created");
