@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Virgil Security, Inc.
+ * Copyright (c) 2016, Virgil Security, Inc.
  *
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
@@ -29,10 +29,12 @@
  */
 package com.virgilsecurity.sdk.crypto;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,88 +43,89 @@ import java.util.UUID;
 import org.junit.Test;
 
 /**
- *
  * @author Andrii Iakovenko
+ *
  */
-public class CipherTest extends GenericSamplesTest {
+public class StreamCipherTest extends GenericSamplesTest {
 
 	private static final int MAX_RECIPIENTS = 4;
 
 	@Test
 	public void createCipher() {
-		try (Cipher cipher = new Cipher()) {
+		try (StreamCipher cipher = new StreamCipher()) {
 
 		} catch (Exception e) {
-			fail();
+			fail(e.getMessage());
 		}
 	}
 
 	@Test
 	public void single_cipher_encrypt_and_decrypt_withPassword_single_recipient() {
 		Password password = new Password("12345678");
-		try (Cipher cipher = new Cipher()) {
+		try (StreamCipher cipher = new StreamCipher()) {
 			cipher.addPasswordRecipient(password);
 
 			for (String sampleName : getAllSamples()) {
-				byte[] sample = readResource(SAMPLES_DIR + sampleName);
+				InputStream is = getClass().getClassLoader().getResourceAsStream(SAMPLES_DIR + sampleName);
 
-				byte[] encrypted = cipher.encrypt(sample);
-				assertNotNull("Encrypted data shouldn't be null", encrypted);
+				File encodedFile = File.createTempFile(sampleName, ".encoded");
+				cipher.encrypt(is, new FileOutputStream(encodedFile));
 
-				byte[] decrypted = cipher.decryptWithPassword(encrypted, password);
-				assertNotNull(decrypted);
-				assertArrayEquals("sample and decrypted data should be equals", sample, decrypted);
+				File decodedFile = File.createTempFile(sampleName, ".decoded");
+
+				cipher.decryptWithPassword(new FileInputStream(encodedFile), new FileOutputStream(decodedFile),
+						password);
 			}
 		} catch (Exception e) {
-			fail();
+			fail(e.getMessage());
 		}
 	}
 
 	@Test
 	public void two_ciphers_encrypt_and_decrypt_withPassword_no_contentInfo() {
 		Password password = new Password("12345678");
-		try (Cipher encCipher = new Cipher()) {
+		try (StreamCipher encCipher = new StreamCipher()) {
 			encCipher.addPasswordRecipient(password);
 
 			for (String sampleName : getAllSamples()) {
-				byte[] sample = readResource(SAMPLES_DIR + sampleName);
+				InputStream is = getClass().getClassLoader().getResourceAsStream(SAMPLES_DIR + sampleName);
 
-				byte[] encrypted = encCipher.encrypt(sample);
-				assertNotNull("Encrypted data shouldn't be null", encrypted);
+				File encodedFile = File.createTempFile(sampleName, ".encoded");
+				encCipher.encrypt(is, new FileOutputStream(encodedFile));
 
-				try (Cipher decCipher = new Cipher()) {
+				try (StreamCipher decCipher = new StreamCipher()) {
 					decCipher.setContentInfo(encCipher.getContentInfo());
-					byte[] decrypted = decCipher.decryptWithPassword(encrypted, password);
 
-					assertNotNull(decrypted);
-					assertArrayEquals("sample and decrypted data should be equals", sample, decrypted);
+					File decodedFile = File.createTempFile(sampleName, ".decoded");
+					decCipher.decryptWithPassword(new FileInputStream(encodedFile), new FileOutputStream(decodedFile),
+							password);
 				} catch (Exception e) {
 					fail(e.getMessage());
 				}
 			}
 		} catch (Exception e) {
-			fail();
+			fail(e.getMessage());
 		}
 	}
 
 	@Test
 	public void two_ciphers_encrypt_and_decrypt_withPassword_single_recipient() {
 		Password password = new Password("12345678");
-		try (Cipher encCipher = new Cipher(); Cipher decCipher = new Cipher()) {
+		try (StreamCipher encCipher = new StreamCipher(); StreamCipher decCipher = new StreamCipher()) {
 			encCipher.addPasswordRecipient(password);
 
 			for (String sampleName : getAllSamples()) {
-				byte[] sample = readResource(SAMPLES_DIR + sampleName);
+				InputStream is = getClass().getClassLoader().getResourceAsStream(SAMPLES_DIR + sampleName);
 
-				byte[] encrypted = encCipher.encrypt(sample, true);
-				assertNotNull("Encrypted data shouldn't be null", encrypted);
+				File encodedFile = File.createTempFile(sampleName, ".encoded");
+				encCipher.encrypt(is, new FileOutputStream(encodedFile), true);
 
-				byte[] decrypted = decCipher.decryptWithPassword(encrypted, password);
-				assertNotNull(decrypted);
-				assertArrayEquals("sample and decrypted data should be equals", sample, decrypted);
+				File decodedFile = File.createTempFile(sampleName, ".decoded");
+				decCipher.decryptWithPassword(new FileInputStream(encodedFile), new FileOutputStream(decodedFile),
+						password);
 			}
 		} catch (Exception e) {
-			fail();
+			fail(e.getMessage());
 		}
 	}
 
@@ -133,30 +136,30 @@ public class CipherTest extends GenericSamplesTest {
 			passwords[i] = new Password(UUID.randomUUID().toString().substring(0, 16));
 		}
 
-		try (Cipher encCipher = new Cipher()) {
+		try (StreamCipher encCipher = new StreamCipher()) {
 			for (Password password : passwords) {
 				encCipher.addPasswordRecipient(password);
 			}
 
 			for (String sampleName : getAllSamples()) {
-				byte[] sample = readResource(SAMPLES_DIR + sampleName);
+				InputStream is = getClass().getClassLoader().getResourceAsStream(SAMPLES_DIR + sampleName);
 
-				byte[] encrypted = encCipher.encrypt(sample, true);
-				assertNotNull("Encrypted data shouldn't be null", encrypted);
+				File encodedFile = File.createTempFile(sampleName, ".encoded");
+				encCipher.encrypt(is, new FileOutputStream(encodedFile), true);
 
 				for (Password password : passwords) {
-					try (Cipher decCipher = new Cipher()) {
+					try (StreamCipher decCipher = new StreamCipher()) {
 
-						byte[] decrypted = decCipher.decryptWithPassword(encrypted, password);
-						assertNotNull(decrypted);
-						assertArrayEquals("sample and decrypted data should be equals", sample, decrypted);
+						File decodedFile = File.createTempFile(sampleName, ".decoded");
+						decCipher.decryptWithPassword(new FileInputStream(encodedFile),
+								new FileOutputStream(decodedFile), password);
 					} catch (Exception e) {
-						fail();
+						fail(e.getMessage());
 					}
 				}
 			}
 		} catch (Exception e) {
-			fail();
+			fail(e.getMessage());
 		}
 	}
 
@@ -165,26 +168,27 @@ public class CipherTest extends GenericSamplesTest {
 		KeyPair keyPair = KeyPairGenerator.generate();
 		Recipient recipient = new Recipient(UUID.randomUUID().toString());
 
-		try (Cipher encCipher = new Cipher()) {
+		try (StreamCipher encCipher = new StreamCipher()) {
 			encCipher.addKeyRecipient(recipient, keyPair.getPublic());
 
 			for (String sampleName : getAllSamples()) {
-				byte[] sample = readResource(SAMPLES_DIR + sampleName);
+				InputStream is = getClass().getClassLoader().getResourceAsStream(SAMPLES_DIR + sampleName);
 
-				byte[] encrypted = encCipher.encrypt(sample);
-				assertNotNull("Encrypted data shouldn't be null", encrypted);
+				File encodedFile = File.createTempFile(sampleName, ".encoded");
+				encCipher.encrypt(is, new FileOutputStream(encodedFile));
 
-				try (Cipher decCipher = new Cipher()) {
+				try (StreamCipher decCipher = new StreamCipher()) {
 					decCipher.setContentInfo(encCipher.getContentInfo());
-					byte[] decrypted = decCipher.decryptWithKey(encrypted, recipient, keyPair.getPrivate());
-					assertNotNull(decrypted);
-					assertArrayEquals("sample and decrypted data should be equals", sample, decrypted);
+
+					File decodedFile = File.createTempFile(sampleName, ".decoded");
+					decCipher.decryptWithKey(new FileInputStream(encodedFile), new FileOutputStream(decodedFile),
+							recipient, keyPair.getPrivate());
 				} catch (Exception e) {
-					fail();
+					fail(e.getMessage());
 				}
 			}
 		} catch (Exception e) {
-			fail();
+			fail(e.getMessage());
 		}
 	}
 
@@ -197,30 +201,29 @@ public class CipherTest extends GenericSamplesTest {
 			recipients.put(recipient, keyPair);
 		}
 
-		try (Cipher encCipher = new Cipher()) {
+		try (StreamCipher encCipher = new StreamCipher()) {
 			for (Entry<Recipient, KeyPair> entry : recipients.entrySet()) {
 				encCipher.addKeyRecipient(entry.getKey(), entry.getValue().getPublic());
 			}
 
 			for (String sampleName : getAllSamples()) {
-				byte[] sample = readResource(SAMPLES_DIR + sampleName);
+				InputStream is = getClass().getClassLoader().getResourceAsStream(SAMPLES_DIR + sampleName);
 
-				byte[] encrypted = encCipher.encrypt(sample, true);
-				assertNotNull("Encrypted data shouldn't be null", encrypted);
+				File encodedFile = File.createTempFile(sampleName, ".encoded");
+				encCipher.encrypt(is, new FileOutputStream(encodedFile), true);
 
 				for (Entry<Recipient, KeyPair> entry : recipients.entrySet()) {
-					try (Cipher decCipher = new Cipher()) {
-						byte[] decrypted = decCipher.decryptWithKey(encrypted, entry.getKey(),
-								entry.getValue().getPrivate());
-						assertNotNull(decrypted);
-						assertArrayEquals("sample and decrypted data should be equals", sample, decrypted);
+					try (StreamCipher decCipher = new StreamCipher()) {
+						File decodedFile = File.createTempFile(sampleName, ".decoded");
+						decCipher.decryptWithKey(new FileInputStream(encodedFile), new FileOutputStream(decodedFile),
+								entry.getKey(), entry.getValue().getPrivate());
 					} catch (Exception e) {
 						fail(e.getMessage());
 					}
 				}
 			}
 		} catch (Exception e) {
-			fail();
+			fail(e.getMessage());
 		}
 	}
 
@@ -230,26 +233,27 @@ public class CipherTest extends GenericSamplesTest {
 		KeyPair keyPair = KeyPairGenerator.generate(KeyType.Default, password);
 		Recipient recipient = new Recipient(UUID.randomUUID().toString());
 
-		try (Cipher encCipher = new Cipher()) {
+		try (StreamCipher encCipher = new StreamCipher()) {
 			encCipher.addKeyRecipient(recipient, keyPair.getPublic());
 
 			for (String sampleName : getAllSamples()) {
-				byte[] sample = readResource(SAMPLES_DIR + sampleName);
+				InputStream is = getClass().getClassLoader().getResourceAsStream(SAMPLES_DIR + sampleName);
 
-				byte[] encrypted = encCipher.encrypt(sample);
-				assertNotNull("Encrypted data shouldn't be null", encrypted);
+				File encodedFile = File.createTempFile(sampleName, ".encoded");
+				encCipher.encrypt(is, new FileOutputStream(encodedFile));
 
-				try (Cipher decCipher = new Cipher()) {
+				try (StreamCipher decCipher = new StreamCipher()) {
 					decCipher.setContentInfo(encCipher.getContentInfo());
-					byte[] decrypted = decCipher.decryptWithKey(encrypted, recipient, keyPair.getPrivate(), password);
-					assertNotNull(decrypted);
-					assertArrayEquals("sample and decrypted data should be equals", sample, decrypted);
+
+					File decodedFile = File.createTempFile(sampleName, ".decoded");
+					decCipher.decryptWithKey(new FileInputStream(encodedFile), new FileOutputStream(decodedFile),
+							recipient, keyPair.getPrivate(), password);
 				} catch (Exception e) {
-					fail();
+					fail(e.getMessage());
 				}
 			}
 		} catch (Exception e) {
-			fail();
+			fail(e.getMessage());
 		}
 	}
 
@@ -268,33 +272,34 @@ public class CipherTest extends GenericSamplesTest {
 			passwords.put(recipient, password);
 		}
 
-		try (Cipher encCipher = new Cipher()) {
+		try (StreamCipher encCipher = new StreamCipher()) {
 			for (Entry<Recipient, KeyPair> entry : keyPairs.entrySet()) {
 				encCipher.addKeyRecipient(entry.getKey(), entry.getValue().getPublic());
 			}
 
 			for (String sampleName : getAllSamples()) {
-				byte[] sample = readResource(SAMPLES_DIR + sampleName);
+				InputStream is = getClass().getClassLoader().getResourceAsStream(SAMPLES_DIR + sampleName);
 
-				byte[] encrypted = encCipher.encrypt(sample, true);
-				assertNotNull("Encrypted data shouldn't be null", encrypted);
+				File encodedFile = File.createTempFile(sampleName, ".encoded");
+				encCipher.encrypt(is, new FileOutputStream(encodedFile), true);
 
 				for (Entry<Recipient, KeyPair> entry : keyPairs.entrySet()) {
-					try (Cipher decCipher = new Cipher()) {
+					try (StreamCipher decCipher = new StreamCipher()) {
 
 						Recipient recipient = entry.getKey();
 						PrivateKey key = entry.getValue().getPrivate();
 						Password password = passwords.get(recipient);
-						byte[] decrypted = decCipher.decryptWithKey(encrypted, recipient, key, password);
-						assertNotNull(decrypted);
-						assertArrayEquals("sample and decrypted data should be equals", sample, decrypted);
+
+						File decodedFile = File.createTempFile(sampleName, ".decoded");
+						decCipher.decryptWithKey(new FileInputStream(encodedFile), new FileOutputStream(decodedFile),
+								recipient, key, password);
 					} catch (Exception e) {
 						fail(e.getMessage());
 					}
 				}
 			}
 		} catch (Exception e) {
-			fail();
+			fail(e.getMessage());
 		}
 	}
 
