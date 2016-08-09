@@ -26,6 +26,6 @@ You can find processed files at the directory
 
 ```
 /storage/emulated/0/Android/data/com.virgilsecurity.samples.crypto/files/Documents/Processed/
-``
+```
 
 Take into account that external directory is device-specific and could differ from the directory provided above.
