@@ -244,6 +244,10 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 		return virgil_crypto_javaJNI.VirgilKeyPair_resetPrivateKeyPassword(privateKey, oldPassword, newPassword);
 	}
 
+	public static byte[] extractPublicKey(byte[] privateKey, byte[] privateKeyPassword) {
+		return virgil_crypto_javaJNI.VirgilKeyPair_extractPublicKey(privateKey, privateKeyPassword);
+	}
+
 	public VirgilKeyPair(byte[] pwd) {
 		this(virgil_crypto_javaJNI.new_VirgilKeyPair__SWIG_0(pwd), true);
 	}

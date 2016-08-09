@@ -1,5 +1,7 @@
 package com.virgilsecurity.samples.crypto;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -154,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class EncodeWithKeyAsynkTask extends AsyncTask<Uri, Void, String> {
+    private class EncodeWithKeyAsynkTask extends CryptoAsynkTask {
 
         @Override
         protected String doInBackground(Uri... params) {
@@ -173,14 +175,9 @@ public class MainActivity extends AppCompatActivity {
             }
             return "Encryption failed";
         }
-
-        @Override
-        protected void onPostExecute(String s) {
-            Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
-        }
     }
 
-    private class EncodeWithPwdAsynkTask extends AsyncTask<Uri, Void, String> {
+    private class EncodeWithPwdAsynkTask extends CryptoAsynkTask {
 
         private String mPassword;
 
@@ -205,14 +202,9 @@ public class MainActivity extends AppCompatActivity {
             }
             return "Encryption failed";
         }
-
-        @Override
-        protected void onPostExecute(String s) {
-            Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
-        }
     }
 
-    private class DecodeWithKeyAsynkTask extends AsyncTask<Uri, Void, String> {
+    private class DecodeWithKeyAsynkTask extends CryptoAsynkTask {
 
         @Override
         protected String doInBackground(Uri... params) {
@@ -235,14 +227,9 @@ public class MainActivity extends AppCompatActivity {
             }
             return "Decryption failed";
         }
-
-        @Override
-        protected void onPostExecute(String s) {
-            Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
-        }
     }
 
-    private class DecodeWithPwdAsynkTask extends AsyncTask<Uri, Void, String> {
+    private class DecodeWithPwdAsynkTask extends CryptoAsynkTask {
 
         private String mPassword;
 
@@ -271,10 +258,30 @@ public class MainActivity extends AppCompatActivity {
             }
             return "Decryption failed";
         }
+    }
+
+    private abstract class CryptoAsynkTask extends  AsyncTask<Uri, Void, String> {
+
+        private ProgressDialog spinnerDialog = null;
+
+        @Override
+        protected void onPreExecute() {
+            // Show progress dialog
+            spinnerDialog = ProgressDialog.show(MainActivity.this, "", getBaseContext().getString(R.string.please_wait), true, true,
+                    new DialogInterface.OnCancelListener() {
+                        public void onCancel(DialogInterface dialog) {
+                            spinnerDialog = null;
+                        }
+                    });
+        }
 
         @Override
         protected void onPostExecute(String s) {
-            Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
+            if (spinnerDialog != null && spinnerDialog.isShowing()) {
+                spinnerDialog.dismiss();
+                spinnerDialog = null;
+            }
+            Toast.makeText(getBaseContext(), s, Toast.LENGTH_LONG).show();
         }
     }
 
