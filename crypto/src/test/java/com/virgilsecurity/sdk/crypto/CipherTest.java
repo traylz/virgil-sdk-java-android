@@ -97,7 +97,7 @@ public class CipherTest extends GenericSamplesTest {
 					assertNotNull(decrypted);
 					assertArrayEquals("sample and decrypted data should be equals", sample, decrypted);
 				} catch (Exception e) {
-					fail();
+					fail(e.getMessage());
 				}
 			}
 		} catch (Exception e) {

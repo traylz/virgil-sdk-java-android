@@ -179,6 +179,17 @@ public class virgil_crypto_javaJNI {
 
 	public final static native byte[] VirgilPBKDF_derive__SWIG_1(long jarg1, VirgilPBKDF jarg1_, byte[] jarg2);
 
+	public final static native long new_VirgilRandom(byte[] jarg1);
+
+	public final static native byte[] VirgilRandom_randomize__SWIG_0(long jarg1, VirgilRandom jarg1_, long jarg2);
+
+	public final static native long VirgilRandom_randomize__SWIG_1(long jarg1, VirgilRandom jarg1_);
+
+	public final static native long VirgilRandom_randomize__SWIG_2(long jarg1, VirgilRandom jarg1_, long jarg2,
+			long jarg3);
+
+	public final static native void delete_VirgilRandom(long jarg1);
+
 	public final static native boolean VirgilCustomParams_isEmpty(long jarg1, VirgilCustomParams jarg1_);
 
 	public final static native void VirgilCustomParams_setInteger(long jarg1, VirgilCustomParams jarg1_, byte[] jarg2,
@@ -302,6 +313,8 @@ public class virgil_crypto_javaJNI {
 	public final static native boolean VirgilKeyPair_isPrivateKeyEncrypted(byte[] jarg1);
 
 	public final static native byte[] VirgilKeyPair_resetPrivateKeyPassword(byte[] jarg1, byte[] jarg2, byte[] jarg3);
+
+	public final static native byte[] VirgilKeyPair_extractPublicKey(byte[] jarg1, byte[] jarg2);
 
 	public final static native long new_VirgilKeyPair__SWIG_0(byte[] jarg1);
 

@@ -50,8 +50,6 @@ public class StreamCipher extends CipherBase implements java.lang.AutoCloseable 
 
 	private static final Logger LOGGER = Logger.getLogger(StreamCipher.class.getName());
 
-	private VirgilStreamCipher cipher;
-
 	/**
 	 * Create a new instance of {@code StreamCipher}
 	 *
@@ -84,7 +82,7 @@ public class StreamCipher extends CipherBase implements java.lang.AutoCloseable 
 	public void encrypt(InputStream inputStream, OutputStream outputStream, boolean embedContentInfo) {
 		try (VirgilStreamDataSource dataSource = new VirgilStreamDataSource(inputStream);
 				VirgilStreamDataSink dataSink = new VirgilStreamDataSink(outputStream)) {
-			cipher.encrypt(dataSource, dataSink, embedContentInfo);
+			((VirgilStreamCipher) cipher).encrypt(dataSource, dataSink, embedContentInfo);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "Can't close resource", e);
 		}
@@ -101,7 +99,7 @@ public class StreamCipher extends CipherBase implements java.lang.AutoCloseable 
 	public void encrypt(InputStream inputStream, OutputStream outputStream) {
 		try (VirgilStreamDataSource dataSource = new VirgilStreamDataSource(inputStream);
 				VirgilStreamDataSink dataSink = new VirgilStreamDataSink(outputStream)) {
-			cipher.encrypt(dataSource, dataSink);
+			((VirgilStreamCipher) cipher).encrypt(dataSource, dataSink);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "Can't close resource", e);
 		}
@@ -125,7 +123,7 @@ public class StreamCipher extends CipherBase implements java.lang.AutoCloseable 
 			PrivateKey privateKey, Password privateKeyPassword) {
 		try (VirgilStreamDataSource dataSource = new VirgilStreamDataSource(inputStream);
 				VirgilStreamDataSink dataSink = new VirgilStreamDataSink(outputStream)) {
-			cipher.decryptWithKey(dataSource, dataSink, recipient.getId(), privateKey.getEncoded(),
+			((VirgilStreamCipher) cipher).decryptWithKey(dataSource, dataSink, recipient.getId(), privateKey.getEncoded(),
 					privateKeyPassword.getEncoded());
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "Can't close resource", e);
@@ -148,7 +146,7 @@ public class StreamCipher extends CipherBase implements java.lang.AutoCloseable 
 			PrivateKey privateKey) {
 		try (VirgilStreamDataSource dataSource = new VirgilStreamDataSource(inputStream);
 				VirgilStreamDataSink dataSink = new VirgilStreamDataSink(outputStream)) {
-			cipher.decryptWithKey(dataSource, dataSink, recipient.getId(), privateKey.getEncoded());
+			((VirgilStreamCipher) cipher).decryptWithKey(dataSource, dataSink, recipient.getId(), privateKey.getEncoded());
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "Can't close resource", e);
 		}
@@ -167,7 +165,7 @@ public class StreamCipher extends CipherBase implements java.lang.AutoCloseable 
 	public void decryptWithPassword(InputStream inputStream, OutputStream outputStream, Password password) {
 		try (VirgilStreamDataSource dataSource = new VirgilStreamDataSource(inputStream);
 				VirgilStreamDataSink dataSink = new VirgilStreamDataSink(outputStream)) {
-			cipher.decryptWithPassword(dataSource, dataSink, password.getEncoded());
+			((VirgilStreamCipher) cipher).decryptWithPassword(dataSource, dataSink, password.getEncoded());
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "Can't close resource", e);
 		}
