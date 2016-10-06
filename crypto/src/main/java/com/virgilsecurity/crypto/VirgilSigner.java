@@ -37,8 +37,8 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilSigner implements java.lang.AutoCloseable {
-	private long swigCPtr;
-	protected boolean swigCMemOwn;
+	private transient long swigCPtr;
+	protected transient boolean swigCMemOwn;
 
 	protected VirgilSigner(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;
@@ -68,8 +68,8 @@ public class VirgilSigner implements java.lang.AutoCloseable {
 		delete();
 	}
 
-	public VirgilSigner(VirgilHash hash) {
-		this(virgil_crypto_javaJNI.new_VirgilSigner__SWIG_0(VirgilHash.getCPtr(hash), hash), true);
+	public VirgilSigner(VirgilHash.Algorithm hashAlgorithm) {
+		this(virgil_crypto_javaJNI.new_VirgilSigner__SWIG_0(hashAlgorithm.swigValue()), true);
 	}
 
 	public VirgilSigner() {

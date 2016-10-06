@@ -36,9 +36,17 @@
 
 package com.virgilsecurity.crypto;
 
+/**
+ * This class handles information about Virgil Security key pair.
+ *
+ * 
+ * 
+ * @author Andrii Iakovenko
+ *
+ */
 public class VirgilKeyPair implements java.lang.AutoCloseable {
-	private long swigCPtr;
-	protected boolean swigCMemOwn;
+	private transient long swigCPtr;
+	protected transient boolean swigCMemOwn;
 
 	protected VirgilKeyPair(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;
@@ -68,237 +76,447 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 		delete();
 	}
 
+	/**
+	 * Generate new key pair given type.
+	 * 
+	 * @param type
+	 *            Private key type to be generated.
+	 * @param pwd
+	 *            Private key password.
+	 * @return
+	 */
 	public static VirgilKeyPair generate(VirgilKeyPair.Type type, byte[] pwd) {
 		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generate__SWIG_0(type.swigValue(), pwd), true);
 	}
 
+	/**
+	 * Generate new key pair given type.
+	 * 
+	 * @param type
+	 *            Private key type to be generated.
+	 * @return
+	 */
 	public static VirgilKeyPair generate(VirgilKeyPair.Type type) {
 		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generate__SWIG_1(type.swigValue()), true);
 	}
 
-	public static VirgilKeyPair generate() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generate__SWIG_2(), true);
+	/**
+	 * Generate new key pair with recommended most safe type.
+	 * 
+	 * @param pwd
+	 *            Private key password.
+	 * @return
+	 */
+	public static VirgilKeyPair generateRecommended(byte[] pwd) {
+		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generateRecommended__SWIG_0(pwd), true);
 	}
 
+	/**
+	 * Generate new key pair with recommended most safe type.
+	 * 
+	 * @return
+	 */
+	public static VirgilKeyPair generateRecommended() {
+		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generateRecommended__SWIG_1(), true);
+	}
+
+	/**
+	 * Generate new key pair of the same type based on the donor key pair.
+	 * 
+	 * 
+	 * @param donorKeyPair
+	 *            Public key or private key is used to determine the new key
+	 *            pair type.
+	 * @param donorPrivateKeyPassword
+	 *            Donor private key password, optional if public key is defined.
+	 * @param newKeyPairPassword
+	 *            Private key password of the new key pair.
+	 * @return
+	 */
 	public static VirgilKeyPair generateFrom(VirgilKeyPair donorKeyPair, byte[] donorPrivateKeyPassword,
 			byte[] newKeyPairPassword) {
 		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generateFrom__SWIG_0(
 				VirgilKeyPair.getCPtr(donorKeyPair), donorKeyPair, donorPrivateKeyPassword, newKeyPairPassword), true);
 	}
 
+	/**
+	 * Generate new key pair of the same type based on the donor key pair.
+	 * 
+	 * 
+	 * @param donorKeyPair
+	 *            Public key or private key is used to determine the new key
+	 *            pair type.
+	 * @param donorPrivateKeyPassword
+	 *            Donor private key password, optional if public key is defined.
+	 * @return
+	 */
 	public static VirgilKeyPair generateFrom(VirgilKeyPair donorKeyPair, byte[] donorPrivateKeyPassword) {
 		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generateFrom__SWIG_1(
 				VirgilKeyPair.getCPtr(donorKeyPair), donorKeyPair, donorPrivateKeyPassword), true);
 	}
 
+	/**
+	 * Generate new key pair of the same type based on the donor key pair.
+	 * 
+	 * 
+	 * @param donorKeyPair
+	 *            Public key or private key is used to determine the new key
+	 *            pair type.
+	 * @return
+	 */
 	public static VirgilKeyPair generateFrom(VirgilKeyPair donorKeyPair) {
 		return new VirgilKeyPair(virgil_crypto_javaJNI
 				.VirgilKeyPair_generateFrom__SWIG_2(VirgilKeyPair.getCPtr(donorKeyPair), donorKeyPair), true);
 	}
 
-	public static VirgilKeyPair ecNist192(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecNist192__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecNist192() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecNist192__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair ecNist224(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecNist224__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecNist224() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecNist224__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair ecNist256(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecNist256__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecNist256() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecNist256__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair ecNist384(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecNist384__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecNist384() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecNist384__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair ecNist521(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecNist521__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecNist521() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecNist521__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair ecBrainpool256(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecBrainpool256__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecBrainpool256() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecBrainpool256__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair ecBrainpool384(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecBrainpool384__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecBrainpool384() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecBrainpool384__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair ecBrainpool512(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecBrainpool512__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecBrainpool512() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecBrainpool512__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair ecKoblitz192(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecKoblitz192__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecKoblitz192() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecKoblitz192__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair ecKoblitz224(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecKoblitz224__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecKoblitz224() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecKoblitz224__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair ecKoblitz256(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecKoblitz256__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair ecKoblitz256() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_ecKoblitz256__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair rsa256(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_rsa256__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair rsa256() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_rsa256__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair rsa512(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_rsa512__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair rsa512() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_rsa512__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair rsa1024(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_rsa1024__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair rsa1024() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_rsa1024__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair rsa2048(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_rsa2048__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair rsa2048() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_rsa2048__SWIG_1(), true);
-	}
-
-	public static VirgilKeyPair rsa4096(byte[] pwd) {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_rsa4096__SWIG_0(pwd), true);
-	}
-
-	public static VirgilKeyPair rsa4096() {
-		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_rsa4096__SWIG_1(), true);
-	}
-
+	/**
+	 * Check if a public-private pair of keys matches.
+	 * 
+	 * 
+	 * @param publicKey
+	 *            Public key in DER or PEM format.
+	 * @param privateKey
+	 *            Private key in DER or PEM format.
+	 * @param privateKeyPassword
+	 *            Private key password if exists.
+	 * @return
+	 */
 	public static boolean isKeyPairMatch(byte[] publicKey, byte[] privateKey, byte[] privateKeyPassword) {
 		return virgil_crypto_javaJNI.VirgilKeyPair_isKeyPairMatch__SWIG_0(publicKey, privateKey, privateKeyPassword);
 	}
 
+	/**
+	 * Check if a public-private pair of keys matches.
+	 * 
+	 * 
+	 * @param publicKey
+	 *            Public key in DER or PEM format.
+	 * @param privateKey
+	 *            Private key in DER or PEM format.
+	 * @return
+	 */
 	public static boolean isKeyPairMatch(byte[] publicKey, byte[] privateKey) {
 		return virgil_crypto_javaJNI.VirgilKeyPair_isKeyPairMatch__SWIG_1(publicKey, privateKey);
 	}
 
+	/**
+	 * Check if given private key and it's password matches.
+	 * 
+	 * @param key
+	 *            Private key in DER or PEM format.
+	 * @param pwd
+	 *            Private key password.
+	 * @return {@code true} - if private key and it's password matches.
+	 */
 	public static boolean checkPrivateKeyPassword(byte[] key, byte[] pwd) {
 		return virgil_crypto_javaJNI.VirgilKeyPair_checkPrivateKeyPassword(key, pwd);
 	}
 
+	/**
+	 * Check if given private key is encrypted.
+	 * 
+	 * 
+	 * @param privateKey
+	 *            Private key in DER or PEM format.
+	 * 
+	 * @return {@code true} - if private key is encrypted.
+	 */
 	public static boolean isPrivateKeyEncrypted(byte[] privateKey) {
 		return virgil_crypto_javaJNI.VirgilKeyPair_isPrivateKeyEncrypted(privateKey);
 	}
 
+	/**
+	 * <p>
+	 * Reset password for the given private key.
+	 * </p>
+	 * </p>
+	 * Re-encrypt given Private Key with a new password.
+	 * </p>
+	 * 
+	 * @param privateKey
+	 *            Private key that is encrypted with old password.
+	 * @param oldPassword
+	 *            Current Private Key password.
+	 * @param newPassword
+	 *            New Private Key password.
+	 * @return Private key that is encrypted with the new password.
+	 */
 	public static byte[] resetPrivateKeyPassword(byte[] privateKey, byte[] oldPassword, byte[] newPassword) {
 		return virgil_crypto_javaJNI.VirgilKeyPair_resetPrivateKeyPassword(privateKey, oldPassword, newPassword);
 	}
 
+	/**
+	 * 
+	 * Encrypt the given private key and return result.
+	 * 
+	 * @param privateKey
+	 *            Private key in the plain text.
+	 * @param privateKeyPassword
+	 *            New Private Key password.
+	 * @return Encrypted private key in PKCS#8 format.
+	 */
+	public static byte[] encryptPrivateKey(byte[] privateKey, byte[] privateKeyPassword) {
+		return virgil_crypto_javaJNI.VirgilKeyPair_encryptPrivateKey(privateKey, privateKeyPassword);
+	}
+
+	/**
+	 * Decrypt the given private key and return result.
+	 * 
+	 * @param privateKey
+	 *            Encrypted Private Key.
+	 * @param privateKeyPassword
+	 *            Current Private Key password.
+	 * 
+	 * @return Plain (non encrypted) private key.
+	 */
+	public static byte[] decryptPrivateKey(byte[] privateKey, byte[] privateKeyPassword) {
+		return virgil_crypto_javaJNI.VirgilKeyPair_decryptPrivateKey(privateKey, privateKeyPassword);
+	}
+
+	/**
+	 * Extract public key from the private key.
+	 * 
+	 * 
+	 * @param privateKey
+	 *            Private key.
+	 * @param privateKeyPassword
+	 *            Private key password.
+	 * 
+	 * @return Public key.
+	 */
 	public static byte[] extractPublicKey(byte[] privateKey, byte[] privateKeyPassword) {
 		return virgil_crypto_javaJNI.VirgilKeyPair_extractPublicKey(privateKey, privateKeyPassword);
 	}
 
-	public VirgilKeyPair(byte[] pwd) {
-		this(virgil_crypto_javaJNI.new_VirgilKeyPair__SWIG_0(pwd), true);
+	/**
+	 * Convert given public key to the PEM format.
+	 * 
+	 * @param publicKey
+	 *            Public key to be converted.
+	 * @return Public key in the PEM format.
+	 */
+	public static byte[] publicKeyToPEM(byte[] publicKey) {
+		return virgil_crypto_javaJNI.VirgilKeyPair_publicKeyToPEM(publicKey);
 	}
 
-	public VirgilKeyPair() {
-		this(virgil_crypto_javaJNI.new_VirgilKeyPair__SWIG_1(), true);
+	/**
+	 * Convert given public key to the DER format.
+	 * 
+	 * 
+	 * @param publicKey
+	 *            Public key to be converted.
+	 * 
+	 * @return Public key in the DER format.
+	 */
+	public static byte[] publicKeyToDER(byte[] publicKey) {
+		return virgil_crypto_javaJNI.VirgilKeyPair_publicKeyToDER(publicKey);
 	}
 
+	/**
+	 * Convert given private key to the PEM format.
+	 * 
+	 * 
+	 * @param privateKey
+	 *            Private key to be converted.
+	 * 
+	 * @param privateKeyPassword
+	 *            Private key password.
+	 * @return Private key in the PEM format.
+	 */
+	public static byte[] privateKeyToPEM(byte[] privateKey, byte[] privateKeyPassword) {
+		return virgil_crypto_javaJNI.VirgilKeyPair_privateKeyToPEM__SWIG_0(privateKey, privateKeyPassword);
+	}
+
+	/**
+	 * Convert given private key to the PEM format.
+	 * 
+	 * 
+	 * @param privateKey
+	 *            Private key to be converted.
+	 * 
+	 * @return Private key in the PEM format.
+	 */
+	public static byte[] privateKeyToPEM(byte[] privateKey) {
+		return virgil_crypto_javaJNI.VirgilKeyPair_privateKeyToPEM__SWIG_1(privateKey);
+	}
+
+	/**
+	 * Convert given private key to the DER format.
+	 * 
+	 * 
+	 * @param privateKey
+	 *            Private key to be converted.
+	 * 
+	 * @param privateKeyPassword
+	 *            Private key password.
+	 * @return Private key in the DER format.
+	 */
+	public static byte[] privateKeyToDER(byte[] privateKey, byte[] privateKeyPassword) {
+		return virgil_crypto_javaJNI.VirgilKeyPair_privateKeyToDER__SWIG_0(privateKey, privateKeyPassword);
+	}
+
+	/**
+	 * Convert given private key to the DER format.
+	 * 
+	 * 
+	 * @param privateKey
+	 *            Private key to be converted.
+	 * 
+	 * @return Private key in the DER format.
+	 */
+	public static byte[] privateKeyToDER(byte[] privateKey) {
+		return virgil_crypto_javaJNI.VirgilKeyPair_privateKeyToDER__SWIG_1(privateKey);
+	}
+
+	/**
+	 * Create a new instance of {@code VirgilKeyPair}
+	 *
+	 * @param publicKey
+	 * @param privateKey
+	 */
 	public VirgilKeyPair(byte[] publicKey, byte[] privateKey) {
-		this(virgil_crypto_javaJNI.new_VirgilKeyPair__SWIG_2(publicKey, privateKey), true);
+		this(virgil_crypto_javaJNI.new_VirgilKeyPair__SWIG_0(publicKey, privateKey), true);
 	}
 
+	/**
+	 * Provide access to the public key.
+	 * 
+	 * @return
+	 */
 	public byte[] publicKey() {
 		return virgil_crypto_javaJNI.VirgilKeyPair_publicKey(swigCPtr, this);
 	}
 
+	/**
+	 * Provide access to the private key.
+	 * 
+	 * @return
+	 */
 	public byte[] privateKey() {
 		return virgil_crypto_javaJNI.VirgilKeyPair_privateKey(swigCPtr, this);
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilKeyPair}
+	 *
+	 * @param other
+	 */
 	public VirgilKeyPair(VirgilKeyPair other) {
-		this(virgil_crypto_javaJNI.new_VirgilKeyPair__SWIG_3(VirgilKeyPair.getCPtr(other), other), true);
+		this(virgil_crypto_javaJNI.new_VirgilKeyPair__SWIG_1(VirgilKeyPair.getCPtr(other), other), true);
 	}
 
+	/**
+	 * Type of the keypair.
+	 *
+	 * @author Andrii Iakovenko
+	 *
+	 */
 	public final static class Type {
-		public final static VirgilKeyPair.Type Default = new VirgilKeyPair.Type("Default",
-				virgil_crypto_javaJNI.VirgilKeyPair_Default_get());
+
+		/**
+		 * RSA 256 bit (not recommended)
+		 */
 		public final static VirgilKeyPair.Type RSA_256 = new VirgilKeyPair.Type("RSA_256");
+
+		/**
+		 * RSA 512 bit (not recommended)
+		 */
 		public final static VirgilKeyPair.Type RSA_512 = new VirgilKeyPair.Type("RSA_512");
+
+		/**
+		 * RSA 1024 bit (not recommended)
+		 */
 		public final static VirgilKeyPair.Type RSA_1024 = new VirgilKeyPair.Type("RSA_1024");
+
+		/**
+		 * RSA 2048 bit (not recommended)
+		 */
 		public final static VirgilKeyPair.Type RSA_2048 = new VirgilKeyPair.Type("RSA_2048");
+
+		/**
+		 * RSA 3072 bit.
+		 */
 		public final static VirgilKeyPair.Type RSA_3072 = new VirgilKeyPair.Type("RSA_3072");
+
+		/**
+		 * RSA 4096 bit.
+		 */
 		public final static VirgilKeyPair.Type RSA_4096 = new VirgilKeyPair.Type("RSA_4096");
+
+		/**
+		 * RSA 8192 bit.
+		 */
 		public final static VirgilKeyPair.Type RSA_8192 = new VirgilKeyPair.Type("RSA_8192");
+
+		/**
+		 * 192-bits NIST curve
+		 */
 		public final static VirgilKeyPair.Type EC_SECP192R1 = new VirgilKeyPair.Type("EC_SECP192R1");
+
+		/**
+		 * 224-bits NIST curve
+		 */
 		public final static VirgilKeyPair.Type EC_SECP224R1 = new VirgilKeyPair.Type("EC_SECP224R1");
+
+		/**
+		 * 256-bits NIST curve
+		 */
 		public final static VirgilKeyPair.Type EC_SECP256R1 = new VirgilKeyPair.Type("EC_SECP256R1");
+
+		/**
+		 * 384-bits NIST curve
+		 */
 		public final static VirgilKeyPair.Type EC_SECP384R1 = new VirgilKeyPair.Type("EC_SECP384R1");
+
+		/**
+		 * 521-bits NIST curve
+		 */
 		public final static VirgilKeyPair.Type EC_SECP521R1 = new VirgilKeyPair.Type("EC_SECP521R1");
+
+		/**
+		 * 256-bits Brainpool curve
+		 */
 		public final static VirgilKeyPair.Type EC_BP256R1 = new VirgilKeyPair.Type("EC_BP256R1");
+
+		/**
+		 * 384-bits Brainpool curve
+		 */
 		public final static VirgilKeyPair.Type EC_BP384R1 = new VirgilKeyPair.Type("EC_BP384R1");
+
+		/**
+		 * 512-bits Brainpool curve
+		 */
 		public final static VirgilKeyPair.Type EC_BP512R1 = new VirgilKeyPair.Type("EC_BP512R1");
-		public final static VirgilKeyPair.Type EC_M221 = new VirgilKeyPair.Type("EC_M221");
-		public final static VirgilKeyPair.Type EC_M255 = new VirgilKeyPair.Type("EC_M255");
-		public final static VirgilKeyPair.Type EC_Curve25519 = new VirgilKeyPair.Type("EC_Curve25519",
-				virgil_crypto_javaJNI.VirgilKeyPair_EC_Curve25519_get());
-		public final static VirgilKeyPair.Type EC_M383 = new VirgilKeyPair.Type("EC_M383");
-		public final static VirgilKeyPair.Type EC_M511 = new VirgilKeyPair.Type("EC_M511");
+
+		/**
+		 * 192-bits "Koblitz" curve
+		 */
 		public final static VirgilKeyPair.Type EC_SECP192K1 = new VirgilKeyPair.Type("EC_SECP192K1");
+
+		/**
+		 * 224-bits "Koblitz" curve
+		 */
 		public final static VirgilKeyPair.Type EC_SECP224K1 = new VirgilKeyPair.Type("EC_SECP224K1");
+
+		/**
+		 * 256-bits "Koblitz" curve
+		 */
 		public final static VirgilKeyPair.Type EC_SECP256K1 = new VirgilKeyPair.Type("EC_SECP256K1");
+
+		/**
+		 * Curve25519 as ECP deprecated format.
+		 */
+		public final static VirgilKeyPair.Type EC_CURVE25519 = new VirgilKeyPair.Type("EC_CURVE25519");
+
+		/**
+		 * Curve25519.
+		 */
+		public final static VirgilKeyPair.Type FAST_EC_X25519 = new VirgilKeyPair.Type("FAST_EC_X25519");
+
+		/**
+		 * Ed25519.
+		 */
+		public final static VirgilKeyPair.Type FAST_EC_ED25519 = new VirgilKeyPair.Type("FAST_EC_ED25519");
 
 		public final int swigValue() {
 			return swigValue;
@@ -334,10 +552,9 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 			swigNext = this.swigValue + 1;
 		}
 
-		private static Type[] swigValues = { Default, RSA_256, RSA_512, RSA_1024, RSA_2048, RSA_3072, RSA_4096,
-				RSA_8192, EC_SECP192R1, EC_SECP224R1, EC_SECP256R1, EC_SECP384R1, EC_SECP521R1, EC_BP256R1, EC_BP384R1,
-				EC_BP512R1, EC_M221, EC_M255, EC_Curve25519, EC_M383, EC_M511, EC_SECP192K1, EC_SECP224K1,
-				EC_SECP256K1 };
+		private static Type[] swigValues = { RSA_256, RSA_512, RSA_1024, RSA_2048, RSA_3072, RSA_4096, RSA_8192,
+				EC_SECP192R1, EC_SECP224R1, EC_SECP256R1, EC_SECP384R1, EC_SECP521R1, EC_BP256R1, EC_BP384R1,
+				EC_BP512R1, EC_SECP192K1, EC_SECP224K1, EC_SECP256K1, EC_CURVE25519, FAST_EC_X25519, FAST_EC_ED25519 };
 		private static int swigNext = 0;
 		private final int swigValue;
 		private final String swigName;
