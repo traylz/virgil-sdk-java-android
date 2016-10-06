@@ -217,5 +217,4 @@ public class VirgilClientTest {
 		}
 		return System.getProperty(propertyName);
 	}
-
 }
