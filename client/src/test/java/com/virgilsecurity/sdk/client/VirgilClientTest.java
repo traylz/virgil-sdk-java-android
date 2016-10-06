@@ -80,9 +80,18 @@ public class VirgilClientTest {
 
 		VirgilClientContext ctx = new VirgilClientContext(APP_TOKEN);
 
-		ctx.setCardsServiceAddress("https://cards-stg.virgilsecurity.com");
-		ctx.setReadOnlyCardsServiceAddress("https://cards-ro-stg.virgilsecurity.com");
-		ctx.setIdentityServiceAddress("https://identity-stg.virgilsecurity.com");
+		String url = getPropertyByName("CARDS_SERVICE");
+		if (StringUtils.isNotBlank(url)) {
+			ctx.setCardsServiceAddress(url);
+		}
+		url = getPropertyByName("RO_CARDS_SERVICE");
+		if (StringUtils.isNotBlank(url)) {
+			ctx.setReadOnlyCardsServiceAddress(url);
+		}
+		url = getPropertyByName("IDENTITY_SERVICE");
+		if (StringUtils.isNotBlank(url)) {
+			ctx.setIdentityServiceAddress(url);
+		}
 
 		client = new VirgilClient(ctx);
 		requestSigner = new RequestSigner(crypto);
