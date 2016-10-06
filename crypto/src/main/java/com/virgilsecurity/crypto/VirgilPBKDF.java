@@ -37,7 +37,7 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilPBKDF extends VirgilAsn1Compatible implements java.lang.AutoCloseable {
-	private long swigCPtr;
+	private transient long swigCPtr;
 
 	protected VirgilPBKDF(long cPtr, boolean cMemoryOwn) {
 		super(virgil_crypto_javaJNI.VirgilPBKDF_SWIGUpcast(cPtr), cMemoryOwn);
@@ -96,12 +96,12 @@ public class VirgilPBKDF extends VirgilAsn1Compatible implements java.lang.AutoC
 		return VirgilPBKDF.Algorithm.swigToEnum(virgil_crypto_javaJNI.VirgilPBKDF_getAlgorithm(swigCPtr, this));
 	}
 
-	public void setHash(VirgilPBKDF.Hash hash) {
-		virgil_crypto_javaJNI.VirgilPBKDF_setHash(swigCPtr, this, hash.swigValue());
+	public void setHashAlgorithm(VirgilHash.Algorithm hash) {
+		virgil_crypto_javaJNI.VirgilPBKDF_setHashAlgorithm(swigCPtr, this, hash.swigValue());
 	}
 
-	public VirgilPBKDF.Hash getHash() {
-		return VirgilPBKDF.Hash.swigToEnum(virgil_crypto_javaJNI.VirgilPBKDF_getHash(swigCPtr, this));
+	public VirgilHash.Algorithm getHashAlgorithm() {
+		return VirgilHash.Algorithm.swigToEnum(virgil_crypto_javaJNI.VirgilPBKDF_getHashAlgorithm(swigCPtr, this));
 	}
 
 	public void enableRecommendationsCheck() {
@@ -123,8 +123,6 @@ public class VirgilPBKDF extends VirgilAsn1Compatible implements java.lang.AutoC
 	public final static long kIterationCount_Default = virgil_crypto_javaJNI.VirgilPBKDF_kIterationCount_Default_get();
 
 	public final static class Algorithm {
-		public final static VirgilPBKDF.Algorithm None = new VirgilPBKDF.Algorithm("None",
-				virgil_crypto_javaJNI.VirgilPBKDF_None_get());
 		public final static VirgilPBKDF.Algorithm PBKDF2 = new VirgilPBKDF.Algorithm("PBKDF2");
 
 		public final int swigValue() {
@@ -161,55 +159,7 @@ public class VirgilPBKDF extends VirgilAsn1Compatible implements java.lang.AutoC
 			swigNext = this.swigValue + 1;
 		}
 
-		private static Algorithm[] swigValues = { None, PBKDF2 };
-		private static int swigNext = 0;
-		private final int swigValue;
-		private final String swigName;
-	}
-
-	public final static class Hash {
-		public final static VirgilPBKDF.Hash SHA1 = new VirgilPBKDF.Hash("SHA1",
-				virgil_crypto_javaJNI.VirgilPBKDF_SHA1_get());
-		public final static VirgilPBKDF.Hash SHA224 = new VirgilPBKDF.Hash("SHA224");
-		public final static VirgilPBKDF.Hash SHA256 = new VirgilPBKDF.Hash("SHA256");
-		public final static VirgilPBKDF.Hash SHA384 = new VirgilPBKDF.Hash("SHA384");
-		public final static VirgilPBKDF.Hash SHA512 = new VirgilPBKDF.Hash("SHA512");
-
-		public final int swigValue() {
-			return swigValue;
-		}
-
-		public String toString() {
-			return swigName;
-		}
-
-		public static Hash swigToEnum(int swigValue) {
-			if (swigValue < swigValues.length && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue)
-				return swigValues[swigValue];
-			for (int i = 0; i < swigValues.length; i++)
-				if (swigValues[i].swigValue == swigValue)
-					return swigValues[i];
-			throw new IllegalArgumentException("No enum " + Hash.class + " with value " + swigValue);
-		}
-
-		private Hash(String swigName) {
-			this.swigName = swigName;
-			this.swigValue = swigNext++;
-		}
-
-		private Hash(String swigName, int swigValue) {
-			this.swigName = swigName;
-			this.swigValue = swigValue;
-			swigNext = swigValue + 1;
-		}
-
-		private Hash(String swigName, Hash swigEnum) {
-			this.swigName = swigName;
-			this.swigValue = swigEnum.swigValue;
-			swigNext = this.swigValue + 1;
-		}
-
-		private static Hash[] swigValues = { SHA1, SHA224, SHA256, SHA384, SHA512 };
+		private static Algorithm[] swigValues = { PBKDF2 };
 		private static int swigNext = 0;
 		private final int swigValue;
 		private final String swigName;

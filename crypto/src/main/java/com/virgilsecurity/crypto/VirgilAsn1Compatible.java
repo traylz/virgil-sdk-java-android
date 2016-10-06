@@ -37,8 +37,8 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilAsn1Compatible implements java.lang.AutoCloseable {
-	private long swigCPtr;
-	protected boolean swigCMemOwn;
+	private transient long swigCPtr;
+	protected transient boolean swigCMemOwn;
 
 	protected VirgilAsn1Compatible(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;

@@ -36,9 +36,17 @@
 
 package com.virgilsecurity.crypto;
 
+/**
+ * This is base class for input streams.
+ * 
+ * Defines interface that allows read data from the input stream.
+ *
+ * @author Andrii Iakovenko
+ *
+ */
 public class VirgilDataSource implements java.lang.AutoCloseable {
-	private long swigCPtr;
-	protected boolean swigCMemOwn;
+	private transient long swigCPtr;
+	protected transient boolean swigCMemOwn;
 
 	protected VirgilDataSource(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;
@@ -83,14 +91,27 @@ public class VirgilDataSource implements java.lang.AutoCloseable {
 		delete();
 	}
 
+	/**
+	 * @return Return {@code true} if target source still contains unread data.
+	 * @throws java.io.IOException
+	 */
 	public boolean hasData() throws java.io.IOException {
 		return virgil_crypto_javaJNI.VirgilDataSource_hasData(swigCPtr, this);
 	}
 
+	/**
+	 * @return Return next portion of read data from target source.
+	 * 
+	 * @throws java.io.IOException
+	 */
 	public byte[] read() throws java.io.IOException {
 		return virgil_crypto_javaJNI.VirgilDataSource_read(swigCPtr, this);
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilDataSource}
+	 *
+	 */
 	public VirgilDataSource() {
 		this(virgil_crypto_javaJNI.new_VirgilDataSource(), true);
 		virgil_crypto_javaJNI.VirgilDataSource_director_connect(this, swigCPtr, swigCMemOwn, true);

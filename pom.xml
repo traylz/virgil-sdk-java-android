@@ -45,7 +45,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<version.retrofit>2.0.0</version.retrofit>
+		<version.httpclient>4.5.2</version.httpclient>
+		<version.gson>2.7</version.gson>
 		<version.commons-lang>2.6</version.commons-lang>
 		<version.commons-io>2.4</version.commons-io>
 		<version.junit>4.12</version.junit>
@@ -53,23 +54,23 @@
 	</properties>
 
 	<modules>
+		<module>crypto-api</module>
 		<module>crypto</module>
+		<module>crypto-android</module>
 		<module>client</module>
-		<module>android</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- Retrofit 2 -->
 			<dependency>
-				<groupId>com.squareup.retrofit2</groupId>
-				<artifactId>retrofit</artifactId>
-				<version>${version.retrofit}</version>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${version.httpclient}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.squareup.retrofit2</groupId>
-				<artifactId>converter-gson</artifactId>
-				<version>${version.retrofit}</version>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${version.gson}</version>
 			</dependency>
 			<!-- Tests -->
 			<dependency>
@@ -226,7 +227,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-				<module>samples</module>
+				<!-- <module>samples</module> -->
 			</modules>
 		</profile>
 	</profiles>

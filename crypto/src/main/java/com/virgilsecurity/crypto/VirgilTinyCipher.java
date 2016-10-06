@@ -31,8 +31,8 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilTinyCipher implements java.lang.AutoCloseable {
-	private long swigCPtr;
-	protected boolean swigCMemOwn;
+	private transient long swigCPtr;
+	protected transient boolean swigCMemOwn;
 
 	protected VirgilTinyCipher(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;

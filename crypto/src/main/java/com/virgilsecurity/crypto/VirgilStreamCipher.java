@@ -37,7 +37,7 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilStreamCipher extends VirgilCipherBase implements java.lang.AutoCloseable {
-	private long swigCPtr;
+	private transient long swigCPtr;
 
 	protected VirgilStreamCipher(long cPtr, boolean cMemoryOwn) {
 		super(virgil_crypto_javaJNI.VirgilStreamCipher_SWIGUpcast(cPtr), cMemoryOwn);
