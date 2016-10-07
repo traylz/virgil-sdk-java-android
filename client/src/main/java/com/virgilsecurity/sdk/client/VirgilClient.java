@@ -111,7 +111,8 @@ public class VirgilClient {
 	 *            The value of verified identity.
 	 * @return action id.
 	 */
-	public String verify(String type, String value) {
+	@Deprecated
+	private String verify(String type, String value) {
 		String body = ConvertionUtils.getGson().toJson(new Identity(type, value));
 
 		URIBuilder builder;
@@ -144,7 +145,9 @@ public class VirgilClient {
 	 * @return
 	 * @throws ServiceException
 	 */
-	public Identity confirm(String actionId, String confirmationCode, Token confirmationToken) {
+	@Deprecated
+	private Identity confirm(String actionId, String confirmationCode, Token confirmationToken) {
+
 		Confirmation confirmation = new Confirmation();
 		confirmation.setActionId(actionId);
 		confirmation.setConfirmationCode(confirmationCode);
@@ -346,11 +349,8 @@ public class VirgilClient {
 		default:
 			requestBase = new HttpGet();
 		}
-		// FIXME remove unnecessary headers
 		requestBase.addHeader("Authorization", "VIRGIL " + context.getAccessToken());
 		requestBase.addHeader("Content-Type", "application/json; charset=utf-8");
-		requestBase.addHeader("User-Agent", "Paw/3.0.12 (Macintosh; OS X/10.11.6) GCDHTTPRequest");
-		requestBase.addHeader("Host", "cards-stg.virgilsecurity.com");
 
 		return requestBase;
 	}

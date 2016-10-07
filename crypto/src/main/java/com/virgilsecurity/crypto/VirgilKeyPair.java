@@ -38,8 +38,6 @@ package com.virgilsecurity.crypto;
 
 /**
  * This class handles information about Virgil Security key pair.
- *
- * 
  * 
  * @author Andrii Iakovenko
  *

@@ -33,15 +33,15 @@ public class ClientTest extends AndroidTestCase {
     private PrivateKey appKey;
     private KeyPair aliceKeys;
 
-    private String CARDS_SERVICE = "https://cards-stg.virgilsecurity.com";
-    private String RO_CARDS_SERVICE = "https://cards-ro-stg.virgilsecurity.com";
-    private String IDENTITY_SERVICE = "https://identity-stg.virgilsecurity.com";
+    private String CARDS_SERVICE = "";
+    private String RO_CARDS_SERVICE = "";
+    private String IDENTITY_SERVICE = "";
 
-    private String APP_ID = "1ef2e45f6100792bc600828f1425b27ce7655a80543118f375bd894d7313aa00";
-    private String APP_BUNDLE = "com.teonit.v4testapp";
-    private String APP_TOKEN = "AT.11039a8217fc70c2d54dec1eef2638f5feb048c026f17f906b53e8019b56d58d";
-    private String APP_PRIVATE_KEY_PASSWORD = "12345678";
-    private String APP_PRIVATE_KEY = "-----BEGIN ENCRYPTED PRIVATE KEY-----\nMIGhMF0GCSqGSIb3DQEFDTBQMC8GCSqGSIb3DQEFDDAiBBASTCYEkLwzuwxJYJ19\npcddAgIRLDAKBggqhkiG9w0CCjAdBglghkgBZQMEASoEEJNMrCJkO6nmIRQcXkdG\nSwcEQD/W3xmpYWr1c780N3QPCzbyaQRnBcwVEOiTG4zbgd4qi8R009d2HslkFd1n\nB5ittvbB3FUnnrBPK+uoSltkG2o=\n-----END ENCRYPTED PRIVATE KEY-----\n";
+    private String APP_ID = "{APP_ID}";
+    private String APP_BUNDLE = "{APP_BUNDLE}";
+    private String APP_TOKEN = "{APP_TOKEN}";
+    private String APP_PRIVATE_KEY_PASSWORD = "{APP_PRIVATE_KEY_PASSWORD}";
+    private String APP_PRIVATE_KEY = "{APP_PRIVATE_KEY}";
 
 
     public void testFlow() {

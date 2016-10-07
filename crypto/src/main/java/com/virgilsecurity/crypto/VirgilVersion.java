@@ -36,6 +36,12 @@
 
 package com.virgilsecurity.crypto;
 
+/**
+ * Provides information about Virgil library version.
+ * 
+ * @author Andrii Iakovenko
+ *
+ */
 public class VirgilVersion implements java.lang.AutoCloseable {
 	private transient long swigCPtr;
 	protected transient boolean swigCMemOwn;
@@ -68,30 +74,56 @@ public class VirgilVersion implements java.lang.AutoCloseable {
 		delete();
 	}
 
+	/**
+	 * @return version number in the format MMNNPP (Major, Minor, Patch).
+	 */
 	public static long asNumber() {
 		return virgil_crypto_javaJNI.VirgilVersion_asNumber();
 	}
 
+	/**
+	 * @return the version number as string.
+	 */
 	public static String asString() {
 		return virgil_crypto_javaJNI.VirgilVersion_asString();
 	}
 
+	/**
+	 * @return the major version number.
+	 */
 	public static long majorVersion() {
 		return virgil_crypto_javaJNI.VirgilVersion_majorVersion();
 	}
 
+	/**
+	 * @return the minor version number.
+	 */
 	public static long minorVersion() {
 		return virgil_crypto_javaJNI.VirgilVersion_minorVersion();
 	}
 
+	/**
+	 * @return the patch version number.
+	 */
 	public static long patchVersion() {
 		return virgil_crypto_javaJNI.VirgilVersion_patchVersion();
 	}
 
+	/**
+	 * If current release contains some additional tag, like rc1, then version
+	 * full name will be different from the string returned by method
+	 * asString(), i.e. 1.3.4-rc1, or 1.3.4-coolfeature, etc.
+	 * 
+	 * @return version full name.
+	 */
 	public static String fullName() {
 		return virgil_crypto_javaJNI.VirgilVersion_fullName();
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilVersion}
+	 *
+	 */
 	public VirgilVersion() {
 		this(virgil_crypto_javaJNI.new_VirgilVersion(), true);
 	}

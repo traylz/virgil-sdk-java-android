@@ -36,6 +36,18 @@
 
 package com.virgilsecurity.crypto;
 
+/**
+ * <p>
+ * This class provides high-level interface to sign and verify data using Virgil
+ * Security keys.
+ * <p>
+ * <p>
+ * This module can sign / verify data provided by stream.
+ * </p>
+ *
+ * @author Andrii Iakovenko
+ *
+ */
 public class VirgilStreamSigner implements java.lang.AutoCloseable {
 	private transient long swigCPtr;
 	protected transient boolean swigCMemOwn;
@@ -68,24 +80,63 @@ public class VirgilStreamSigner implements java.lang.AutoCloseable {
 		delete();
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilStreamSigner}
+	 *
+	 * @param hashAlgorithm
+	 */
 	public VirgilStreamSigner(VirgilHash.Algorithm hashAlgorithm) {
 		this(virgil_crypto_javaJNI.new_VirgilStreamSigner__SWIG_0(hashAlgorithm.swigValue()), true);
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilStreamSigner}
+	 *
+	 */
 	public VirgilStreamSigner() {
 		this(virgil_crypto_javaJNI.new_VirgilStreamSigner__SWIG_1(), true);
 	}
 
+	/**
+	 * Sign data provided by the source with given private key.
+	 * 
+	 * @param source
+	 *            source of the data to be signed.
+	 * @param privateKey
+	 *            the private key protected with password.
+	 * @param privateKeyPassword
+	 *            the private key password.
+	 * @return Virgil Security sign.
+	 */
 	public byte[] sign(VirgilDataSource source, byte[] privateKey, byte[] privateKeyPassword) {
 		return virgil_crypto_javaJNI.VirgilStreamSigner_sign__SWIG_0(swigCPtr, this, VirgilDataSource.getCPtr(source),
 				source, privateKey, privateKeyPassword);
 	}
 
+	/**
+	 * Sign data provided by the source with given private key.
+	 * 
+	 * @param source
+	 *            source of the data to be signed.
+	 * @param privateKey
+	 *            the private key.
+	 * @return Virgil Security sign.
+	 */
 	public byte[] sign(VirgilDataSource source, byte[] privateKey) {
 		return virgil_crypto_javaJNI.VirgilStreamSigner_sign__SWIG_1(swigCPtr, this, VirgilDataSource.getCPtr(source),
 				source, privateKey);
 	}
 
+	/**
+	 * Verify sign and data provided by the source to be conformed to the given
+	 * public key.
+	 * 
+	 * @param source
+	 * @param sign
+	 * @param publicKey
+	 * @return {@code true} if sign is valid and data was not malformed.
+	 * 
+	 */
 	public boolean verify(VirgilDataSource source, byte[] sign, byte[] publicKey) {
 		return virgil_crypto_javaJNI.VirgilStreamSigner_verify(swigCPtr, this, VirgilDataSource.getCPtr(source), source,
 				sign, publicKey);

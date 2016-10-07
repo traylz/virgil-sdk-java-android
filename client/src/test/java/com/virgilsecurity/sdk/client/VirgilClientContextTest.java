@@ -33,9 +33,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * TODO: add type description
+ * Unit tests for {@link VirgilClientContext}
  *
- * @author ayakovenko
+ * @author Andrii Iakovenko
  *
  */
 public class VirgilClientContextTest {

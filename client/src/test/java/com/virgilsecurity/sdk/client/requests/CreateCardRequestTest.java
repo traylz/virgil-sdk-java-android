@@ -43,7 +43,7 @@ import com.virgilsecurity.sdk.crypto.VirgilCrypto;
 /**
  * TODO: add type description
  *
- * @author ayakovenko
+ * @author Andrii Iakovenko
  *
  */
 public class CreateCardRequestTest {

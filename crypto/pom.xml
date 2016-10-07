@@ -54,7 +54,6 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
 						<configuration>
-							<excludePackageNames>com.virgilsecurity.crypto</excludePackageNames>
 						</configuration>
 					</plugin>
 					<plugin>
