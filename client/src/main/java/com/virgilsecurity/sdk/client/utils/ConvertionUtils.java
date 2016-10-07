@@ -38,7 +38,7 @@ import com.google.gson.GsonBuilder;
 import com.virgilsecurity.crypto.VirgilBase64;
 
 /**
- * TODO: add type description
+ * Utilities class for data conversion.
  *
  * @author Andrii Iakovenko
  *
@@ -61,7 +61,8 @@ public class ConvertionUtils {
 	 * Convert {@code String} to byte array.
 	 * 
 	 * @param string
-	 * @return
+	 *            the string to converted.
+	 * @return the byte array.
 	 */
 	public static byte[] toBytes(String string) {
 		if (string == null) {
@@ -74,7 +75,8 @@ public class ConvertionUtils {
 	 * Convert byte array to {@code String}.
 	 * 
 	 * @param bytes
-	 * @return
+	 *            the byte array to be converted.
+	 * @return the string.
 	 */
 	public static String toString(byte[] bytes) {
 		if (bytes == null || bytes.length == 0) {
@@ -87,14 +89,21 @@ public class ConvertionUtils {
 	 * Encode string to Base64 string.
 	 * 
 	 * @param value
-	 *            The string to be converted.
-	 * @return
+	 *            the string to be converted.
+	 * @return the base64 string.
 	 */
 	public static String toBase64String(String value) {
 		byte[] bytes = value.getBytes(UTF8_CHARSET);
 		return VirgilBase64.encode(bytes);
 	}
 
+	/**
+	 * Convert string to Base64 byte array.
+	 * 
+	 * @param value
+	 *            the string to be converted.
+	 * @return the byte array.
+	 */
 	public static byte[] toBase64Array(String value) {
 		String str = VirgilBase64.encode(value.getBytes(UTF8_CHARSET));
 		return toBytes(str);
@@ -105,7 +114,7 @@ public class ConvertionUtils {
 	 * 
 	 * @param bytes
 	 *            the byte array to be encoded.
-	 * @return
+	 * @return the base64-encoded string.
 	 */
 	public static String toBase64String(byte[] bytes) {
 		return VirgilBase64.encode(bytes);
@@ -115,8 +124,8 @@ public class ConvertionUtils {
 	 * Decode Base64 string to string.
 	 * 
 	 * @param value
-	 *            The string to be converted.
-	 * @return
+	 *            the base64-encoded string to be converted.
+	 * @return the decoded string.
 	 */
 	public static String base64ToString(String value) {
 		return toString(VirgilBase64.decode(value));
@@ -127,12 +136,19 @@ public class ConvertionUtils {
 	 * 
 	 * @param value
 	 *            The string to be converted.
-	 * @return
+	 * @return the byte array.
 	 */
 	public static byte[] base64ToArray(String value) {
 		return VirgilBase64.decode(value);
 	}
 
+	/**
+	 * Decode Base64 byte array to string.
+	 * 
+	 * @param bytes
+	 *            the base64-encoded byte array.
+	 * @return the decoded string.
+	 */
 	public static String base64ToString(byte[] bytes) {
 		return toString(VirgilBase64.decode(toString(bytes)));
 	}
@@ -142,7 +158,8 @@ public class ConvertionUtils {
 	 * character encoding.
 	 * 
 	 * @param is
-	 * @return
+	 *            the input stream.
+	 * @return the input stream data as string.
 	 */
 	public static String toString(InputStream is) {
 		try (Scanner s = new Scanner(is, "UTF-8")) {

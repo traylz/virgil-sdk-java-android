@@ -102,7 +102,7 @@ public class SearchCriteria {
 	}
 
 	/**
-	 * @param identities
+	 * @param identity
 	 *            the identities to set
 	 */
 	public void addIdentity(String identity) {
@@ -110,7 +110,7 @@ public class SearchCriteria {
 	}
 
 	/**
-	 * @return the identityType
+	 * @return the identity type
 	 */
 	public String getIdentityType() {
 		return identityType;

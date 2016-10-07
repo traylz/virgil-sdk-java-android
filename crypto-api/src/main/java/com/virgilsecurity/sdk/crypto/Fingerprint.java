@@ -40,14 +40,14 @@ public interface Fingerprint {
 	/**
 	 * Returns fingerprint value.
 	 * 
-	 * @return the value
+	 * @return the fingerprint value.
 	 */
 	byte[] getValue();
 
 	/**
 	 * To the hexadecimal.
 	 * 
-	 * @return
+	 * @return fingerprint as hax string.
 	 */
 	String toHex();
 

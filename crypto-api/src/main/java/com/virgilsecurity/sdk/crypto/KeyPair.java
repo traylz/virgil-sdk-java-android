@@ -30,7 +30,7 @@
 package com.virgilsecurity.sdk.crypto;
 
 /**
- * TODO: add type description
+ * The key pair.
  *
  * @author Andrii Iakovenko
  *
@@ -52,7 +52,9 @@ public class KeyPair {
 	 * Create a new instance of {@code KeyPair}
 	 *
 	 * @param publicKey
+	 *            the public key.
 	 * @param privateKey
+	 *            the private key.
 	 */
 	public KeyPair(PublicKey publicKey, PrivateKey privateKey) {
 		this.publicKey = publicKey;
@@ -68,7 +70,7 @@ public class KeyPair {
 
 	/**
 	 * @param publicKey
-	 *            the publicKey to set
+	 *            the public key to set
 	 */
 	public void setPublicKey(PublicKey publicKey) {
 		this.publicKey = publicKey;

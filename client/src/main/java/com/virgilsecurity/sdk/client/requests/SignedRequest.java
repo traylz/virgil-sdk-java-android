@@ -62,14 +62,16 @@ public abstract class SignedRequest {
 	 * Restores the request from snapshot.
 	 * 
 	 * @param snapshot
+	 *            the request snapshot.
 	 * @param signatures
+	 *            the request signatures.
 	 */
 	protected abstract void restoreRequest(String snapshot, Map<String, String> signatures);
 
 	/**
 	 * Takes the request snapshot.
 	 * 
-	 * @return
+	 * @return the snapshot.
 	 */
 	protected abstract String takeSnapshot();
 
@@ -77,7 +79,9 @@ public abstract class SignedRequest {
 	 * Appends the signature of request fingerprint.
 	 * 
 	 * @param cardId
+	 *            the card identifier.
 	 * @param signature
+	 *            the signature.
 	 */
 	public void appendSignature(String cardId, String signature) {
 		if (StringUtils.isBlank(cardId)) {
@@ -108,6 +112,11 @@ public abstract class SignedRequest {
 		return requestModel;
 	}
 
+	/**
+	 * Export request.
+	 * 
+	 * @return the request model as string.
+	 */
 	public String export() {
 		SignedRequestModel requestModel = this.getRequestModel();
 
@@ -116,10 +125,13 @@ public abstract class SignedRequest {
 	}
 
 	/**
+	 * Import request.
+	 * 
 	 * @param exportedRequest
-	 *            The request as Base64 encoded string.
-	 * @param request
-	 * @return
+	 *            the request as Base64 encoded string.
+	 * @param clazz
+	 *            the request class.
+	 * @return the request.
 	 */
 	public static <T extends SignedRequest> SignedRequest importRequest(String exportedRequest, Class<T> clazz) {
 		String jsonModel = ConvertionUtils.base64ToString(exportedRequest);
@@ -141,6 +153,8 @@ public abstract class SignedRequest {
 	}
 
 	/**
+	 * Get request snapshot.
+	 * 
 	 * @return the snapshot
 	 */
 	public String getSnapshot() {

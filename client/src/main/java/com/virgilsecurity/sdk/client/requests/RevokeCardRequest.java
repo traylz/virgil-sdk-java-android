@@ -56,6 +56,8 @@ public class RevokeCardRequest extends SignedRequest {
 	/**
 	 * Create a new instance of {@code RevokeCardRequest}
 	 *
+	 * @param cardId the card identifier.
+	 * @param reason the reason of revocation.
 	 */
 	public RevokeCardRequest(String cardId, RevocationReason reason) {
 		this.cardId = cardId;

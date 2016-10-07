@@ -31,15 +31,15 @@ package com.virgilsecurity.sdk.crypto;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.SignatureException;
 
 import com.virgilsecurity.sdk.crypto.exception.CryptoException;
 import com.virgilsecurity.sdk.crypto.exception.DecryptionException;
 import com.virgilsecurity.sdk.crypto.exception.EncryptionException;
+import com.virgilsecurity.sdk.crypto.exception.SigningException;
 import com.virgilsecurity.sdk.crypto.exception.VerificationException;
 
 /**
- * TODO: add type description
+ * This interface describes generic Crypto functionality.
  *
  * @author Andrii Iakovenko
  *
@@ -53,9 +53,17 @@ public interface Crypto {
 	 *            The data to calculate fingerprint for.
 	 * @return the fingerprint as {@code String}.
 	 */
-
 	Fingerprint calculateFingerprint(byte[] content);
 
+	/**
+	 * Compute data hash with algorithm specified.
+	 * 
+	 * @param data
+	 *            the data for hashing.
+	 * @param algorithm
+	 *            the algorithm to be used for hash calculation.
+	 * @return the hash code.
+	 */
 	byte[] computeHash(byte[] data, HashAlgorithm algorithm);
 
 	/**
@@ -67,7 +75,6 @@ public interface Crypto {
 	 *            the recipients private key.
 	 * @return the decrypted data as byte array.
 	 */
-
 	byte[] decrypt(byte[] data, PrivateKey privateKey);
 
 	/**
@@ -84,7 +91,6 @@ public interface Crypto {
 	 * @see PublicKey
 	 * @see PrivateKey
 	 */
-
 	void decrypt(InputStream inputStream, OutputStream outputStream, PrivateKey privateKey);
 
 	/**
@@ -98,7 +104,6 @@ public interface Crypto {
 	 * 
 	 * @see PublicKey
 	 */
-
 	byte[] encrypt(byte[] data, PublicKey[] recipients);
 
 	/**
@@ -111,8 +116,8 @@ public interface Crypto {
 	 * @param recipients
 	 *            the recipients public key set.
 	 * @throws EncryptionException
+	 *             if encryption failed.
 	 */
-
 	void encrypt(InputStream inputStream, OutputStream outputStream, PublicKey[] recipients);
 
 	/**
@@ -120,11 +125,10 @@ public interface Crypto {
 	 * 
 	 * @param privateKey
 	 *            the private key.
-	 * @return
+	 * @return the exported private key as byte array.
 	 * 
 	 * @see PrivateKey
 	 */
-
 	byte[] exportPrivateKey(PrivateKey privateKey);
 
 	/**
@@ -134,7 +138,7 @@ public interface Crypto {
 	 *            the private key.
 	 * @param password
 	 *            the private key password.
-	 * @return
+	 * @return the exported private key as byte array.
 	 * 
 	 * @see PrivateKey
 	 */
@@ -146,16 +150,19 @@ public interface Crypto {
 	 * 
 	 * @param publicKey
 	 *            the public key.
-	 * @return
+	 * @return the exported public key as byte array.
 	 * 
 	 * @see PublicKey
 	 */
 
 	byte[] exportPublicKey(PublicKey publicKey);
-	
+
 	/**
+	 * Extract public key from private key.
+	 * 
 	 * @param privateKey
-	 * @return
+	 *            the private key.
+	 * @return the extracted public key.
 	 */
 	PublicKey extractPublicKey(PrivateKey privateKey);
 
@@ -167,7 +174,6 @@ public interface Crypto {
 	 * @see PrivateKey
 	 * @see PublicKey
 	 */
-
 	KeyPair generateKeys();
 
 	/**
@@ -176,11 +182,11 @@ public interface Crypto {
 	 * @param keyData
 	 *            the Base64 encoded private key.
 	 * @return the private key.
-	 * @throws CryptoException 
+	 * @throws CryptoException
+	 *             if private key couldn't be imported.
 	 * 
 	 * @see PrivateKey
 	 */
-
 	PrivateKey importPrivateKey(byte[] keyData);
 
 	/**
@@ -191,22 +197,22 @@ public interface Crypto {
 	 * @param password
 	 *            the private key password.
 	 * @return the private key.
-	 * @throws CryptoException 
+	 * @throws CryptoException
+	 *             if private key couldn't be imported.
 	 * 
 	 * @see PrivateKey
 	 */
-
 	PrivateKey importPrivateKey(byte[] keyData, String password);
 
 	/**
 	 * Import public key from byte array.
 	 * 
 	 * @param publicKey
+	 *            the public key.
 	 * @return the public key.
 	 * 
 	 * @see PublicKey
 	 */
-
 	PublicKey importPublicKey(byte[] publicKey);
 
 	/**
@@ -220,7 +226,6 @@ public interface Crypto {
 	 * 
 	 * @see PrivateKey
 	 */
-
 	byte[] sign(byte[] data, PrivateKey privateKey);
 
 	/**
@@ -231,11 +236,11 @@ public interface Crypto {
 	 * @param privateKey
 	 *            the signer's private key.
 	 * @return the signature.
-	 * @throws SignatureException
+	 * @throws SigningException
+	 *             if stream couldn't be signed.
 	 * 
 	 * @see PrivateKey
 	 */
-
 	byte[] sign(InputStream inputStream, PrivateKey privateKey);
 
 	/**
@@ -248,9 +253,9 @@ public interface Crypto {
 	 * @param signer
 	 *            the signer's public key.
 	 * @return {@code true} if signature is valid. {@code false} in other case.
-	 * @throws VerificationException 
+	 * @throws VerificationException
+	 *             if data couldn't be verified.
 	 */
-
 	boolean verify(byte[] data, byte[] signature, PublicKey signer);
 
 	/**
@@ -264,11 +269,33 @@ public interface Crypto {
 	 *            the signer's public key.
 	 * @return {@code true} if signature is valid. {@code false} in other case.
 	 * @throws VerificationException
+	 *             if data couldn't be verified.
 	 */
-
 	boolean verify(InputStream inputStream, byte[] signature, PublicKey signer);
 
+	/**
+	 * Sign data and encrypt.
+	 * 
+	 * @param data
+	 *            the data to be signed and encrypted.
+	 * @param privateKey
+	 *            the private key used for signing.
+	 * @param recipients
+	 *            the recipient public keys.
+	 * @return the signed and encrypted data.
+	 */
 	byte[] signThenEncrypt(byte[] data, PrivateKey privateKey, PublicKey[] recipients);
 
+	/**
+	 * Decrypt data and verify.
+	 * 
+	 * @param cipherData
+	 *            the encrypted data to be decrypted.
+	 * @param privateKey
+	 *            the private key used for decryption.
+	 * @param publicKey
+	 *            the public key used for verify.
+	 * @return the decrypted data.
+	 */
 	byte[] decryptThenVerify(byte[] cipherData, PrivateKey privateKey, PublicKey publicKey);
 }

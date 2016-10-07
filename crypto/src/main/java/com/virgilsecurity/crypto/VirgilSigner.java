@@ -85,7 +85,7 @@ public class VirgilSigner implements java.lang.AutoCloseable {
 	 * Specified hash function algorithm is used only during signing.
 	 * </p>
 	 *
-	 * @param hashAlgorithm
+	 * @param hashAlgorithm the hash algorithm.
 	 */
 	public VirgilSigner(VirgilHash.Algorithm hashAlgorithm) {
 		this(virgil_crypto_javaJNI.new_VirgilSigner__SWIG_0(hashAlgorithm.swigValue()), true);

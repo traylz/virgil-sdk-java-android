@@ -49,6 +49,7 @@ public class RequestSigner {
 	 * Create a new instance of {@code RequestSigner}
 	 *
 	 * @param crypto
+	 *            the crypto.
 	 */
 	public RequestSigner(Crypto crypto) {
 		this.crypto = crypto;

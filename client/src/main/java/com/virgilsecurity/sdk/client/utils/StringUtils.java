@@ -30,7 +30,7 @@
 package com.virgilsecurity.sdk.client.utils;
 
 /**
- * p>Operations on {@link java.lang.String} that are {@code null} safe.
+ * Operations on {@link java.lang.String} that are {@code null} safe.
  *
  * @author Andrii Iakovenko
  *

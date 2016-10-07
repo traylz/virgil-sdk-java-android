@@ -115,7 +115,7 @@ public class VirgilHash extends VirgilAsn1Compatible implements java.lang.AutoCl
 	/**
 	 * Return underlying hash type. Used for internal purposes only.
 	 * 
-	 * @return
+	 * @return the hash type.
 	 */
 	public int type() {
 		return virgil_crypto_javaJNI.VirgilHash_type(swigCPtr, this);

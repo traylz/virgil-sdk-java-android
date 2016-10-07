@@ -42,7 +42,7 @@ public interface CardValidator {
 	 * 
 	 * @param card
 	 *            The card to be validated.
-	 * @return
+	 * @return {@code true} if card passed the validation.
 	 */
 	boolean validate(Card card);
 

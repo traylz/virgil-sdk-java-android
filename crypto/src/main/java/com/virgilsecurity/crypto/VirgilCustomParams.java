@@ -77,7 +77,7 @@ public class VirgilCustomParams extends VirgilAsn1Compatible implements java.lan
 	/**
 	 * Define whether no one parameter is set.
 	 * 
-	 * @return
+	 * @return {@code true} if no parameter set.
 	 */
 	public boolean isEmpty() {
 		return virgil_crypto_javaJNI.VirgilCustomParams_isEmpty(swigCPtr, this);
@@ -100,7 +100,7 @@ public class VirgilCustomParams extends VirgilAsn1Compatible implements java.lan
 	 * 
 	 * @param key
 	 *            The parameter key.
-	 * @returnThe parameter value.
+	 * @return the parameter value.
 	 */
 	public int getInteger(byte[] key) {
 		return virgil_crypto_javaJNI.VirgilCustomParams_getInteger(swigCPtr, this, key);
@@ -132,8 +132,8 @@ public class VirgilCustomParams extends VirgilAsn1Compatible implements java.lan
 	 * Get parameter of {@code String} type.
 	 * 
 	 * @param key
-	 *            The parameter key.
-	 * @returnThe parameter value.
+	 *            the parameter key.
+	 * @return the parameter value.
 	 */
 	public byte[] getString(byte[] key) {
 		return virgil_crypto_javaJNI.VirgilCustomParams_getString(swigCPtr, this, key);
@@ -143,7 +143,7 @@ public class VirgilCustomParams extends VirgilAsn1Compatible implements java.lan
 	 * Remove parameter of {@code String} type.
 	 * 
 	 * @param key
-	 *            The parameter key.
+	 *            the parameter key.
 	 */
 	public void removeString(byte[] key) {
 		virgil_crypto_javaJNI.VirgilCustomParams_removeString(swigCPtr, this, key);
@@ -166,7 +166,7 @@ public class VirgilCustomParams extends VirgilAsn1Compatible implements java.lan
 	 * 
 	 * @param key
 	 *            The parameter key.
-	 * @returnThe parameter value.
+	 * @return the parameter value.
 	 */
 	public byte[] getData(byte[] key) {
 		return virgil_crypto_javaJNI.VirgilCustomParams_getData(swigCPtr, this, key);
@@ -183,8 +183,8 @@ public class VirgilCustomParams extends VirgilAsn1Compatible implements java.lan
 	}
 
 	/**
-	 * Remove all parameters. 
-
+	 * Remove all parameters.
+	 * 
 	 */
 	public void clear() {
 		virgil_crypto_javaJNI.VirgilCustomParams_clear(swigCPtr, this);
@@ -202,6 +202,7 @@ public class VirgilCustomParams extends VirgilAsn1Compatible implements java.lan
 	 * Create a new instance of {@code VirgilCustomParams}
 	 *
 	 * @param other
+	 *            the source custom parameters.
 	 */
 	public VirgilCustomParams(VirgilCustomParams other) {
 		this(virgil_crypto_javaJNI.new_VirgilCustomParams__SWIG_1(VirgilCustomParams.getCPtr(other), other), true);

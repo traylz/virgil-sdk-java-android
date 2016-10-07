@@ -46,12 +46,6 @@ package com.virgilsecurity.crypto;
 public class VirgilCipher extends VirgilCipherBase implements java.lang.AutoCloseable {
 	private transient long swigCPtr;
 
-	/**
-	 * Create a new instance of {@code VirgilCipher}
-	 *
-	 * @param cPtr
-	 * @param cMemoryOwn
-	 */
 	protected VirgilCipher(long cPtr, boolean cMemoryOwn) {
 		super(virgil_crypto_javaJNI.VirgilCipher_SWIGUpcast(cPtr), cMemoryOwn);
 		swigCPtr = cPtr;

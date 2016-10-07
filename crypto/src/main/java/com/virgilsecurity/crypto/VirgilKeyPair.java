@@ -78,10 +78,10 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	 * Generate new key pair given type.
 	 * 
 	 * @param type
-	 *            Private key type to be generated.
+	 *            the private key type to be generated.
 	 * @param pwd
-	 *            Private key password.
-	 * @return
+	 *            the private key password.
+	 * @return generated key pair.
 	 */
 	public static VirgilKeyPair generate(VirgilKeyPair.Type type, byte[] pwd) {
 		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generate__SWIG_0(type.swigValue(), pwd), true);
@@ -91,8 +91,8 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	 * Generate new key pair given type.
 	 * 
 	 * @param type
-	 *            Private key type to be generated.
-	 * @return
+	 *            the private key type to be generated.
+	 * @return generated key pair.
 	 */
 	public static VirgilKeyPair generate(VirgilKeyPair.Type type) {
 		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generate__SWIG_1(type.swigValue()), true);
@@ -103,7 +103,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	 * 
 	 * @param pwd
 	 *            Private key password.
-	 * @return
+	 * @return generated key pair.
 	 */
 	public static VirgilKeyPair generateRecommended(byte[] pwd) {
 		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generateRecommended__SWIG_0(pwd), true);
@@ -112,7 +112,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	/**
 	 * Generate new key pair with recommended most safe type.
 	 * 
-	 * @return
+	 * @return generated key pair.
 	 */
 	public static VirgilKeyPair generateRecommended() {
 		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generateRecommended__SWIG_1(), true);
@@ -129,7 +129,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	 *            Donor private key password, optional if public key is defined.
 	 * @param newKeyPairPassword
 	 *            Private key password of the new key pair.
-	 * @return
+	 * @return generated key pair.
 	 */
 	public static VirgilKeyPair generateFrom(VirgilKeyPair donorKeyPair, byte[] donorPrivateKeyPassword,
 			byte[] newKeyPairPassword) {
@@ -146,7 +146,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	 *            pair type.
 	 * @param donorPrivateKeyPassword
 	 *            Donor private key password, optional if public key is defined.
-	 * @return
+	 * @return generated key pair.
 	 */
 	public static VirgilKeyPair generateFrom(VirgilKeyPair donorKeyPair, byte[] donorPrivateKeyPassword) {
 		return new VirgilKeyPair(virgil_crypto_javaJNI.VirgilKeyPair_generateFrom__SWIG_1(
@@ -160,7 +160,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	 * @param donorKeyPair
 	 *            Public key or private key is used to determine the new key
 	 *            pair type.
-	 * @return
+	 * @return generated key pair.
 	 */
 	public static VirgilKeyPair generateFrom(VirgilKeyPair donorKeyPair) {
 		return new VirgilKeyPair(virgil_crypto_javaJNI
@@ -177,7 +177,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	 *            Private key in DER or PEM format.
 	 * @param privateKeyPassword
 	 *            Private key password if exists.
-	 * @return
+	 * @return {@code true} if keys matche.
 	 */
 	public static boolean isKeyPairMatch(byte[] publicKey, byte[] privateKey, byte[] privateKeyPassword) {
 		return virgil_crypto_javaJNI.VirgilKeyPair_isKeyPairMatch__SWIG_0(publicKey, privateKey, privateKeyPassword);
@@ -191,7 +191,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	 *            Public key in DER or PEM format.
 	 * @param privateKey
 	 *            Private key in DER or PEM format.
-	 * @return
+	 * @return {@code true} if keys matche.
 	 */
 	public static boolean isKeyPairMatch(byte[] publicKey, byte[] privateKey) {
 		return virgil_crypto_javaJNI.VirgilKeyPair_isKeyPairMatch__SWIG_1(publicKey, privateKey);
@@ -204,7 +204,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	 *            Private key in DER or PEM format.
 	 * @param pwd
 	 *            Private key password.
-	 * @return {@code true} - if private key and it's password matches.
+	 * @return {@code true} if private key and it's password matches.
 	 */
 	public static boolean checkPrivateKeyPassword(byte[] key, byte[] pwd) {
 		return virgil_crypto_javaJNI.VirgilKeyPair_checkPrivateKeyPassword(key, pwd);
@@ -227,7 +227,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	 * <p>
 	 * Reset password for the given private key.
 	 * </p>
-	 * </p>
+	 * <p>
 	 * Re-encrypt given Private Key with a new password.
 	 * </p>
 	 * 
@@ -379,7 +379,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	/**
 	 * Provide access to the public key.
 	 * 
-	 * @return
+	 * @return the public key.
 	 */
 	public byte[] publicKey() {
 		return virgil_crypto_javaJNI.VirgilKeyPair_publicKey(swigCPtr, this);
@@ -388,7 +388,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	/**
 	 * Provide access to the private key.
 	 * 
-	 * @return
+	 * @return the private key.
 	 */
 	public byte[] privateKey() {
 		return virgil_crypto_javaJNI.VirgilKeyPair_privateKey(swigCPtr, this);
@@ -397,7 +397,7 @@ public class VirgilKeyPair implements java.lang.AutoCloseable {
 	/**
 	 * Create a new instance of {@code VirgilKeyPair}
 	 *
-	 * @param other
+	 * @param other the source key pair.
 	 */
 	public VirgilKeyPair(VirgilKeyPair other) {
 		this(virgil_crypto_javaJNI.new_VirgilKeyPair__SWIG_1(VirgilKeyPair.getCPtr(other), other), true);

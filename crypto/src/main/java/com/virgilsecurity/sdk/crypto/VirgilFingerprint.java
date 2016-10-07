@@ -44,7 +44,7 @@ public class VirgilFingerprint implements Fingerprint {
 	/**
 	 * Create a new instance of {@code VirgilFingerprint}
 	 *
-	 * @param fingerprint
+	 * @param fingerprint the source fingerprint.
 	 */
 	public VirgilFingerprint(byte[] fingerprint) {
 		this.value = fingerprint;
@@ -53,7 +53,7 @@ public class VirgilFingerprint implements Fingerprint {
 	/**
 	 * Create a new instance of {@code VirgilFingerprint}
 	 *
-	 * @param fingerprintHex
+	 * @param fingerprintHex the source fingerprint as hex string.
 	 */
 	public VirgilFingerprint(String fingerprintHex) {
 		this.value = VirgilByteArrayUtils.hexToBytes(fingerprintHex);

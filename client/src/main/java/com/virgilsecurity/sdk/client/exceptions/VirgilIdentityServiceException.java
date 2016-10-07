@@ -43,6 +43,7 @@ public class VirgilIdentityServiceException extends VirgilServiceException {
 	 * Create a new instance of {@code VirgilIdentityServiceException}
 	 *
 	 * @param e
+	 *            the exception.
 	 */
 	public VirgilIdentityServiceException(Exception e) {
 		super(e);

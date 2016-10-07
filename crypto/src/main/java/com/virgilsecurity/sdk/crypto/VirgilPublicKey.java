@@ -34,7 +34,7 @@ import java.io.Serializable;
 /**
  * A public key.
  * 
- * @see VirgilCryptoObject
+ * @see VirgilCrypto
  * @see PublicKey
  * 
  * @author Andrii Iakovenko

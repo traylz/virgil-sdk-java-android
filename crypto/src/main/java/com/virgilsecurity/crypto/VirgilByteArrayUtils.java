@@ -43,12 +43,6 @@ public class VirgilByteArrayUtils implements java.lang.AutoCloseable {
 	private transient long swigCPtr;
 	protected transient boolean swigCMemOwn;
 
-	/**
-	 * Create a new instance of {@code VirgilByteArrayUtils}
-	 *
-	 * @param cPtr
-	 * @param cMemoryOwn
-	 */
 	protected VirgilByteArrayUtils(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;
 		swigCPtr = cPtr;
@@ -80,7 +74,7 @@ public class VirgilByteArrayUtils implements java.lang.AutoCloseable {
 	/**
 	 * Represents given JSON object as byte array in canonical form.
 	 * 
-	 * @param json
+	 * @param json the json string.
 	 * @return The byte array.
 	 */
 	public static byte[] jsonToBytes(String json) {
@@ -90,7 +84,7 @@ public class VirgilByteArrayUtils implements java.lang.AutoCloseable {
 	/**
 	 * Represents given string as byte array.
 	 * 
-	 * @param str
+	 * @param str the string.
 	 * @return The byte array.
 	 */
 	public static byte[] stringToBytes(String str) {
@@ -102,7 +96,7 @@ public class VirgilByteArrayUtils implements java.lang.AutoCloseable {
 	 * 
 	 * @param array
 	 *            The byte array.
-	 * @return
+	 * @return the string.
 	 */
 	public static String bytesToString(byte[] array) {
 		return virgil_crypto_javaJNI.VirgilByteArrayUtils_bytesToString(array);

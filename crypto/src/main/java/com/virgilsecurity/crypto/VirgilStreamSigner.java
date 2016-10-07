@@ -84,6 +84,7 @@ public class VirgilStreamSigner implements java.lang.AutoCloseable {
 	 * Create a new instance of {@code VirgilStreamSigner}
 	 *
 	 * @param hashAlgorithm
+	 *            the hash algorithm.
 	 */
 	public VirgilStreamSigner(VirgilHash.Algorithm hashAlgorithm) {
 		this(virgil_crypto_javaJNI.new_VirgilStreamSigner__SWIG_0(hashAlgorithm.swigValue()), true);
@@ -132,8 +133,11 @@ public class VirgilStreamSigner implements java.lang.AutoCloseable {
 	 * public key.
 	 * 
 	 * @param source
+	 *            source of the data to be verified.
 	 * @param sign
+	 *            the signature.
 	 * @param publicKey
+	 *            the public key.
 	 * @return {@code true} if sign is valid and data was not malformed.
 	 * 
 	 */

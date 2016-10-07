@@ -94,6 +94,7 @@ public class VirgilDataSource implements java.lang.AutoCloseable {
 	/**
 	 * @return Return {@code true} if target source still contains unread data.
 	 * @throws java.io.IOException
+	 *             if an error occurred.
 	 */
 	public boolean hasData() throws java.io.IOException {
 		return virgil_crypto_javaJNI.VirgilDataSource_hasData(swigCPtr, this);
@@ -103,6 +104,7 @@ public class VirgilDataSource implements java.lang.AutoCloseable {
 	 * @return Return next portion of read data from target source.
 	 * 
 	 * @throws java.io.IOException
+	 *             if an error occurred.
 	 */
 	public byte[] read() throws java.io.IOException {
 		return virgil_crypto_javaJNI.VirgilDataSource_read(swigCPtr, this);

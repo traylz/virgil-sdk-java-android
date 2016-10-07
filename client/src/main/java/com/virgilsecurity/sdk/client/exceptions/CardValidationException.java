@@ -49,6 +49,7 @@ public class CardValidationException extends VirgilException {
 	/**
 	 * Create a new instance of {@code CardValidationException}
 	 *
+	 * @param invalidCards the list of invalid cards.
 	 */
 	public CardValidationException(List<Card> invalidCards) {
 		super("One or more cards didn't pass the validation");

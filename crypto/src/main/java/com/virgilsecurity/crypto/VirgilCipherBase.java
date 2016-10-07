@@ -46,12 +46,6 @@ public class VirgilCipherBase implements java.lang.AutoCloseable {
 	private transient long swigCPtr;
 	protected transient boolean swigCMemOwn;
 
-	/**
-	 * Create a new instance of {@code VirgilCipherBase}
-	 *
-	 * @param cPtr
-	 * @param cMemoryOwn
-	 */
 	protected VirgilCipherBase(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;
 		swigCPtr = cPtr;
@@ -123,14 +117,14 @@ public class VirgilCipherBase implements java.lang.AutoCloseable {
 	 * </p>
 	 * <p>
 	 * Search order:
+	 * </p>
 	 * <ul>
 	 * <li>Local structures - useful when cipher is used for encryption.
 	 * <li>ContentInfo structure - useful when cipher is used for decryption.
 	 * </ul>
-	 * </p>
 	 * 
 	 * @param recipientId
-	 *            Recipient's unique identifier.
+	 *            the recipient's unique identifier.
 	 * 
 	 * @return {@code true} if recipient with given identifier exists,
 	 *         {@code false} - otherwise.
@@ -178,10 +172,10 @@ public class VirgilCipherBase implements java.lang.AutoCloseable {
 	 * </p>
 	 * <p>
 	 * Search order:
+	 * </p>
 	 * <ul>
 	 * <li>Local structures - useful when cipher is used for encryption.
 	 * </ul>
-	 * </p>
 	 * 
 	 * @param password
 	 *            Recipient's unique identifier.
@@ -234,6 +228,7 @@ public class VirgilCipherBase implements java.lang.AutoCloseable {
 	 * Read content info size as part of the data.
 	 * 
 	 * @param data
+	 *            the data.
 	 * @return Size of the content info if it is exist as part of the data,
 	 *         {@code 0} - otherwise.
 	 */
@@ -252,7 +247,7 @@ public class VirgilCipherBase implements java.lang.AutoCloseable {
 	 * Use this method before encryption process.
 	 * </p>
 	 * 
-	 * @return
+	 * @return custom params.
 	 */
 	public VirgilCustomParams customParams() {
 		return new VirgilCustomParams(virgil_crypto_javaJNI.VirgilCipherBase_customParams__SWIG_0(swigCPtr, this),
@@ -261,15 +256,19 @@ public class VirgilCipherBase implements java.lang.AutoCloseable {
 
 	/**
 	 * <p>
-	 * Compute shared secret key on a given keys.</>
+	 * Compute shared secret key on a given keys.
+	 * </p>
 	 * <p>
 	 * Keys SHOULD be of the identical type, i.e. both of type Curve25519.
 	 * </p>
 	 * 
 	 * @param publicKey
+	 *            the public key.
 	 * @param privateKey
+	 *            the private key.
 	 * @param privateKeyPassword
-	 * @return
+	 *            the private key password.
+	 * @return the shared secret key.
 	 */
 	public static byte[] computeShared(byte[] publicKey, byte[] privateKey, byte[] privateKeyPassword) {
 		return virgil_crypto_javaJNI.VirgilCipherBase_computeShared__SWIG_0(publicKey, privateKey, privateKeyPassword);
@@ -277,14 +276,17 @@ public class VirgilCipherBase implements java.lang.AutoCloseable {
 
 	/**
 	 * <p>
-	 * Compute shared secret key on a given keys.</>
+	 * Compute shared secret key on a given keys.
+	 * </p>
 	 * <p>
 	 * Keys SHOULD be of the identical type, i.e. both of type Curve25519.
 	 * </p>
 	 * 
 	 * @param publicKey
+	 *            the public key.
 	 * @param privateKey
-	 * @return
+	 *            the private key.
+	 * @return the shared secret key.
 	 */
 	public static byte[] computeShared(byte[] publicKey, byte[] privateKey) {
 		return virgil_crypto_javaJNI.VirgilCipherBase_computeShared__SWIG_1(publicKey, privateKey);

@@ -88,6 +88,7 @@ public class VirgilClient {
 	 * Create a new instance of {@code VirgilClient}
 	 *
 	 * @param accessToken
+	 *            the access token.
 	 */
 	public VirgilClient(String accessToken) {
 		this.context = new VirgilClientContext(accessToken);
@@ -97,6 +98,7 @@ public class VirgilClient {
 	 * Create a new instance of {@code VirgilClient}
 	 *
 	 * @param context
+	 *            the virgil client context.
 	 */
 	public VirgilClient(VirgilClientContext context) {
 		this.context = context;
@@ -172,9 +174,13 @@ public class VirgilClient {
 	}
 
 	/**
+	 * Register a new card.
+	 * 
 	 * @param request
-	 * @return
+	 *            the create card request.
+	 * @return the created card.
 	 * @throws VirgilServiceException
+	 *             if an error occurred.
 	 */
 	public Card createCard(CreateCardRequest request) throws VirgilServiceException {
 		URIBuilder builder;
@@ -197,8 +203,11 @@ public class VirgilClient {
 	}
 
 	/**
+	 * Get card by identifier.
+	 * 
 	 * @param cardId
-	 * @return
+	 *            the card identifier.
+	 * @return the card.
 	 */
 	public Card getCard(String cardId) {
 		URIBuilder builder;
@@ -221,7 +230,10 @@ public class VirgilClient {
 	}
 
 	/**
+	 * Revoke existing card.
+	 * 
 	 * @param request
+	 *            the revoke card request.
 	 */
 	public void revokeCard(RevokeCardRequest request) {
 		URIBuilder builder;
@@ -244,8 +256,11 @@ public class VirgilClient {
 	}
 
 	/**
+	 * Search cards by criteria.
+	 * 
 	 * @param criteria
-	 * @return
+	 *            the criteria for search.
+	 * @return the found cards list.
 	 */
 	public List<Card> searchCards(SearchCriteria criteria) {
 		if (criteria == null) {

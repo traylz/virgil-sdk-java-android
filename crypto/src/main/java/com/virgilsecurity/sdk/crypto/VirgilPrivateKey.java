@@ -34,7 +34,7 @@ import java.io.Serializable;
 /**
  * A private key.
  * 
- * @see VirgilCryptoObject
+ * @see VirgilCrypto
  * @see VirgilPublicKey
  * 
  * @author Andrii Iakovenko
@@ -59,7 +59,9 @@ public class VirgilPrivateKey implements PrivateKey, Serializable {
 	 * Create a new instance of {@code VirgilPrivateKey}
 	 *
 	 * @param id
+	 *            the key identifier.
 	 * @param value
+	 *            the key value.
 	 */
 	public VirgilPrivateKey(byte[] id, byte[] value) {
 		this.id = id;
@@ -77,6 +79,7 @@ public class VirgilPrivateKey implements PrivateKey, Serializable {
 
 	/**
 	 * @param id
+	 *            the id to set.
 	 */
 	public void setId(byte[] id) {
 		this.id = id;

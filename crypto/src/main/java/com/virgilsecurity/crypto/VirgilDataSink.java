@@ -94,6 +94,7 @@ public class VirgilDataSink implements java.lang.AutoCloseable {
 	/**
 	 * @return Return {@code true} if target object is able to write data.
 	 * @throws java.io.IOException
+	 *             if an error occurred.
 	 */
 	public boolean isGood() throws java.io.IOException {
 		return virgil_crypto_javaJNI.VirgilDataSink_isGood(swigCPtr, this);
@@ -103,7 +104,9 @@ public class VirgilDataSink implements java.lang.AutoCloseable {
 	 * Write data to the target object.
 	 * 
 	 * @param data
+	 *            the data.
 	 * @throws java.io.IOException
+	 *             if an error occurred.
 	 */
 	public void write(byte[] data) throws java.io.IOException {
 		virgil_crypto_javaJNI.VirgilDataSink_write(swigCPtr, this, data);

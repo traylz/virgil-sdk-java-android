@@ -122,6 +122,11 @@ public class VirgilCrypto implements Crypto {
 		return VirgilKeyPair.Type.FAST_EC_ED25519;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#calculateFingerprint(byte[])
+	 */
 	@Override
 	public Fingerprint calculateFingerprint(byte[] content) {
 		if (content == null) {
@@ -134,6 +139,12 @@ public class VirgilCrypto implements Crypto {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#computeHash(byte[],
+	 * com.virgilsecurity.sdk.crypto.HashAlgorithm)
+	 */
 	@Override
 	public byte[] computeHash(byte[] data, HashAlgorithm algorithm) {
 		if (data == null) {
@@ -145,11 +156,21 @@ public class VirgilCrypto implements Crypto {
 		}
 	}
 
+	/**
+	 * @param publicKey
+	 * @return
+	 */
 	private byte[] computePublicKeyHash(byte[] publicKey) {
 		byte[] publicKeyDER = VirgilKeyPair.publicKeyToDER(publicKey);
 		return this.computeHash(publicKeyDER, HashAlgorithm.SHA256);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#decrypt(byte[],
+	 * com.virgilsecurity.sdk.crypto.PrivateKey)
+	 */
 	@Override
 	public byte[] decrypt(byte[] cipherData, PrivateKey privateKey) {
 		try (VirgilCipher cipher = new VirgilCipher()) {
@@ -158,6 +179,12 @@ public class VirgilCrypto implements Crypto {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#decrypt(java.io.InputStream,
+	 * java.io.OutputStream, com.virgilsecurity.sdk.crypto.PrivateKey)
+	 */
 	@Override
 	public void decrypt(InputStream inputStream, OutputStream outputStream, PrivateKey privateKey)
 			throws DecryptionException {
@@ -171,12 +198,25 @@ public class VirgilCrypto implements Crypto {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#decryptThenVerify(byte[],
+	 * com.virgilsecurity.sdk.crypto.PrivateKey,
+	 * com.virgilsecurity.sdk.crypto.PublicKey)
+	 */
 	@Override
 	public byte[] decryptThenVerify(byte[] cipherData, PrivateKey privateKey, PublicKey publicKey) {
 		// TODO implement decryptThenVerify
 		throw new UnsupportedOperationException();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#encrypt(byte[],
+	 * com.virgilsecurity.sdk.crypto.PublicKey[])
+	 */
 	@Override
 	public byte[] encrypt(byte[] data, PublicKey[] recipients) {
 		try (VirgilCipher cipher = new VirgilCipher()) {
@@ -189,6 +229,12 @@ public class VirgilCrypto implements Crypto {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#encrypt(java.io.InputStream,
+	 * java.io.OutputStream, com.virgilsecurity.sdk.crypto.PublicKey[])
+	 */
 	@Override
 	public void encrypt(InputStream inputStream, OutputStream outputStream, PublicKey[] recipients)
 			throws EncryptionException {
@@ -205,11 +251,25 @@ public class VirgilCrypto implements Crypto {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.virgilsecurity.sdk.crypto.Crypto#exportPrivateKey(com.virgilsecurity.
+	 * sdk.crypto.PrivateKey)
+	 */
 	@Override
 	public byte[] exportPrivateKey(PrivateKey privateKey) {
 		return exportPrivateKey(privateKey, null);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.virgilsecurity.sdk.crypto.Crypto#exportPrivateKey(com.virgilsecurity.
+	 * sdk.crypto.PrivateKey, java.lang.String)
+	 */
 	@Override
 	public byte[] exportPrivateKey(PrivateKey privateKey, String password) {
 		if (password == null) {
@@ -221,11 +281,25 @@ public class VirgilCrypto implements Crypto {
 		return VirgilKeyPair.privateKeyToDER(encryptedKey, passwordBytes);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.virgilsecurity.sdk.crypto.Crypto#exportPublicKey(com.virgilsecurity.
+	 * sdk.crypto.PublicKey)
+	 */
 	@Override
 	public byte[] exportPublicKey(PublicKey publicKey) {
 		return VirgilKeyPair.publicKeyToDER(publicKey.getValue());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.virgilsecurity.sdk.crypto.Crypto#extractPublicKey(com.virgilsecurity.
+	 * sdk.crypto.PrivateKey)
+	 */
 	@Override
 	public PublicKey extractPublicKey(PrivateKey privateKey) {
 		byte[] publicKeyData = VirgilKeyPair.extractPublicKey(privateKey.getValue(), new byte[0]);
@@ -236,11 +310,23 @@ public class VirgilCrypto implements Crypto {
 		return new VirgilPublicKey(receiverId, value);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#generateKeys()
+	 */
 	@Override
 	public KeyPair generateKeys() {
 		return generateKeys(KeysType.Default);
 	}
 
+	/**
+	 * Generate key pair by type.
+	 * 
+	 * @param keysType
+	 *            the key type.
+	 * @return generated key pair.
+	 */
 	public KeyPair generateKeys(KeysType keysType) {
 		VirgilKeyPair keyPair = VirgilKeyPair.generate(toVirgilKeyPairType(keysType));
 
@@ -252,11 +338,22 @@ public class VirgilCrypto implements Crypto {
 		return new KeyPair(publicKey, privateKey);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#importPrivateKey(byte[])
+	 */
 	@Override
 	public PrivateKey importPrivateKey(byte[] privateKey) throws CryptoException {
 		return importPrivateKey(privateKey, null);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#importPrivateKey(byte[],
+	 * java.lang.String)
+	 */
 	@Override
 	public PrivateKey importPrivateKey(byte[] keyData, String password) throws CryptoException {
 		if (keyData == null) {
@@ -283,6 +380,11 @@ public class VirgilCrypto implements Crypto {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#importPublicKey(byte[])
+	 */
 	@Override
 	public PublicKey importPublicKey(byte[] publicKey) {
 		byte[] receiverId = computePublicKeyHash(publicKey);
@@ -291,6 +393,12 @@ public class VirgilCrypto implements Crypto {
 		return new VirgilPublicKey(receiverId, value);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#sign(byte[],
+	 * com.virgilsecurity.sdk.crypto.PrivateKey)
+	 */
 	@Override
 	public byte[] sign(byte[] data, PrivateKey privateKey) {
 		if (data == null) {
@@ -307,6 +415,12 @@ public class VirgilCrypto implements Crypto {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#sign(java.io.InputStream,
+	 * com.virgilsecurity.sdk.crypto.PrivateKey)
+	 */
 	@Override
 	public byte[] sign(InputStream inputStream, PrivateKey privateKey) {
 		if (inputStream == null) {
@@ -326,12 +440,25 @@ public class VirgilCrypto implements Crypto {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#signThenEncrypt(byte[],
+	 * com.virgilsecurity.sdk.crypto.PrivateKey,
+	 * com.virgilsecurity.sdk.crypto.PublicKey[])
+	 */
 	@Override
 	public byte[] signThenEncrypt(byte[] data, PrivateKey privateKey, PublicKey[] recipients) {
 		// TODO implement signThenEncrypt
 		throw new UnsupportedOperationException();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#verify(byte[], byte[],
+	 * com.virgilsecurity.sdk.crypto.PublicKey)
+	 */
 	@Override
 	public boolean verify(byte[] data, byte[] signature, PublicKey signer) {
 		if (data == null) {
@@ -352,6 +479,12 @@ public class VirgilCrypto implements Crypto {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#verify(java.io.InputStream,
+	 * byte[], com.virgilsecurity.sdk.crypto.PublicKey)
+	 */
 	@Override
 	public boolean verify(InputStream inputStream, byte[] signature, PublicKey signer) {
 		if (inputStream == null) {

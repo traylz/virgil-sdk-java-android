@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>crypto-samples</artifactId>
 	<packaging>jar</packaging>
-	<name>Virgil SDK - Samples</name>
+	<name>Virgil SDK - Crypto Samples</name>
 
 	<dependencies>
 		<dependency>
