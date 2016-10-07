@@ -54,6 +54,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import com.virgilsecurity.sdk.client.exceptions.CardValidationException;
 import com.virgilsecurity.sdk.client.exceptions.VirgilCardServiceException;
+import com.virgilsecurity.sdk.client.exceptions.VirgilIdentityServiceException;
 import com.virgilsecurity.sdk.client.exceptions.VirgilServiceException;
 import com.virgilsecurity.sdk.client.model.Card;
 import com.virgilsecurity.sdk.client.model.CardScope;
@@ -62,6 +63,10 @@ import com.virgilsecurity.sdk.client.model.dto.ErrorResponse;
 import com.virgilsecurity.sdk.client.model.dto.SearchCriteria;
 import com.virgilsecurity.sdk.client.model.dto.SearchRequest;
 import com.virgilsecurity.sdk.client.model.dto.SignedResponseModel;
+import com.virgilsecurity.sdk.client.model.identity.Action;
+import com.virgilsecurity.sdk.client.model.identity.Confirmation;
+import com.virgilsecurity.sdk.client.model.identity.Identity;
+import com.virgilsecurity.sdk.client.model.identity.Token;
 import com.virgilsecurity.sdk.client.requests.CreateCardRequest;
 import com.virgilsecurity.sdk.client.requests.RevokeCardRequest;
 import com.virgilsecurity.sdk.client.utils.ConvertionUtils;
@@ -95,6 +100,72 @@ public class VirgilClient {
 	 */
 	public VirgilClient(VirgilClientContext context) {
 		this.context = context;
+	}
+
+	/**
+	 * Verify identity.
+	 * 
+	 * @param type
+	 *            The type of verified identity.
+	 * @param value
+	 *            The value of verified identity.
+	 * @return action id.
+	 */
+	public String verify(String type, String value) {
+		String body = ConvertionUtils.getGson().toJson(new Identity(type, value));
+
+		URIBuilder builder;
+		try {
+			builder = new URIBuilder(context.getIdentityServiceAddress());
+			builder.setPath("/v1/verify");
+
+			HttpPost postRequest = (HttpPost) createRequest(HttpPost.METHOD_NAME);
+			postRequest.setURI(builder.build());
+			postRequest.setEntity(new StringEntity(body));
+
+			Action action = execute(postRequest, Action.class);
+			return action.getActionId();
+
+		} catch (Exception e) {
+			throw new VirgilIdentityServiceException(e);
+		}
+	}
+
+	/**
+	 * Confirms the identity from the {@linkplain #verify(String, String)
+	 * verify} step to obtain an identity confirmation token.
+	 * 
+	 * @param actionId
+	 *            the action identifier.
+	 * @param confirmationCode
+	 *            the confirmation code.
+	 * @param confirmationToken
+	 *            the confirmation token.
+	 * @return
+	 * @throws ServiceException
+	 */
+	public Identity confirm(String actionId, String confirmationCode, Token confirmationToken) {
+		Confirmation confirmation = new Confirmation();
+		confirmation.setActionId(actionId);
+		confirmation.setConfirmationCode(confirmationCode);
+		confirmation.setToken(confirmationToken);
+		String body = ConvertionUtils.getGson().toJson(confirmation);
+
+		URIBuilder builder;
+		try {
+			builder = new URIBuilder(context.getIdentityServiceAddress());
+			builder.setPath("/v1/confirm");
+
+			HttpPost postRequest = (HttpPost) createRequest(HttpPost.METHOD_NAME);
+			postRequest.setURI(builder.build());
+			postRequest.setEntity(new StringEntity(body));
+
+			Identity identity = execute(postRequest, Identity.class);
+			return identity;
+
+		} catch (Exception e) {
+			throw new VirgilIdentityServiceException(e);
+		}
 	}
 
 	/**

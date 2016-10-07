@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2016, Virgil Security, Inc.
  *
@@ -32,12 +33,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.virgilsecurity.sdk.crypto.Base64;
+import com.virgilsecurity.sdk.client.utils.ConvertionUtils;
+import com.virgilsecurity.sdk.crypto.Crypto;
 import com.virgilsecurity.sdk.crypto.KeyPair;
-import com.virgilsecurity.sdk.crypto.KeyPairGenerator;
 import com.virgilsecurity.sdk.crypto.PrivateKey;
 import com.virgilsecurity.sdk.crypto.PublicKey;
-import com.virgilsecurity.sdk.crypto.Signer;
+import com.virgilsecurity.sdk.crypto.VirgilCrypto;
 
 /**
  * This sample shows how to sign and verify data.
@@ -57,33 +58,27 @@ public class SignAndVerify {
 		String dataToSign = br.readLine();
 		System.out.println();
 
-		// Generate generate public/private key pair
-		KeyPair keyPair = KeyPairGenerator.generate();
+		// Initialize Crypto
+		Crypto crypto = new VirgilCrypto();
 
-		PublicKey publicKey = keyPair.getPublic();
-		PrivateKey privateKey = keyPair.getPrivate();
-		
-		System.out.println(String.format("Public Key: \n%1$s", new String(publicKey.getEncoded())));
-		System.out.println(String.format("Private Key: \n%1$s", new String(privateKey.getEncoded())));
+		// Generate generate public/private key pair for key recipient
+		KeyPair keyPair = crypto.generateKeys();
+
+		PublicKey publicKey = keyPair.getPublicKey();
+		PrivateKey privateKey = keyPair.getPrivateKey();
 
 		// Create Signer instance
-		try (Signer signer = new Signer()) {
-			byte[] data = dataToSign.getBytes();
+		byte[] data = dataToSign.getBytes();
 
-			// Sign data with private key
-			byte[] sign = signer.sign(data, privateKey);
+		// Sign data with private key
+		byte[] sign = crypto.sign(data, privateKey);
 
-			System.out.println(
-					String.format("Digital signature in Base64: %1$s", Base64.encode(sign)));
+		System.out.println(String.format("Digital signature in Base64: %1$s", ConvertionUtils.toBase64String(sign)));
 
-			// Verify data with sign and public key
-			boolean isValid = signer.verify(data, sign, publicKey);
+		// Verify data with sign and public key
+		boolean isValid = crypto.verify(data, sign, publicKey);
 
-			System.out.println(String.format("Verification result is: %1$b", isValid));
-		} catch (Exception e) {
-			System.out.println("ERROR: " + e.getMessage());
-		}
-
+		System.out.println(String.format("Verification result is: %1$b", isValid));
 	}
 
 }

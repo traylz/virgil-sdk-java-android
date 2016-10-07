@@ -58,6 +58,7 @@
 		<module>crypto</module>
 		<module>crypto-android</module>
 		<module>client</module>
+    <module>samples</module>
 	</modules>
 
 	<dependencyManagement>
