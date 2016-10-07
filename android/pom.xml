@@ -8,9 +8,9 @@
 		<artifactId>parent</artifactId>
 		<version>4.0.0</version>
 	</parent>
-	<artifactId>crypto-android</artifactId>
+	<artifactId>android</artifactId>
 	<packaging>aar</packaging>
-	<name>Virgil SDK - Crypto for Android</name>
+	<name>Virgil SDK - Android library</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,8 +18,9 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>crypto-api</artifactId>
+			<artifactId>client</artifactId>
 			<version>${project.version}</version>
+      <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -53,7 +54,6 @@
 							<failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
 							<outputDirectory>${project.build.directory}/generated-sources/r</outputDirectory>
 							<includeGroupIds>${project.groupId}</includeGroupIds>
-							<includeArtifactIds>crypto</includeArtifactIds>
 							<excludeTransitive>false</excludeTransitive>
 							<includes>**/*.java,**/*.properties</includes>
 						</configuration>

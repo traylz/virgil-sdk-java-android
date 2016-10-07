@@ -56,7 +56,7 @@
 	<modules>
 		<module>crypto-api</module>
 		<module>crypto</module>
-		<module>crypto-android</module>
+		<module>android</module>
 		<module>client</module>
     <module>samples</module>
 	</modules>
