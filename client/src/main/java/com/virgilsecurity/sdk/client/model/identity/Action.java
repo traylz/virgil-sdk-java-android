@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Virgil Security, Inc.
+ * Copyright (c) 2016, Virgil Security, Inc.
  *
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
@@ -33,28 +33,24 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * This class represents action.
- * 
+ *
  * @author Andrii Iakovenko
+ *
  */
 public class Action {
-
+	
 	@SerializedName("action_id")
 	private String actionId;
 
 	/**
-	 * Return the action identifier.
-	 * 
-	 * @return the action identifier.
+	 * @return the actionId
 	 */
 	public String getActionId() {
 		return actionId;
 	}
 
 	/**
-	 * Sets the action identifier.
-	 * 
-	 * @param actionId
-	 *            the action identifier.
+	 * @param actionId the actionId to set
 	 */
 	public void setActionId(String actionId) {
 		this.actionId = actionId;

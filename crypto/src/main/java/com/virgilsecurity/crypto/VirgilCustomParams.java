@@ -36,8 +36,14 @@
 
 package com.virgilsecurity.crypto;
 
+/**
+ * Data object that represent ASN.1 structure.
+ *
+ * @author Andrii Iakovenko
+ *
+ */
 public class VirgilCustomParams extends VirgilAsn1Compatible implements java.lang.AutoCloseable {
-	private long swigCPtr;
+	private transient long swigCPtr;
 
 	protected VirgilCustomParams(long cPtr, boolean cMemoryOwn) {
 		super(virgil_crypto_javaJNI.VirgilCustomParams_SWIGUpcast(cPtr), cMemoryOwn);
@@ -68,54 +74,136 @@ public class VirgilCustomParams extends VirgilAsn1Compatible implements java.lan
 		delete();
 	}
 
+	/**
+	 * Define whether no one parameter is set.
+	 * 
+	 * @return {@code true} if no parameter set.
+	 */
 	public boolean isEmpty() {
 		return virgil_crypto_javaJNI.VirgilCustomParams_isEmpty(swigCPtr, this);
 	}
 
+	/**
+	 * Set parameter of {@code int} type.
+	 * 
+	 * @param key
+	 *            The parameter key.
+	 * @param value
+	 *            The parameter value.
+	 */
 	public void setInteger(byte[] key, int value) {
 		virgil_crypto_javaJNI.VirgilCustomParams_setInteger(swigCPtr, this, key, value);
 	}
 
+	/**
+	 * Get parameter of {@code int} type.
+	 * 
+	 * @param key
+	 *            The parameter key.
+	 * @return the parameter value.
+	 */
 	public int getInteger(byte[] key) {
 		return virgil_crypto_javaJNI.VirgilCustomParams_getInteger(swigCPtr, this, key);
 	}
 
+	/**
+	 * Remove parameter of {@code int} type.
+	 * 
+	 * @param key
+	 *            The parameter key.
+	 */
 	public void removeInteger(byte[] key) {
 		virgil_crypto_javaJNI.VirgilCustomParams_removeInteger(swigCPtr, this, key);
 	}
 
+	/**
+	 * Set parameter of {@code String} type.
+	 * 
+	 * @param key
+	 *            The parameter key.
+	 * @param value
+	 *            The parameter value.
+	 */
 	public void setString(byte[] key, byte[] value) {
 		virgil_crypto_javaJNI.VirgilCustomParams_setString(swigCPtr, this, key, value);
 	}
 
+	/**
+	 * Get parameter of {@code String} type.
+	 * 
+	 * @param key
+	 *            the parameter key.
+	 * @return the parameter value.
+	 */
 	public byte[] getString(byte[] key) {
 		return virgil_crypto_javaJNI.VirgilCustomParams_getString(swigCPtr, this, key);
 	}
 
+	/**
+	 * Remove parameter of {@code String} type.
+	 * 
+	 * @param key
+	 *            the parameter key.
+	 */
 	public void removeString(byte[] key) {
 		virgil_crypto_javaJNI.VirgilCustomParams_removeString(swigCPtr, this, key);
 	}
 
+	/**
+	 * Set parameter of {@code byte array} type.
+	 * 
+	 * @param key
+	 *            The parameter key.
+	 * @param value
+	 *            The parameter value.
+	 */
 	public void setData(byte[] key, byte[] value) {
 		virgil_crypto_javaJNI.VirgilCustomParams_setData(swigCPtr, this, key, value);
 	}
 
+	/**
+	 * Get parameter of {@code byte array} type.
+	 * 
+	 * @param key
+	 *            The parameter key.
+	 * @return the parameter value.
+	 */
 	public byte[] getData(byte[] key) {
 		return virgil_crypto_javaJNI.VirgilCustomParams_getData(swigCPtr, this, key);
 	}
 
+	/**
+	 * Remove parameter of {@code byte array} type.
+	 * 
+	 * @param key
+	 *            The parameter key.
+	 */
 	public void removeData(byte[] key) {
 		virgil_crypto_javaJNI.VirgilCustomParams_removeData(swigCPtr, this, key);
 	}
 
+	/**
+	 * Remove all parameters.
+	 * 
+	 */
 	public void clear() {
 		virgil_crypto_javaJNI.VirgilCustomParams_clear(swigCPtr, this);
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilCustomParams}
+	 *
+	 */
 	public VirgilCustomParams() {
 		this(virgil_crypto_javaJNI.new_VirgilCustomParams__SWIG_0(), true);
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilCustomParams}
+	 *
+	 * @param other
+	 *            the source custom parameters.
+	 */
 	public VirgilCustomParams(VirgilCustomParams other) {
 		this(virgil_crypto_javaJNI.new_VirgilCustomParams__SWIG_1(VirgilCustomParams.getCPtr(other), other), true);
 	}

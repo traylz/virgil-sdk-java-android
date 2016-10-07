@@ -36,6 +36,12 @@
 
 package com.virgilsecurity.crypto;
 
+/**
+ * TODO: add type description
+ *
+ * @author Andrii Iakovenko
+ *
+ */
 public class VirgilStreamDataSink extends VirgilDataSink implements java.io.Closeable {
 	private java.io.OutputStream stream;
 

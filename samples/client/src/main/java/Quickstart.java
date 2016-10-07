@@ -29,24 +29,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import com.google.gson.JsonObject;
-import com.virgilsecurity.sdk.client.ClientFactory;
-import com.virgilsecurity.sdk.client.model.Identity;
-import com.virgilsecurity.sdk.client.model.IdentityType;
-import com.virgilsecurity.sdk.client.model.identity.ValidatedIdentity;
-import com.virgilsecurity.sdk.client.model.publickey.SearchCriteria.Builder;
-import com.virgilsecurity.sdk.client.model.publickey.VirgilCard;
-import com.virgilsecurity.sdk.client.model.publickey.VirgilCardTemplate;
-import com.virgilsecurity.sdk.crypto.CryptoHelper;
+import com.virgilsecurity.sdk.client.CardValidator;
+import com.virgilsecurity.sdk.client.RequestSigner;
+import com.virgilsecurity.sdk.client.VirgilClient;
+import com.virgilsecurity.sdk.client.exceptions.CardValidationException;
+import com.virgilsecurity.sdk.client.model.Card;
+import com.virgilsecurity.sdk.client.model.RevocationReason;
+import com.virgilsecurity.sdk.client.model.dto.SearchCriteria;
+import com.virgilsecurity.sdk.client.requests.CreateCardRequest;
+import com.virgilsecurity.sdk.client.requests.RevokeCardRequest;
+import com.virgilsecurity.sdk.client.utils.VirgilCardValidator;
+import com.virgilsecurity.sdk.crypto.Crypto;
 import com.virgilsecurity.sdk.crypto.KeyPair;
-import com.virgilsecurity.sdk.crypto.KeyPairGenerator;
 import com.virgilsecurity.sdk.crypto.PrivateKey;
-import com.virgilsecurity.sdk.crypto.PublicKey;
-import com.virgilsecurity.sdk.crypto.utils.ConversionUtils;
+import com.virgilsecurity.sdk.crypto.VirgilCrypto;
 
 /**
  * This sample will help you get started using the Crypto Library and Virgil
@@ -58,109 +56,63 @@ import com.virgilsecurity.sdk.crypto.utils.ConversionUtils;
 public class Quickstart {
 
 	public static void main(String[] args) throws Exception {
-		String accesToken = "{ACCESS_TOKEN}";
-		String senderEmail = "sender-test@virgilsecurity.com";
 
-		// Step 0. Initialization
+		// Initializing an API Client
+		VirgilClient client = new VirgilClient("{ACCESS_TOKEN}");
 
-		/**
-		 * Initialize the client factory instance using access token.
-		 */
+		// Initializing Crypto
+		Crypto crypto = new VirgilCrypto();
 
-		ClientFactory factory = new ClientFactory(accesToken);
+		// Creating a Virgil Card
+		String appID = "[YOUR_APP_ID_HERE]";
+		String appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
+		byte[] appKeyData = "[YOUR_APP_KEY_HERE]".getBytes();
 
-		// Step 1. Generate and Publish the Keys
+		PrivateKey appKey = crypto.importPrivateKey(appKeyData, appKeyPassword);
 
-		/**
-		 * First a simple IP messaging chat application is generating the keys
-		 * and publishing them to the Public Keys Service where they are
-		 * available in open access for other users (e.g. recipient) to verify
-		 * and encrypt the data for the key owner.
-		 * 
-		 * The following code example generates a new public/private key pair.
-		 */
-		KeyPair keyPair = KeyPairGenerator.generate();
+		/** Generate a new Public/Private keypair using VirgilCrypto class. */
+		KeyPair aliceKeys = crypto.generateKeys();
+
+		/** Prepare request */
+		byte[] exportedPublicKey = crypto.exportPublicKey(aliceKeys.getPublicKey());
+		CreateCardRequest createCardRequest = new CreateCardRequest("alice", "username", exportedPublicKey);
 
 		/**
-		 * The app is registering a Virgil Card which includes a public key and
-		 * an email address identifier. The Card will be used for the public key
-		 * identification and searching for it in the Public Keys Service. You
-		 * can create a Virgil Card with or without identity verification
+		 * then, use RequestSigner class to sign request with owner and app
+		 * keys.
 		 */
-		Identity identity = new ValidatedIdentity(IdentityType.EMAIL, senderEmail);
+		RequestSigner requestSigner = new RequestSigner(crypto);
 
-		VirgilCardTemplate.Builder vcBuilder = new VirgilCardTemplate.Builder().setIdentity(identity)
-				.setPublicKey(keyPair.getPublic());
-		VirgilCard card = factory.getPublicKeyClient().createCard(vcBuilder.build(), keyPair.getPrivate());
+		requestSigner.selfSign(createCardRequest, aliceKeys.getPrivateKey());
+		requestSigner.authoritySign(createCardRequest, appID, appKey);
 
-		// Step 2. Encrypt and Sign
+		/** Publish a Virgil Card */
+		Card aliceCard = client.createCard(createCardRequest);
 
-		/**
-		 * The app is searching for all channel members' public keys on the Keys
-		 * Service to encrypt a message for them. The app is signing the
-		 * encrypted message with sender’s private key so that the recipient can
-		 * make sure the message had been sent by the declared sender.
-		 */
+		// Search for Virgil Cards
+		SearchCriteria criteria = SearchCriteria.byIdentity("alice");
+		List<Card> cards = client.searchCards(criteria);
 
-		String message = "Encrypt me, Please!!!";
-		String recipientIdentity = "recipient-test@virgilsecurity.com";
+		// Validating a Virgil Cards
+		CardValidator cardValidator = new VirgilCardValidator(crypto);
+		client.setCardValidator(cardValidator);
 
-		Builder criteriaBuilder = new Builder().setValue(recipientIdentity);
-		List<VirgilCard> recipientCards = factory.getPublicKeyClient().search(criteriaBuilder.build());
-
-		Map<String, PublicKey> recipients = new HashMap<>();
-		for (VirgilCard recipientCard : recipientCards) {
-			recipients.put(recipientCard.getId(),
-					new PublicKey(ConversionUtils.fromBase64String(recipientCard.getPublicKey().getKey())));
+		try {
+			cards = client.searchCards(criteria);
+		} catch (CardValidationException e) {
+			// Handle validation exception here
 		}
 
-		String encryptedMessage = CryptoHelper.encrypt(message, recipients);
-		String signature = CryptoHelper.sign(encryptedMessage, keyPair.getPrivate());
+		// Revoking a Virgil Card
+		/** Use your card ID */
+		String cardId = aliceCard.getId();
 
-		// Step 3. Send a Message
+		RevokeCardRequest revokeRequest = new RevokeCardRequest(cardId, RevocationReason.UNSPECIFIED);
 
-		/**
-		 * The app merges the message text and the signature into one structure
-		 * then serializes it to json string and sends the message to the
-		 * channel using a simple IP messaging client.
-		 */
-		JsonObject encryptedBody = new JsonObject();
-		encryptedBody.addProperty("Content", encryptedMessage);
-		encryptedBody.addProperty("Signature", signature);
+		requestSigner.selfSign(revokeRequest, aliceKeys.getPrivateKey());
+		requestSigner.authoritySign(revokeRequest, appID, appKey);
 
-		// Step 4. Receive a Message
-
-		/**
-		 * An encrypted message is received on the recipient’s side using an IP
-		 * messaging client.
-		 * 
-		 * In order to decrypt and verify the received data, the app on
-		 * recipient’s side needs to get sender’s Virgil Card from the Keys
-		 * Service.
-		 */
-
-		// Step 5. Verify and Decrypt
-
-		/*
-		 * The application is making sure the message came from the declared
-		 * sender by getting his card on Virgil Public Keys Service. In case of
-		 * success, the message is decrypted using the recipient's private key.
-		 */
-
-		PrivateKey recipientPrivateKey = new PrivateKey("{RECIPIENT_KEY}");
-
-		String encryptedContent = encryptedBody.get("Content").getAsString();
-		String encryptedContentSignature = encryptedBody.get("Signature").getAsString();
-		boolean isValid = CryptoHelper.verify(encryptedContent, encryptedContentSignature,
-				new PublicKey(ConversionUtils.fromBase64String(card.getPublicKey().getKey())));
-		if (!isValid) {
-			throw new Exception("Signature is not valid.");
-		}
-
-		String recipientCardId = recipientCards.get(0).getId();
-		String originalMessage = CryptoHelper.decrypt(encryptedContent, recipientCardId, recipientPrivateKey);
-
-		System.out.println(originalMessage);
+		client.revokeCard(revokeRequest);
 	}
 
 }

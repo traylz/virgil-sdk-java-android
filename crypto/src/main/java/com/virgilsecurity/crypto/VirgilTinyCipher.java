@@ -30,9 +30,15 @@
 
 package com.virgilsecurity.crypto;
 
+/**
+ * This class aim is to minimize encryption output.
+ *
+ * @author Andrii Iakovenko
+ *
+ */
 public class VirgilTinyCipher implements java.lang.AutoCloseable {
-	private long swigCPtr;
-	protected boolean swigCMemOwn;
+	private transient long swigCPtr;
+	protected transient boolean swigCMemOwn;
 
 	protected VirgilTinyCipher(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;
@@ -62,64 +68,191 @@ public class VirgilTinyCipher implements java.lang.AutoCloseable {
 		delete();
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilTinyCipher}
+	 *
+	 * @param packageSize
+	 *            maximum number of bytes in one package.
+	 */
 	public VirgilTinyCipher(long packageSize) {
 		this(virgil_crypto_javaJNI.new_VirgilTinyCipher__SWIG_0(packageSize), true);
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilTinyCipher}
+	 *
+	 */
 	public VirgilTinyCipher() {
 		this(virgil_crypto_javaJNI.new_VirgilTinyCipher__SWIG_1(), true);
 	}
 
+	/**
+	 * <p>
+	 * Prepare cipher for the next encryption.
+	 * </p>
+	 * <p>
+	 * SHOULD be used before the next encryption.
+	 * </p>
+	 */
 	public void reset() {
 		virgil_crypto_javaJNI.VirgilTinyCipher_reset(swigCPtr, this);
 	}
 
+	/**
+	 * Encrypt data with given public key.
+	 * 
+	 * @param data
+	 *            data to be encrypted.
+	 * @param recipientPublicKey
+	 *            recipient public key.
+	 */
 	public void encrypt(byte[] data, byte[] recipientPublicKey) {
 		virgil_crypto_javaJNI.VirgilTinyCipher_encrypt(swigCPtr, this, data, recipientPublicKey);
 	}
 
+	/**
+	 * Encrypt data with given public key and sign package.
+	 * 
+	 * @param data
+	 *            the data to be encrypted.
+	 * @param recipientPublicKey
+	 *            the recipient public key.
+	 * @param senderPrivateKey
+	 *            the sender private key protected with password.
+	 * @param senderPrivateKeyPassword
+	 *            the sender private key password.
+	 */
 	public void encryptAndSign(byte[] data, byte[] recipientPublicKey, byte[] senderPrivateKey,
 			byte[] senderPrivateKeyPassword) {
 		virgil_crypto_javaJNI.VirgilTinyCipher_encryptAndSign__SWIG_0(swigCPtr, this, data, recipientPublicKey,
 				senderPrivateKey, senderPrivateKeyPassword);
 	}
 
+	/**
+	 * Encrypt data with given public key and sign package.
+	 * 
+	 * @param data
+	 *            the data to be encrypted.
+	 * @param recipientPublicKey
+	 *            the recipient public key.
+	 * @param senderPrivateKey
+	 *            the sender private key.
+	 */
 	public void encryptAndSign(byte[] data, byte[] recipientPublicKey, byte[] senderPrivateKey) {
 		virgil_crypto_javaJNI.VirgilTinyCipher_encryptAndSign__SWIG_1(swigCPtr, this, data, recipientPublicKey,
 				senderPrivateKey);
 	}
 
+	/**
+	 * <p>
+	 * Return total package count.
+	 * </p>
+	 * <p>
+	 * Package count is known when encryption process is completed.
+	 * </p>
+	 * 
+	 * @return the total package count.
+	 */
 	public long getPackageCount() {
 		return virgil_crypto_javaJNI.VirgilTinyCipher_getPackageCount(swigCPtr, this);
 	}
 
+	/**
+	 * <p>
+	 * Return specific package.
+	 * </p>
+	 * <p>
+	 * Return package with specific index.
+	 * </p>
+	 * <p>
+	 * Packages are available when encryption process is completed.
+	 * </p>
+	 * 
+	 * @param index
+	 *            package index.
+	 * @return the specific package.
+	 */
 	public byte[] getPackage(long index) {
 		return virgil_crypto_javaJNI.VirgilTinyCipher_getPackage(swigCPtr, this, index);
 	}
 
-	public void addPackage(byte[] arg0) {
-		virgil_crypto_javaJNI.VirgilTinyCipher_addPackage(swigCPtr, this, arg0);
+	/**
+	 * <p>
+	 * Add package.
+	 * </p>
+	 * <p>
+	 * Accumulate packages before decryption.
+	 * </p>
+	 * 
+	 * @param pkg
+	 *            the package to be accumulated
+	 */
+	public void addPackage(byte[] pkg) {
+		virgil_crypto_javaJNI.VirgilTinyCipher_addPackage(swigCPtr, this, pkg);
 	}
 
+	/**
+	 * Define whether all packages was accumulated or not.
+	 * 
+	 * @return {@code true} if all packages was successfully accumulated,
+	 *         {@code false} otherwise.
+	 * 
+	 */
 	public boolean isPackagesAccumulated() {
 		return virgil_crypto_javaJNI.VirgilTinyCipher_isPackagesAccumulated(swigCPtr, this);
 	}
 
+	/**
+	 * Decrypt accumulated packages.
+	 * 
+	 * @param recipientPrivateKey
+	 *            recipient private key.
+	 * @param recipientPrivateKeyPassword
+	 *            recipient private key password.
+	 * @return Decrypted data.
+	 */
 	public byte[] decrypt(byte[] recipientPrivateKey, byte[] recipientPrivateKeyPassword) {
 		return virgil_crypto_javaJNI.VirgilTinyCipher_decrypt__SWIG_0(swigCPtr, this, recipientPrivateKey,
 				recipientPrivateKeyPassword);
 	}
 
+	/**
+	 * Decrypt accumulated packages.
+	 * 
+	 * @param recipientPrivateKey
+	 *            recipient private key.
+	 * @return Decrypted data.
+	 */
 	public byte[] decrypt(byte[] recipientPrivateKey) {
 		return virgil_crypto_javaJNI.VirgilTinyCipher_decrypt__SWIG_1(swigCPtr, this, recipientPrivateKey);
 	}
 
+	/**
+	 * Verify accumulated packages and then decrypt it.
+	 * 
+	 * @param senderPublicKey
+	 *            sender public key.
+	 * @param recipientPrivateKey
+	 *            recipient private key.
+	 * @param recipientPrivateKeyPassword
+	 *            recipient private key password.
+	 * @return Decrypted data.
+	 */
 	public byte[] verifyAndDecrypt(byte[] senderPublicKey, byte[] recipientPrivateKey,
 			byte[] recipientPrivateKeyPassword) {
 		return virgil_crypto_javaJNI.VirgilTinyCipher_verifyAndDecrypt__SWIG_0(swigCPtr, this, senderPublicKey,
 				recipientPrivateKey, recipientPrivateKeyPassword);
 	}
 
+	/**
+	 * Verify accumulated packages and then decrypt it.
+	 * 
+	 * @param senderPublicKey
+	 *            sender public key.
+	 * @param recipientPrivateKey
+	 *            recipient private key.
+	 * @return Decrypted data.
+	 */
 	public byte[] verifyAndDecrypt(byte[] senderPublicKey, byte[] recipientPrivateKey) {
 		return virgil_crypto_javaJNI.VirgilTinyCipher_verifyAndDecrypt__SWIG_1(swigCPtr, this, senderPublicKey,
 				recipientPrivateKey);

@@ -37,8 +37,8 @@
 package com.virgilsecurity.crypto;
 
 public class VirgilRandom implements java.lang.AutoCloseable {
-	private long swigCPtr;
-	protected boolean swigCMemOwn;
+	private transient long swigCPtr;
+	protected transient boolean swigCMemOwn;
 
 	protected VirgilRandom(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;
@@ -68,7 +68,7 @@ public class VirgilRandom implements java.lang.AutoCloseable {
 		delete();
 	}
 
-	public VirgilRandom(byte[] personalInfo) {
+	public VirgilRandom(String personalInfo) {
 		this(virgil_crypto_javaJNI.new_VirgilRandom(personalInfo), true);
 	}
 

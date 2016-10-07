@@ -36,9 +36,17 @@
 
 package com.virgilsecurity.crypto;
 
+/**
+ * This is base class for output streams.
+ * 
+ * Defines interface that allows write data to the output stream.
+ *
+ * @author Andrii Iakovenko
+ *
+ */
 public class VirgilDataSink implements java.lang.AutoCloseable {
-	private long swigCPtr;
-	protected boolean swigCMemOwn;
+	private transient long swigCPtr;
+	protected transient boolean swigCMemOwn;
 
 	protected VirgilDataSink(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;
@@ -83,14 +91,31 @@ public class VirgilDataSink implements java.lang.AutoCloseable {
 		delete();
 	}
 
+	/**
+	 * @return Return {@code true} if target object is able to write data.
+	 * @throws java.io.IOException
+	 *             if an error occurred.
+	 */
 	public boolean isGood() throws java.io.IOException {
 		return virgil_crypto_javaJNI.VirgilDataSink_isGood(swigCPtr, this);
 	}
 
+	/**
+	 * Write data to the target object.
+	 * 
+	 * @param data
+	 *            the data.
+	 * @throws java.io.IOException
+	 *             if an error occurred.
+	 */
 	public void write(byte[] data) throws java.io.IOException {
 		virgil_crypto_javaJNI.VirgilDataSink_write(swigCPtr, this, data);
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilDataSink}
+	 *
+	 */
 	public VirgilDataSink() {
 		this(virgil_crypto_javaJNI.new_VirgilDataSink(), true);
 		virgil_crypto_javaJNI.VirgilDataSink_director_connect(this, swigCPtr, swigCMemOwn, true);

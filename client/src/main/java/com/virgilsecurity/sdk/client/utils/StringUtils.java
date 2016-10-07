@@ -30,11 +30,7 @@
 package com.virgilsecurity.sdk.client.utils;
 
 /**
- * <p>
- * Operations on {@link java.lang.String} that are <code>null</code> safe.
- * </p>
- * 
- * Some methods of this class taken from Apache commons-lang.
+ * Operations on {@link java.lang.String} that are {@code null} safe.
  *
  * @author Andrii Iakovenko
  *
@@ -42,40 +38,20 @@ package com.virgilsecurity.sdk.client.utils;
 public class StringUtils {
 
 	/**
-	 * Checks if a String is null or empty.
-	 * 
-	 * @param string the String to check, may be null
-	 * @return <code>true</code> if the String is empty or null
-	 */
-	public static boolean isEmpty(String string) {
-		return string == null || string.isEmpty();
-	}
-
-	/**
 	 * <p>
-	 * Checks if a String is whitespace, empty ("") or null.
-	 * </p>
+	 * Checks if a CharSequence is whitespace, empty ("") or null.
 	 *
-	 * <pre>
-	 * StringUtils.isBlank(null)      = true
-	 * StringUtils.isBlank("")        = true
-	 * StringUtils.isBlank(" ")       = true
-	 * StringUtils.isBlank("bob")     = false
-	 * StringUtils.isBlank("  bob  ") = false
-	 * </pre>
-	 *
-	 * @param str
-	 *            the String to check, may be null
-	 * @return <code>true</code> if the String is null, empty or whitespace
-	 * @since 2.0
+	 * @param cs
+	 *            the CharSequence to check, may be null
+	 * @return {@code true} if the CharSequence is null, empty or whitespace
 	 */
-	public static boolean isBlank(String str) {
+	public static boolean isBlank(final CharSequence cs) {
 		int strLen;
-		if (str == null || (strLen = str.length()) == 0) {
+		if (cs == null || (strLen = cs.length()) == 0) {
 			return true;
 		}
 		for (int i = 0; i < strLen; i++) {
-			if ((Character.isWhitespace(str.charAt(i)) == false)) {
+			if (Character.isWhitespace(cs.charAt(i)) == false) {
 				return false;
 			}
 		}

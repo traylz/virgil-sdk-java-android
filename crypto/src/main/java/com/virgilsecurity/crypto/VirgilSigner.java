@@ -36,9 +36,18 @@
 
 package com.virgilsecurity.crypto;
 
+/**
+ * This class provides high-level interface to sign and verify data using Virgil
+ * Security keys.
+ * 
+ * This module can sign / verify as raw data and Virgil Security tickets.
+ *
+ * @author Andrii Iakovenko
+ *
+ */
 public class VirgilSigner implements java.lang.AutoCloseable {
-	private long swigCPtr;
-	protected boolean swigCMemOwn;
+	private transient long swigCPtr;
+	protected transient boolean swigCMemOwn;
 
 	protected VirgilSigner(long cPtr, boolean cMemoryOwn) {
 		swigCMemOwn = cMemoryOwn;
@@ -68,22 +77,67 @@ public class VirgilSigner implements java.lang.AutoCloseable {
 		delete();
 	}
 
-	public VirgilSigner(VirgilHash hash) {
-		this(virgil_crypto_javaJNI.new_VirgilSigner__SWIG_0(VirgilHash.getCPtr(hash), hash), true);
+	/**
+	 * <p>
+	 * Create a new instance of {@code VirgilSigner}
+	 * </p>
+	 * <p>
+	 * Specified hash function algorithm is used only during signing.
+	 * </p>
+	 *
+	 * @param hashAlgorithm the hash algorithm.
+	 */
+	public VirgilSigner(VirgilHash.Algorithm hashAlgorithm) {
+		this(virgil_crypto_javaJNI.new_VirgilSigner__SWIG_0(hashAlgorithm.swigValue()), true);
 	}
 
+	/**
+	 * Create a new instance of {@code VirgilSigner}
+	 *
+	 */
 	public VirgilSigner() {
 		this(virgil_crypto_javaJNI.new_VirgilSigner__SWIG_1(), true);
 	}
 
+	/**
+	 * Sign data with given private key.
+	 * 
+	 * @param data
+	 *            the data to be signed.
+	 * @param privateKey
+	 *            the private key protected with password.
+	 * @param privateKeyPassword
+	 *            the private key password.
+	 * @return the signature as byte array.
+	 */
 	public byte[] sign(byte[] data, byte[] privateKey, byte[] privateKeyPassword) {
 		return virgil_crypto_javaJNI.VirgilSigner_sign__SWIG_0(swigCPtr, this, data, privateKey, privateKeyPassword);
 	}
 
+	/**
+	 * Sign data with given private key.
+	 * 
+	 * @param data
+	 *            the data to be signed.
+	 * @param privateKey
+	 *            the private key.
+	 * @return the signature as byte array.
+	 */
 	public byte[] sign(byte[] data, byte[] privateKey) {
 		return virgil_crypto_javaJNI.VirgilSigner_sign__SWIG_1(swigCPtr, this, data, privateKey);
 	}
 
+	/**
+	 * Verify sign and data to be conformed to the given public key.
+	 * 
+	 * @param data
+	 *            the data signed with {@code sign}.
+	 * @param sign
+	 *            the signature.
+	 * @param publicKey
+	 *            the public key.
+	 * @return {@code true} if sign is valid and data was not malformed.
+	 */
 	public boolean verify(byte[] data, byte[] sign, byte[] publicKey) {
 		return virgil_crypto_javaJNI.VirgilSigner_verify(swigCPtr, this, data, sign, publicKey);
 	}

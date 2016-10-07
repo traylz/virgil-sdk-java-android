@@ -15,8 +15,8 @@ mvn clean package source:jar javadoc:jar -DskipTests=true
 ##Build with functional tests
 
 ```
-mvn clean package source:jar javadoc:jar -DskipTests=true -DAPPLICATION_ID={application_id} -DSERVICE_ACCOUNT={mailinator_account}
--DCLIENT_ACCOUNT={mailinator_account} -DACCESS_TOKEN={access_token}
+mvn clean package source:jar javadoc:jar -DskipTests=true -DAPP_ID={application_id} -DAPP_BUNDLE={application_bundle} -DAPP_TOKEN={application_token}
+    -DAPP_PRIVATE_KEY={application_private_key} -DAPP_PRIVATE_KEY_PASSWORD={application_private_key_password}
 ```
 
 ## Resources

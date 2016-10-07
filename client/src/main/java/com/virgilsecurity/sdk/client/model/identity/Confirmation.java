@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Virgil Security, Inc.
+ * Copyright (c) 2016, Virgil Security, Inc.
  *
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without
@@ -31,10 +31,12 @@ package com.virgilsecurity.sdk.client.model.identity;
 
 import com.google.gson.annotations.SerializedName;
 
+
 /**
  * This class represents confirmation data.
  * 
  * @author Andrii Iakovenko
+ *
  */
 public class Confirmation extends Action {
 

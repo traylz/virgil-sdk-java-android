@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.virgilsecurity.sdk</groupId>
 		<artifactId>parent</artifactId>
-		<version>3.2.4</version>
+		<version>4.0.0</version>
 	</parent>
 	<artifactId>crypto</artifactId>
 	<packaging>jar</packaging>
@@ -17,6 +17,11 @@
 	</description>
 
 	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>crypto-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
@@ -49,7 +54,6 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
 						<configuration>
-							<excludePackageNames>com.virgilsecurity.crypto</excludePackageNames>
 						</configuration>
 					</plugin>
 					<plugin>
