@@ -186,7 +186,7 @@ public class VirgilClientTest {
 
 	@Test(dependsOnMethods = "createCard", priority = 3)
 	public void searchCards_byIdentities() {
-		SearchCriteria criteria = SearchCriteria.byIdentities(Arrays.asList("alice"));
+		SearchCriteria criteria = SearchCriteria.byIdentities(Arrays.asList("alice", "bob"));
 
 		try {
 			List<Card> cards = client.searchCards(criteria);
