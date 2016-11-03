@@ -30,24 +30,24 @@
 package com.virgilsecurity.sdk.crypto.exception;
 
 /**
- * This class is the general class of exceptions produced by crypto library.
+ * Represents errors occurred during interaction with SDK components.
  *
  * @author Andrii Iakovenko
  *
  */
-public class CryptoException extends VirgilException {
+public class KeyStorageException extends RuntimeException {
 
-	private static final long serialVersionUID = 273960263469329797L;
+	private static final long serialVersionUID = 6911846070390159175L;
 
 	/**
-	 * Create a new instance of {@code CryptoException}
+	 * Create a new instance of {@code KeyStorageException}
 	 *
 	 */
-	public CryptoException() {
+	public KeyStorageException() {
 	}
 
 	/**
-	 * Create a new instance of {@code CryptoException}
+	 * Create a new instance of {@code KeyStorageException}
 	 *
 	 * @param cause
 	 *            the cause (which is saved for later retrieval by the
@@ -55,19 +55,19 @@ public class CryptoException extends VirgilException {
 	 *            permitted, and indicates that the cause is nonexistent or
 	 *            unknown.)
 	 */
-	public CryptoException(Throwable cause) {
+	public KeyStorageException(Throwable cause) {
 		super(cause);
 	}
 
 	/**
-	 * Create a new instance of {@code CryptoException} with the specified
+	 * Create a new instance of {@code KeyStorageException} with the specified
 	 * detail message.
 	 *
 	 * @param message
 	 *            the detail message. The detail message is saved for later
 	 *            retrieval by the {@link #getMessage()} method.
 	 */
-	public CryptoException(String message) {
+	public KeyStorageException(String message) {
 		super(message);
 	}
 }

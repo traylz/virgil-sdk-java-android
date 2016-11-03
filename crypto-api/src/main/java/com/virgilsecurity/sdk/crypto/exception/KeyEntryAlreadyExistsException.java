@@ -30,44 +30,20 @@
 package com.virgilsecurity.sdk.crypto.exception;
 
 /**
- * This class is the general class of exceptions produced by crypto library.
+ * The exception that is thrown when an key pair is already exists.
  *
  * @author Andrii Iakovenko
  *
  */
-public class CryptoException extends VirgilException {
+public class KeyEntryAlreadyExistsException extends KeyStorageException {
 
-	private static final long serialVersionUID = 273960263469329797L;
-
-	/**
-	 * Create a new instance of {@code CryptoException}
-	 *
-	 */
-	public CryptoException() {
-	}
+	private static final long serialVersionUID = 3298336334182492503L;
 
 	/**
-	 * Create a new instance of {@code CryptoException}
+	 * Create a new instance of {@code KeyEntryAlreadyExistsException}
 	 *
-	 * @param cause
-	 *            the cause (which is saved for later retrieval by the
-	 *            {@link #getCause()} method). (A <tt>null</tt> value is
-	 *            permitted, and indicates that the cause is nonexistent or
-	 *            unknown.)
 	 */
-	public CryptoException(Throwable cause) {
-		super(cause);
+	public KeyEntryAlreadyExistsException() {
 	}
 
-	/**
-	 * Create a new instance of {@code CryptoException} with the specified
-	 * detail message.
-	 *
-	 * @param message
-	 *            the detail message. The detail message is saved for later
-	 *            retrieval by the {@link #getMessage()} method.
-	 */
-	public CryptoException(String message) {
-		super(message);
-	}
 }

@@ -30,44 +30,20 @@
 package com.virgilsecurity.sdk.crypto.exception;
 
 /**
- * This class is the general class of exceptions produced by crypto library.
+ * Signals that an exception of some sort has occurred during verification.
  *
  * @author Andrii Iakovenko
  *
  */
-public class CryptoException extends VirgilException {
+public class SignatureIsNotValidException extends CryptoException {
 
-	private static final long serialVersionUID = 273960263469329797L;
-
-	/**
-	 * Create a new instance of {@code CryptoException}
-	 *
-	 */
-	public CryptoException() {
-	}
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Create a new instance of {@code CryptoException}
+	 * Create a new instance of {@code SignatureIsNotValidException}
 	 *
-	 * @param cause
-	 *            the cause (which is saved for later retrieval by the
-	 *            {@link #getCause()} method). (A <tt>null</tt> value is
-	 *            permitted, and indicates that the cause is nonexistent or
-	 *            unknown.)
 	 */
-	public CryptoException(Throwable cause) {
-		super(cause);
-	}
-
-	/**
-	 * Create a new instance of {@code CryptoException} with the specified
-	 * detail message.
-	 *
-	 * @param message
-	 *            the detail message. The detail message is saved for later
-	 *            retrieval by the {@link #getMessage()} method.
-	 */
-	public CryptoException(String message) {
-		super(message);
+	public SignatureIsNotValidException() {
+		super("Digital signature is not valid");
 	}
 }

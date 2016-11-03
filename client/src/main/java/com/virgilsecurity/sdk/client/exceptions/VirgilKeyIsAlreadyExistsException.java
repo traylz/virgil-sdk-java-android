@@ -27,18 +27,24 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.virgilsecurity.sdk.client.utils.deprecated;
-
-import com.google.gson.annotations.SerializedName;
+package com.virgilsecurity.sdk.client.exceptions;
 
 /**
  * TODO: add type description
  *
- * @author Andrii Iakovenko
+ * @author Andrii Iyakovenko
  *
  */
-public class ValidationToken {
+public class VirgilKeyIsAlreadyExistsException extends VirgilException {
 
-	@SerializedName("value")
-	private String value;
+	private static final long serialVersionUID = 6008287628148423605L;
+
+	/**
+	 * Create a new instance of {@code VirgilKeyIsAlreadyExistsException}
+	 *
+	 */
+	public VirgilKeyIsAlreadyExistsException() {
+		super("Virgil Key is already exists.");
+	}
+
 }

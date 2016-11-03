@@ -27,47 +27,24 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.virgilsecurity.sdk.crypto.exception;
+package com.virgilsecurity.sdk.client.exceptions;
 
 /**
- * This class is the general class of exceptions produced by crypto library.
+ * TODO: add type description
  *
  * @author Andrii Iakovenko
  *
  */
-public class CryptoException extends VirgilException {
+public class VirgilKeyIsNotFoundException extends VirgilException {
 
-	private static final long serialVersionUID = 273960263469329797L;
-
-	/**
-	 * Create a new instance of {@code CryptoException}
-	 *
-	 */
-	public CryptoException() {
-	}
+	private static final long serialVersionUID = -6143239665038260797L;
 
 	/**
-	 * Create a new instance of {@code CryptoException}
+	 * Create a new instance of {@code VirgilKeyIsNotFoundException}
 	 *
-	 * @param cause
-	 *            the cause (which is saved for later retrieval by the
-	 *            {@link #getCause()} method). (A <tt>null</tt> value is
-	 *            permitted, and indicates that the cause is nonexistent or
-	 *            unknown.)
 	 */
-	public CryptoException(Throwable cause) {
-		super(cause);
+	public VirgilKeyIsNotFoundException() {
+		super("Virgil Key is not found.");
 	}
 
-	/**
-	 * Create a new instance of {@code CryptoException} with the specified
-	 * detail message.
-	 *
-	 * @param message
-	 *            the detail message. The detail message is saved for later
-	 *            retrieval by the {@link #getMessage()} method.
-	 */
-	public CryptoException(String message) {
-		super(message);
-	}
 }

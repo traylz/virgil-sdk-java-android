@@ -27,47 +27,100 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.virgilsecurity.sdk.crypto.exception;
+package com.virgilsecurity.sdk.keystorage;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.gson.annotations.SerializedName;
+import com.virgilsecurity.sdk.crypto.KeyEntry;
 
 /**
- * This class is the general class of exceptions produced by crypto library.
+ * A key pair storage entry.
  *
  * @author Andrii Iakovenko
  *
  */
-public class CryptoException extends VirgilException {
+public class VirgilKeyEntry implements KeyEntry {
 
-	private static final long serialVersionUID = 273960263469329797L;
+	private transient String name;
+
+	@SerializedName("value")
+	private byte[] value;
+
+	@SerializedName("meta_data")
+	private Map<String, String> metadata;
 
 	/**
-	 * Create a new instance of {@code CryptoException}
+	 * Create a new instance of {@code VirgilKeyEntry}
 	 *
 	 */
-	public CryptoException() {
+	public VirgilKeyEntry() {
+		metadata = new HashMap<>();
 	}
 
 	/**
-	 * Create a new instance of {@code CryptoException}
+	 * Create a new instance of {@code VirgilKeyEntry}
 	 *
-	 * @param cause
-	 *            the cause (which is saved for later retrieval by the
-	 *            {@link #getCause()} method). (A <tt>null</tt> value is
-	 *            permitted, and indicates that the cause is nonexistent or
-	 *            unknown.)
+	 * @param name
+	 *            The key name.
+	 * @param value
+	 *            The key value.
 	 */
-	public CryptoException(Throwable cause) {
-		super(cause);
+	public VirgilKeyEntry(String name, byte[] value) {
+		this();
+		this.name = name;
+		this.value = value;
 	}
 
-	/**
-	 * Create a new instance of {@code CryptoException} with the specified
-	 * detail message.
-	 *
-	 * @param message
-	 *            the detail message. The detail message is saved for later
-	 *            retrieval by the {@link #getMessage()} method.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.KeyEntry#getName()
 	 */
-	public CryptoException(String message) {
-		super(message);
+	@Override
+	public String getName() {
+		return name;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.KeyEntry#setName(java.lang.String)
+	 */
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.KeyEntry#getValue()
+	 */
+	@Override
+	public byte[] getValue() {
+		return value;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.KeyEntry#setValue(byte[])
+	 */
+	@Override
+	public void setValue(byte[] value) {
+		this.value = value;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.KeyEntry#getMetadata()
+	 */
+	@Override
+	public Map<String, String> getMetadata() {
+		return metadata;
+	}
+
 }

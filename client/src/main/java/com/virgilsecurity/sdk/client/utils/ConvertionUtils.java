@@ -82,7 +82,7 @@ public class ConvertionUtils {
 		if (bytes == null || bytes.length == 0) {
 			return "";
 		}
-		return new String(bytes);
+		return new String(bytes, UTF8_CHARSET);
 	}
 
 	/**
