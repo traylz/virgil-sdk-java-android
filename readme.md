@@ -10,6 +10,7 @@ In this guide you will find code for every task you need to implement in order t
 * [User and App Credentials](#user-and-app-credentials)
 * [Creating a Virgil Card](#creating-a-virgil-card)
 * [Search for Virgil Cards](#search-for-virgil-cards)
+* [Getting a Virgil Card](#getting-a-virgil-card)
 * [Validating Virgil Cards](#validating-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Operations with Crypto Keys](#operations-with-crypto-keys)
@@ -153,6 +154,14 @@ VirgilClient client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
 
 SearchCriteria criteria = SearchCriteria.byIdentities(Arrays.asList("alice", "bob"));
 List<Card> cards = client.searchCards(criteria);
+```
+
+## Getting a Virgil Card
+Gets a `Virgil Card` by ID.
+
+```java
+VirgilClient client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+Card card = client.getCard("[YOUR_CARD_ID_HERE]");
 ```
 
 ## Validating Virgil Cards
