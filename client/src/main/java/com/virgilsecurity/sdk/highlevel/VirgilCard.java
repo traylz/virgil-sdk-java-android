@@ -29,7 +29,6 @@
  */
 package com.virgilsecurity.sdk.highlevel;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -66,53 +65,8 @@ public class VirgilCard {
 	 * Create a new instance of {@code VirgilCard}
 	 *
 	 */
-	private VirgilCard(Card model) {
+	VirgilCard(Card model) {
 		this.model = model;
-	}
-
-	/**
-	 * Gets the unique identifier for the Virgil Card.
-	 * 
-	 * @return the unique identifier for the Virgil Card.
-	 */
-	public String getId() {
-		return model.getId();
-	}
-
-	/**
-	 * Gets the value of current Virgil Card identity.
-	 * 
-	 * @return the value of current Virgil Card identity.
-	 */
-	public String getIdentity() {
-		return model.getIdentity();
-	}
-
-	/**
-	 * Gets the type of current Virgil Card identity.
-	 * 
-	 * @return the type of current Virgil Card identity.
-	 */
-	public String getIdentityType() {
-		return model.getIdentityType();
-	}
-
-	/**
-	 * Gets the custom parameters.
-	 * 
-	 * @return the custom parameters.
-	 */
-	public Map<String, String> getData() {
-		return model.getData();
-	}
-
-	/**
-	 * Gets the Public Key of current Virgil Card.
-	 * 
-	 * @return the Public Key of current Virgil Card.
-	 */
-	public byte[] getPublicKey() {
-		return model.getPublicKey();
 	}
 
 	/**
@@ -123,7 +77,7 @@ public class VirgilCard {
 	 *            the data to be encrypted.
 	 * @return encrypted data.
 	 */
-	public byte[] Encrypt(byte[] data) {
+	public byte[] encrypt(byte[] data) {
 		if (data == null) {
 			throw new NullArgumentException("data");
 		}
@@ -188,7 +142,7 @@ public class VirgilCard {
 	 *            The identity.
 	 * @return A list of found {@linkplain VirgilCard}s.
 	 */
-	public static List<VirgilCard> findGlobal(String identity) {
+	public static VirgilCards findGlobal(String identity) {
 		return findGlobal(identity, GlobalIdentityType.EMAIL);
 	}
 
@@ -201,7 +155,7 @@ public class VirgilCard {
 	 *            Type of the identity.
 	 * @return A list of found {@linkplain VirgilCard}s.
 	 */
-	public static List<VirgilCard> findGlobal(String identity, GlobalIdentityType type) {
+	public static VirgilCards findGlobal(String identity, GlobalIdentityType type) {
 		if (identity == null) {
 			throw new NullArgumentException("identity");
 		}
@@ -216,7 +170,7 @@ public class VirgilCard {
 	 *            The identities.
 	 * @return A list of found {@linkplain VirgilCard}s.
 	 */
-	public static List<VirgilCard> findGlobal(List<String> identities) {
+	public static VirgilCards findGlobal(List<String> identities) {
 		return findGlobal(identities, GlobalIdentityType.EMAIL);
 	}
 
@@ -229,7 +183,7 @@ public class VirgilCard {
 	 *            Type of the identity.
 	 * @return A list of found {@linkplain VirgilCard}s.
 	 */
-	public static List<VirgilCard> findGlobal(List<String> identities, GlobalIdentityType type) {
+	public static VirgilCards findGlobal(List<String> identities, GlobalIdentityType type) {
 		if (identities == null) {
 			throw new NullArgumentException("identities");
 		}
@@ -243,7 +197,7 @@ public class VirgilCard {
 
 		List<Card> cardModels = client.searchCards(criteria);
 
-		List<VirgilCard> virgilCards = new ArrayList<>();
+		VirgilCards virgilCards = new VirgilCards();
 		for (Card card : cardModels) {
 			virgilCards.add(new VirgilCard(card));
 		}
@@ -260,8 +214,7 @@ public class VirgilCard {
 	 *            Type of the identity.
 	 * @return A list of found {@linkplain VirgilCard}s.
 	 */
-	public static List<VirgilCard> find(String identity, String type) {
-		// FIXME: why type is a String?
+	public static VirgilCards find(String identity, String type) {
 		if (identity == null) {
 			throw new NullArgumentException("identity");
 		}
@@ -278,7 +231,7 @@ public class VirgilCard {
 	 *            Type of the identity.
 	 * @return A list of found {@linkplain VirgilCard}s.
 	 */
-	public static List<VirgilCard> find(List<String> identities, String type) {
+	public static VirgilCards find(List<String> identities, String type) {
 		if (identities == null) {
 			throw new NullArgumentException("identities");
 		}
@@ -295,7 +248,7 @@ public class VirgilCard {
 
 		List<Card> cardModels = client.searchCards(criteria);
 
-		List<VirgilCard> virgilCards = new ArrayList<>();
+		VirgilCards virgilCards = new VirgilCards();
 		for (Card card : cardModels) {
 			virgilCards.add(new VirgilCard(card));
 		}
@@ -331,25 +284,6 @@ public class VirgilCard {
 	/**
 	 * Encrypts the text.
 	 * 
-	 * @param recipients
-	 *            The list of {@linkplain VirgilCard} recipients.
-	 * @param text
-	 *            The text to encrypt.
-	 * @return The encrypted data.
-	 * 
-	 * @throws EmptyArgumentException
-	 */
-	public static byte[] encryptText(List<VirgilCard> recipients, String text) {
-		if (StringUtils.isBlank(text)) {
-			throw new EmptyArgumentException("text");
-		}
-
-		return encrypt(recipients, ConvertionUtils.toBytes(text));
-	}
-
-	/**
-	 * Encrypts the text.
-	 * 
 	 * @param recipient
 	 *            The {@linkplain VirgilCard} recipient.
 	 * @param text
@@ -368,95 +302,64 @@ public class VirgilCard {
 	}
 
 	/**
-	 * Encrypts the data.
-	 * 
-	 * @param recipients
-	 *            The list of {@linkplain VirgilCard} recipients.
-	 * @param data
-	 *            The data to encrypt.
-	 * @return The encrypted data.
-	 * 
-	 * @throw {@link NullArgumentException}
-	 */
-	public static byte[] encrypt(List<VirgilCard> recipients, byte[] data) {
-		if (recipients == null) {
-			throw new NullArgumentException("recipients");
-		}
-
-		Crypto crypto = VirgilConfig.getService(Crypto.class);
-		List<PublicKey> publicKeys = new ArrayList<>();
-		for (VirgilCard recipient : recipients) {
-			publicKeys.add(crypto.importPublicKey(recipient.getPublicKey()));
-		}
-
-		byte[] cipherdata = crypto.encrypt(data, publicKeys.toArray(new PublicKey[0]));
-
-		return cipherdata;
-	}
-
-	/**
-	 * Encrypts the data.
-	 * 
-	 * @param data
-	 *            The data to encrypt.
-	 * @return The encrypted data.
-	 * 
-	 * @throws {@link
-	 *             EmptyArgumentException}
-	 */
-	public byte[] encrypt(byte[] data) {
-		if (data == null) {
-			throw new EmptyArgumentException("data");
-		}
-
-		Crypto crypto = VirgilConfig.getService(Crypto.class);
-		PublicKey publicKey = crypto.importPublicKey(this.getPublicKey());
-
-		byte[] cipherdata = crypto.encrypt(data, publicKey);
-
-		return cipherdata;
-	}
-
-	/**
 	 * Verifies that a digital signature is valid for specified text.
 	 * 
-	 * @param recipient
-	 *            The {@linkplain VirgilCard} recipient.
 	 * @param text
 	 *            The text to encrypt.
 	 * @param signature
 	 *            The signature.
 	 * @return {@code true} if the signature is valid; otherwise, {@code false}.
 	 */
-	public static boolean verifyText(VirgilCard recipient, String text, byte[] signature) {
+	public boolean verifyText(String text, byte[] signature) {
 		if (StringUtils.isBlank(text)) {
 			throw new EmptyArgumentException("text");
 		}
 
-		return verify(recipient, ConvertionUtils.toBytes(text), signature);
+		return verify(ConvertionUtils.toBytes(text), signature);
 	}
 
 	/**
-	 * Verifies that a digital signature is valid for specified text.
+	 * Gets the unique identifier for the Virgil Card.
 	 * 
-	 * @param recipient
-	 *            The {@linkplain VirgilCard} recipient.
-	 * @param data
-	 *            The data to encrypt.
-	 * @param signature
-	 *            The signature.
-	 * @return {@code true} if the signature is valid; otherwise, {@code false}.
+	 * @return the unique identifier for the Virgil Card.
 	 */
-	public static boolean verify(VirgilCard recipient, byte[] data, byte[] signature) {
-		if (recipient == null) {
-			throw new NullArgumentException("recipient");
-		}
-
-		Crypto crypto = VirgilConfig.getService(Crypto.class);
-		PublicKey publicKey = crypto.importPublicKey(recipient.getPublicKey());
-		boolean isValid = crypto.verify(data, signature, publicKey);
-
-		return isValid;
+	public String getId() {
+		return model.getId();
 	}
 
+	/**
+	 * Gets the value of current Virgil Card identity.
+	 * 
+	 * @return the value of current Virgil Card identity.
+	 */
+	public String getIdentity() {
+		return model.getIdentity();
+	}
+
+	/**
+	 * Gets the type of current Virgil Card identity.
+	 * 
+	 * @return the type of current Virgil Card identity.
+	 */
+	public String getIdentityType() {
+		return model.getIdentityType();
+	}
+
+	/**
+	 * Gets the custom parameters.
+	 * 
+	 * @return the custom parameters.
+	 */
+	public Map<String, String> getData() {
+		return model.getData();
+	}
+
+	/**
+	 * Gets the Public Key of current Virgil Card.
+	 * 
+	 * @return the Public Key of current Virgil Card.
+	 */
+	public byte[] getPublicKey() {
+		return model.getPublicKey();
+	}
 }

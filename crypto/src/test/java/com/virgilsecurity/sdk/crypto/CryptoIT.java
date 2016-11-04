@@ -159,6 +159,7 @@ public class CryptoIT {
 		JsonArray privateKeysData = data.getAsJsonArray("private_keys");
 		Map<PrivateKey, PublicKey> keys = new HashMap<>();
 
+		PublicKey sendersKey = null;
 		for (Iterator<JsonElement> it = privateKeysData.iterator(); it.hasNext();) {
 			byte[] privateKeyData = VirgilBase64.decode(it.next().getAsString());
 
@@ -166,11 +167,15 @@ public class CryptoIT {
 			PublicKey publicKey = crypto.extractPublicKey(privateKey);
 
 			keys.put(privateKey, publicKey);
+
+			if (sendersKey == null) {
+				sendersKey = publicKey;
+			}
 		}
 
 		// Test decryption
 		for (Entry<PrivateKey, PublicKey> entry : keys.entrySet()) {
-			byte[] decrypted = crypto.decryptThenVerify(cipherData, entry.getKey(), entry.getValue());
+			byte[] decrypted = crypto.decryptThenVerify(cipherData, entry.getKey(), sendersKey);
 			assertArrayEquals(originalData, decrypted);
 		}
 
