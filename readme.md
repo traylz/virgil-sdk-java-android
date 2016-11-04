@@ -21,6 +21,7 @@ In this guide you will find code for every task you need to implement in order t
 * [Generating and Verifying Signatures](#generating-and-verifying-signatures)
   * [Generating a Signature](#generating-a-signature)
   * [Verifying a Signature](#verifying-a-signature)
+* [Authenticated Encryption](#authenticated-encryption)
 * [Fingerprint Generation](#fingerprint-generation)
 * [Release Notes](#release-notes)
 
@@ -114,7 +115,7 @@ String appID = "[YOUR_APP_ID_HERE]";
 String appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
 String appKeyData = "[YOUR_APP_KEY_HERE]";
 
-String appKey = crypto.importPrivateKey(appKeyData.getBytes(), appKeyPassword);
+PrivateKey appKey = crypto.importPrivateKey(appKeyData.getBytes(), appKeyPassword);
 ```
 
 Generate a new Public/Private keypair using *VirgilCrypto* class. 
@@ -322,6 +323,30 @@ try (InputStream in = new FileInputStream("[YOUR_FILE_PATH_HERE]")) {
 
     boolean isValid = crypto.verify(in, signature, alice.getPublicKey());
 }
+```
+
+## Authenticated Encryption
+Authenticated Encryption provides both data confidentiality and data integrity assurances to the information being protected.
+
+```java
+Crypto crypto = new VirgilCrypto();
+
+KeyPair alice = crypto.generateKeys();
+KeyPair bob = crypto.generateKeys();
+
+// The data to be signed with alice's Private key
+String dataToSign = "Hello Bob, How are you?";
+byte[] data = dataToSign.getBytes();
+```
+
+### Sign then Encrypt
+```java
+byte[] cipherData = crypto.signThenEncrypt(data, alice.getPrivateKey(), bob.getPublicKey());
+```
+
+### Decrypt then Verify
+```java
+byte[] decryptedData = crypto.decryptThenVerify(cipherData, bob.getPrivateKey(), alice.getPublicKey());
 ```
 
 ## Fingerprint Generation
