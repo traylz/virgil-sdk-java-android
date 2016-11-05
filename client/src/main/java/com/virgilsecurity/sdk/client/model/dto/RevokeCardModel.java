@@ -33,7 +33,7 @@ import com.google.gson.annotations.SerializedName;
 import com.virgilsecurity.sdk.client.model.RevocationReason;
 
 /**
- * TODO: add type description
+ * DTO used for Virgil Card revocation.
  *
  * @author Andrii Iakovenko
  *
@@ -54,7 +54,8 @@ public class RevokeCardModel {
 	}
 
 	/**
-	 * @param cardId the cardId to set
+	 * @param cardId
+	 *            the cardId to set
 	 */
 	public void setCardId(String cardId) {
 		this.cardId = cardId;
@@ -68,7 +69,8 @@ public class RevokeCardModel {
 	}
 
 	/**
-	 * @param reason the reason to set
+	 * @param reason
+	 *            the reason to set
 	 */
 	public void setReason(RevocationReason reason) {
 		this.reason = reason;

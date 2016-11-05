@@ -38,7 +38,7 @@ import com.virgilsecurity.sdk.client.model.CardScope;
 import com.virgilsecurity.sdk.client.model.GlobalIdentityType;
 
 /**
- * TODO: add type description
+ * The criteria user for Virgil Cards searching.
  *
  * @author Andrii Iakovenko
  *

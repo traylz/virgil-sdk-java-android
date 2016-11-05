@@ -35,6 +35,7 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 import com.virgilsecurity.crypto.VirgilCipher;
+import com.virgilsecurity.crypto.VirgilCustomParams;
 import com.virgilsecurity.crypto.VirgilDataSink;
 import com.virgilsecurity.crypto.VirgilDataSource;
 import com.virgilsecurity.crypto.VirgilHash;
@@ -48,6 +49,7 @@ import com.virgilsecurity.crypto.VirgilStreamSigner;
 import com.virgilsecurity.sdk.crypto.exception.CryptoException;
 import com.virgilsecurity.sdk.crypto.exception.DecryptionException;
 import com.virgilsecurity.sdk.crypto.exception.EncryptionException;
+import com.virgilsecurity.sdk.crypto.exception.SignatureIsNotValidException;
 import com.virgilsecurity.sdk.crypto.exception.SigningException;
 import com.virgilsecurity.sdk.crypto.exception.VerificationException;
 import com.virgilsecurity.sdk.crypto.exceptions.NullArgumentException;
@@ -65,6 +67,7 @@ import com.virgilsecurity.sdk.crypto.exceptions.NullArgumentException;
 public class VirgilCrypto implements Crypto {
 
 	private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
+	private static final byte[] CUSTOM_PARAM_SIGNATURE = "VIRGIL-DATA-SIGNATURE".getBytes(UTF8_CHARSET);
 
 	public static VirgilHash createVirgilHash(HashAlgorithm algorithm) {
 		switch (algorithm) {
@@ -207,8 +210,35 @@ public class VirgilCrypto implements Crypto {
 	 */
 	@Override
 	public byte[] decryptThenVerify(byte[] cipherData, PrivateKey privateKey, PublicKey publicKey) {
-		// TODO implement decryptThenVerify
-		throw new UnsupportedOperationException();
+		try (VirgilSigner signer = new VirgilSigner(); VirgilCipher cipher = new VirgilCipher()) {
+			byte[] decryptedData = cipher.decryptWithKey(cipherData, privateKey.getId(), privateKey.getValue());
+			byte[] signature = cipher.customParams().getData(CUSTOM_PARAM_SIGNATURE);
+
+			boolean isValid = signer.verify(decryptedData, signature, publicKey.getValue());
+			if (!isValid) {
+				throw new SignatureIsNotValidException();
+			}
+
+			return decryptedData;
+		} catch (Exception e) {
+			throw new CryptoException(e.getMessage());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#encrypt(byte[],
+	 * com.virgilsecurity.sdk.crypto.PublicKey)
+	 */
+	@Override
+	public byte[] encrypt(byte[] data, PublicKey recipient) {
+		try (VirgilCipher cipher = new VirgilCipher()) {
+			cipher.addKeyRecipient(recipient.getId(), recipient.getValue());
+
+			byte[] encryptedData = cipher.encrypt(data, true);
+			return encryptedData;
+		}
 	}
 
 	/*
@@ -226,6 +256,27 @@ public class VirgilCrypto implements Crypto {
 
 			byte[] encryptedData = cipher.encrypt(data, true);
 			return encryptedData;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#encrypt(java.io.InputStream,
+	 * java.io.OutputStream, com.virgilsecurity.sdk.crypto.PublicKey)
+	 */
+	@Override
+	public void encrypt(InputStream inputStream, OutputStream outputStream, PublicKey recipient)
+			throws EncryptionException {
+		try (VirgilStreamCipher cipher = new VirgilStreamCipher();
+				VirgilDataSource dataSource = new VirgilStreamDataSource(inputStream);
+				VirgilDataSink dataSink = new VirgilStreamDataSink(outputStream)) {
+
+			cipher.addKeyRecipient(recipient.getId(), recipient.getValue());
+
+			cipher.encrypt(dataSource, dataSink, true);
+		} catch (IOException e) {
+			throw new EncryptionException(e);
 		}
 	}
 
@@ -445,12 +496,37 @@ public class VirgilCrypto implements Crypto {
 	 * 
 	 * @see com.virgilsecurity.sdk.crypto.Crypto#signThenEncrypt(byte[],
 	 * com.virgilsecurity.sdk.crypto.PrivateKey,
+	 * com.virgilsecurity.sdk.crypto.PublicKey)
+	 */
+	@Override
+	public byte[] signThenEncrypt(byte[] data, PrivateKey privateKey, PublicKey recipient) {
+		return signThenEncrypt(data, privateKey, new PublicKey[] { recipient });
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.virgilsecurity.sdk.crypto.Crypto#signThenEncrypt(byte[],
+	 * com.virgilsecurity.sdk.crypto.PrivateKey,
 	 * com.virgilsecurity.sdk.crypto.PublicKey[])
 	 */
 	@Override
 	public byte[] signThenEncrypt(byte[] data, PrivateKey privateKey, PublicKey[] recipients) {
-		// TODO implement signThenEncrypt
-		throw new UnsupportedOperationException();
+		try (VirgilSigner signer = new VirgilSigner(); VirgilCipher cipher = new VirgilCipher()) {
+
+			byte[] signature = signer.sign(data, privateKey.getValue());
+
+			VirgilCustomParams customData = cipher.customParams();
+			customData.setData(CUSTOM_PARAM_SIGNATURE, signature);
+
+			for (PublicKey publicKey : recipients) {
+				cipher.addKeyRecipient(publicKey.getId(), publicKey.getValue());
+			}
+			return cipher.encrypt(data, true);
+
+		} catch (Exception e) {
+			throw new CryptoException(e.getMessage());
+		}
 	}
 
 	/*

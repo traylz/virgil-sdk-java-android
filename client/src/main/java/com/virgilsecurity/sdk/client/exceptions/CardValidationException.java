@@ -35,7 +35,7 @@ import java.util.List;
 import com.virgilsecurity.sdk.client.model.Card;
 
 /**
- * TODO: add type description
+ * This exception occurred when card validation failed.
  *
  * @author Andrii Iakovenko
  *
@@ -49,7 +49,8 @@ public class CardValidationException extends VirgilException {
 	/**
 	 * Create a new instance of {@code CardValidationException}
 	 *
-	 * @param invalidCards the list of invalid cards.
+	 * @param invalidCards
+	 *            the list of invalid cards.
 	 */
 	public CardValidationException(List<Card> invalidCards) {
 		super("One or more cards didn't pass the validation");

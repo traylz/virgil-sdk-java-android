@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.virgilsecurity.sdk</groupId>
 		<artifactId>parent</artifactId>
-		<version>4.0.0</version>
+		<version>4.1.0</version>
 	</parent>
 	<artifactId>android</artifactId>
 	<packaging>aar</packaging>

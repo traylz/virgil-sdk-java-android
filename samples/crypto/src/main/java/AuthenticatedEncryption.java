@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2016, Virgil Security, Inc.
  *
@@ -27,51 +28,46 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.virgilsecurity.sdk.crypto;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import com.virgilsecurity.sdk.client.utils.ConvertionUtils;
+import com.virgilsecurity.sdk.crypto.Crypto;
+import com.virgilsecurity.sdk.crypto.KeyPair;
+import com.virgilsecurity.sdk.crypto.VirgilCrypto;
 
 /**
- * This interface describes a storage facility for cryptographic keys.
- *
+ * Authenticated encryption sample.
+ * 
  * @author Andrii Iakovenko
  *
  */
-public interface KeyStore {
+public class AuthenticatedEncryption {
 
-	/**
-	 * Stores the private key (that has already been protected) to the given
-	 * alias.
-	 * 
-	 * @param keyEntry
-	 *            The key entry.
-	 */
-	void store(KeyEntry keyEntry);
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Enter the text to be signed with alice's Private key: ");
+		String dataToSign = br.readLine();
+		byte[] data = dataToSign.getBytes();
+		System.out.println();
 
-	/**
-	 * Loads the private key associated with the given alias.
-	 * 
-	 * 
-	 * @param keyId
-	 *            The key identifier.
-	 * @return The requested private key, or null if the given alias does not
-	 *         exist or does not identify a key-related entry.
-	 */
-	KeyEntry load(String keyId);
+		// Initialize Crypto
+		Crypto crypto = new VirgilCrypto();
 
-	/**
-	 * Checks if the private key exists in this storage by given alias.
-	 * 
-	 * @param keyId
-	 *            The key identifier.
-	 * @return {@code true} if the private key exists, {@code false} otherwise.
-	 */
-	boolean exists(String keyId);
+		// Generate keys for Alice and Bob
+		KeyPair alice = crypto.generateKeys();
+		KeyPair bob = crypto.generateKeys();
 
-	/**
-	 * Deletes the private key from key store by given Id.
-	 * 
-	 * @param keyId
-	 *            The key Id.
-	 */
-	void delete(String keyId);
+		// Sign then Encrypt
+		byte[] cipherData = crypto.signThenEncrypt(data, alice.getPrivateKey(), bob.getPublicKey());
 
+		System.out.println(String.format("Cipher text in Base64:\n %1$s", ConvertionUtils.toBase64String(cipherData)));
+
+		// Decrypt then Verify
+		byte[] decryptedData = crypto.decryptThenVerify(cipherData, bob.getPrivateKey(), alice.getPublicKey());
+
+		System.out.println(String.format("Decrypted text:\n %1$s", ConvertionUtils.toString(decryptedData)));
+	}
 }

@@ -32,16 +32,16 @@ package com.virgilsecurity.sdk.client.model;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * TODO: add type description
+ * The reason of Virgil Card revocation.
  *
  * @author Andrii Iakovenko
  *
  */
 public enum RevocationReason {
-	
+
 	@SerializedName("unspecified")
 	UNSPECIFIED,
-	
+
 	@SerializedName("compromised")
 	COMPROMISED;
 

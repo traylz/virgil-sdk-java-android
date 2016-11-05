@@ -88,6 +88,9 @@ public class Quickstart {
 
 		/** Publish a Virgil Card */
 		Card aliceCard = client.createCard(createCardRequest);
+		
+		// Get Virgil Card
+		Card foundCard = client.getCard(aliceCard.getId());
 
 		// Search for Virgil Cards
 		SearchCriteria criteria = SearchCriteria.byIdentity("alice");

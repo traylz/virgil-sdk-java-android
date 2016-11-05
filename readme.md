@@ -10,6 +10,7 @@ In this guide you will find code for every task you need to implement in order t
 * [User and App Credentials](#user-and-app-credentials)
 * [Creating a Virgil Card](#creating-a-virgil-card)
 * [Search for Virgil Cards](#search-for-virgil-cards)
+* [Getting a Virgil Card](#getting-a-virgil-card)
 * [Validating Virgil Cards](#validating-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Operations with Crypto Keys](#operations-with-crypto-keys)
@@ -21,6 +22,7 @@ In this guide you will find code for every task you need to implement in order t
 * [Generating and Verifying Signatures](#generating-and-verifying-signatures)
   * [Generating a Signature](#generating-a-signature)
   * [Verifying a Signature](#verifying-a-signature)
+* [Authenticated Encryption](#authenticated-encryption)
 * [Fingerprint Generation](#fingerprint-generation)
 * [Release Notes](#release-notes)
 
@@ -50,12 +52,12 @@ Use this packages for Java projects.
   <dependency>
     <groupId>com.virgilsecurity.sdk</groupId>
     <artifactId>crypto</artifactId>
-    <version>4.0.0</version>
+    <version>4.1.0</version>
   </dependency>
   <dependency>
     <groupId>com.virgilsecurity.sdk</groupId>
     <artifactId>client</artifactId>
-    <version>4.0.0</version>
+    <version>4.1.0</version>
   </dependency>
 </dependencies>
 ```
@@ -64,7 +66,7 @@ Use this packages for Java projects.
 
 Use this packages for Android projects.
 ```
-compile 'com.virgilsecurity.sdk:android:4.0.0@aar'
+compile 'com.virgilsecurity.sdk:android:4.1.0@aar'
 compile 'com.google.code.gson:gson:2.7'
 compile 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
 ```
@@ -114,7 +116,7 @@ String appID = "[YOUR_APP_ID_HERE]";
 String appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
 String appKeyData = "[YOUR_APP_KEY_HERE]";
 
-String appKey = crypto.importPrivateKey(appKeyData.getBytes(), appKeyPassword);
+PrivateKey appKey = crypto.importPrivateKey(appKeyData.getBytes(), appKeyPassword);
 ```
 
 Generate a new Public/Private keypair using *VirgilCrypto* class. 
@@ -152,6 +154,14 @@ VirgilClient client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
 
 SearchCriteria criteria = SearchCriteria.byIdentities(Arrays.asList("alice", "bob"));
 List<Card> cards = client.searchCards(criteria);
+```
+
+## Getting a Virgil Card
+Gets a `Virgil Card` by ID.
+
+```java
+VirgilClient client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]");
+Card card = client.getCard("[YOUR_CARD_ID_HERE]");
 ```
 
 ## Validating Virgil Cards
@@ -195,7 +205,7 @@ String appID = "[YOUR_APP_ID_HERE]";
 String appKeyPassword = "[YOUR_APP_KEY_PASSWORD_HERE]";
 String appKeyData = "[YOUR_APP_KEY_PATH_HERE]";
 
-String appKey = crypto.importPrivateKey(appKeyData.getBytes(), appKeyPassword);
+PrivateKey appKey = crypto.importPrivateKey(appKeyData.getBytes(), appKeyPassword);
 ```
 
 Prepare revocation request
@@ -322,6 +332,30 @@ try (InputStream in = new FileInputStream("[YOUR_FILE_PATH_HERE]")) {
 
     boolean isValid = crypto.verify(in, signature, alice.getPublicKey());
 }
+```
+
+## Authenticated Encryption
+Authenticated Encryption provides both data confidentiality and data integrity assurances to the information being protected.
+
+```java
+Crypto crypto = new VirgilCrypto();
+
+KeyPair alice = crypto.generateKeys();
+KeyPair bob = crypto.generateKeys();
+
+// The data to be signed with alice's Private key
+String dataToSign = "Hello Bob, How are you?";
+byte[] data = dataToSign.getBytes();
+```
+
+### Sign then Encrypt
+```java
+byte[] cipherData = crypto.signThenEncrypt(data, alice.getPrivateKey(), bob.getPublicKey());
+```
+
+### Decrypt then Verify
+```java
+byte[] decryptedData = crypto.decryptThenVerify(cipherData, bob.getPrivateKey(), alice.getPublicKey());
 ```
 
 ## Fingerprint Generation

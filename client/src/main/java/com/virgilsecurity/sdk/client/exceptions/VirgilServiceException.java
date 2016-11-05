@@ -67,10 +67,11 @@ public abstract class VirgilServiceException extends RuntimeException {
 	 *
 	 * @param code
 	 *            The error code.
-	 * @param e
+	 * @param cause
+	 *            The cause.
 	 */
-	public VirgilServiceException(int code, Exception e) {
-		super(e);
+	public VirgilServiceException(int code, Exception cause) {
+		super(cause);
 
 		this.errorCode = code;
 	}
@@ -78,10 +79,11 @@ public abstract class VirgilServiceException extends RuntimeException {
 	/**
 	 * Create a new instance of {@code VirgilServiceException}
 	 *
-	 * @param e
+	 * @param cause
+	 *            The cause.
 	 */
-	public VirgilServiceException(Exception e) {
-		super(e);
+	public VirgilServiceException(Exception cause) {
+		super(cause);
 	}
 
 	/**

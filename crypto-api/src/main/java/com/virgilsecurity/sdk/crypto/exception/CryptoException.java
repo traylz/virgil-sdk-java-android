@@ -35,7 +35,7 @@ package com.virgilsecurity.sdk.crypto.exception;
  * @author Andrii Iakovenko
  *
  */
-public class CryptoException extends RuntimeException {
+public class CryptoException extends VirgilException {
 
 	private static final long serialVersionUID = 273960263469329797L;
 
@@ -57,5 +57,17 @@ public class CryptoException extends RuntimeException {
 	 */
 	public CryptoException(Throwable cause) {
 		super(cause);
+	}
+
+	/**
+	 * Create a new instance of {@code CryptoException} with the specified
+	 * detail message.
+	 *
+	 * @param message
+	 *            the detail message. The detail message is saved for later
+	 *            retrieval by the {@link #getMessage()} method.
+	 */
+	public CryptoException(String message) {
+		super(message);
 	}
 }

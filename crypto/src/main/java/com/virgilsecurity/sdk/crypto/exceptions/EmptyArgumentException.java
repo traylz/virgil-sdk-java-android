@@ -30,8 +30,8 @@
 package com.virgilsecurity.sdk.crypto.exceptions;
 
 /**
- * Thrown to indicate that an argument was <code>null</code> and should not have
- * been.
+ * Thrown to indicate that an argument was <code>null</code> or empty and should
+ * not have been.
  *
  * @author Andrii Iakovenko
  *
@@ -44,7 +44,7 @@ public class EmptyArgumentException extends IllegalArgumentException {
 	 * Create a new instance of {@code NullArgumentException}
 	 *
 	 * @param argName
-	 *            the name of the argument that was {@code null}.
+	 *            the name of the argument that was {@code null} or empty.
 	 */
 	public EmptyArgumentException(String argName) {
 		super((argName == null ? "Argument" : argName) + " must not be empty.");
