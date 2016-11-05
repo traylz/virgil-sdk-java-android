@@ -36,7 +36,7 @@ import com.google.gson.annotations.SerializedName;
 import com.virgilsecurity.sdk.client.model.CardScope;
 
 /**
- * TODO: add type description
+ * This class is DTO used for creating a new Virgil Card.
  *
  * @author Andrii Iakovenko
  *
@@ -60,7 +60,7 @@ public class CreateCardModel {
 
 	@SerializedName("info")
 	private DeviceInfo info;
-	
+
 	/**
 	 * Create a new instance of {@code CreateCardModel}
 	 *
@@ -77,7 +77,8 @@ public class CreateCardModel {
 	}
 
 	/**
-	 * @param identity the identity to set
+	 * @param identity
+	 *            the identity to set
 	 */
 	public void setIdentity(String identity) {
 		this.identity = identity;
@@ -91,7 +92,8 @@ public class CreateCardModel {
 	}
 
 	/**
-	 * @param identityType the identityType to set
+	 * @param identityType
+	 *            the identityType to set
 	 */
 	public void setIdentityType(String identityType) {
 		this.identityType = identityType;
@@ -105,7 +107,8 @@ public class CreateCardModel {
 	}
 
 	/**
-	 * @param publicKey the publicKey to set
+	 * @param publicKey
+	 *            the publicKey to set
 	 */
 	public void setPublicKey(String publicKey) {
 		this.publicKey = publicKey;
@@ -119,7 +122,8 @@ public class CreateCardModel {
 	}
 
 	/**
-	 * @param scope the scope to set
+	 * @param scope
+	 *            the scope to set
 	 */
 	public void setScope(CardScope scope) {
 		this.scope = scope;
@@ -133,7 +137,8 @@ public class CreateCardModel {
 	}
 
 	/**
-	 * @param data the data to set
+	 * @param data
+	 *            the data to set
 	 */
 	public void setData(Map<String, String> data) {
 		this.data = data;
@@ -147,7 +152,8 @@ public class CreateCardModel {
 	}
 
 	/**
-	 * @param info the info to set
+	 * @param info
+	 *            the info to set
 	 */
 	public void setInfo(DeviceInfo info) {
 		this.info = info;

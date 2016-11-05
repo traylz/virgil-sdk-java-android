@@ -30,7 +30,7 @@
 package com.virgilsecurity.sdk.client.exceptions;
 
 /**
- * TODO: add type description
+ * This exception occurred when key couldn't be loaded from storage.
  *
  * @author Andrii Iakovenko
  *

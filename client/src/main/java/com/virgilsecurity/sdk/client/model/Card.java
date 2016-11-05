@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO: add type description
+ * This class represents a Virgil Card.
  *
  * @author Andrii Iakovenko
  *
@@ -62,7 +62,7 @@ public class Card {
 	private String version;
 
 	private Map<String, byte[]> signatures;
-	
+
 	/**
 	 * Create a new instance of {@code Card}
 	 *

@@ -34,7 +34,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
- * TODO: add type description
+ * Unit tests for {@linkplain ConvertionUtils}.
  *
  * @author Andrii Iakovenko
  *
@@ -47,18 +47,18 @@ public class ConvertionUtilsTest {
 	public void base64String() {
 		String base64string = ConvertionUtils.toBase64String(TEXT);
 		String str = ConvertionUtils.base64ToString(base64string);
-		
+
 		assertEquals(TEXT, str);
 	}
-	
+
 	@Test
 	public void base64ByteArray() {
 		byte[] base64bytes = ConvertionUtils.toBase64Array(TEXT);
 		String str = ConvertionUtils.base64ToString(base64bytes);
-		
+
 		assertEquals(TEXT, str);
 	}
-	
+
 	@Test
 	public void toBytes() {
 		byte[] bytes = ConvertionUtils.toBytes(TEXT);

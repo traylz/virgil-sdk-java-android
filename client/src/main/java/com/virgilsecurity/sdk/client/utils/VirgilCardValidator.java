@@ -58,7 +58,7 @@ public class VirgilCardValidator implements CardValidator {
 	/**
 	 * Create a new instance of {@code VirgilCardValidator}
 	 *
-	 * @param crypto
+	 * @param crypto The crypto instance.
 	 */
 	public VirgilCardValidator(Crypto crypto) {
 		this.crypto = crypto;

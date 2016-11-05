@@ -39,7 +39,7 @@ import com.virgilsecurity.sdk.crypto.PublicKey;
 import com.virgilsecurity.sdk.crypto.exceptions.EmptyArgumentException;
 
 /**
- * TODO: add type description
+ * This class represents list of Virgil Cards.
  *
  * @author Andrii Iakovenko
  *
@@ -47,7 +47,7 @@ import com.virgilsecurity.sdk.crypto.exceptions.EmptyArgumentException;
 public class VirgilCards extends ArrayList<VirgilCard> {
 
 	private static final long serialVersionUID = -851151724028601817L;
-	
+
 	/**
 	 * Encrypts the text.
 	 * 
@@ -56,6 +56,7 @@ public class VirgilCards extends ArrayList<VirgilCard> {
 	 * @return The encrypted data.
 	 * 
 	 * @throws EmptyArgumentException
+	 *             if text is blank.
 	 */
 	public byte[] encryptText(String text) {
 		if (StringUtils.isBlank(text)) {
@@ -64,7 +65,7 @@ public class VirgilCards extends ArrayList<VirgilCard> {
 
 		return encrypt(ConvertionUtils.toBytes(text));
 	}
-	
+
 	/**
 	 * Encrypts the data.
 	 * 
@@ -72,7 +73,7 @@ public class VirgilCards extends ArrayList<VirgilCard> {
 	 *            The data to encrypt.
 	 * @return The encrypted data.
 	 * 
-	 * @throw {@link EmptyArgumentException}
+	 * @throws EmptyArgumentException if there is no recipients.
 	 */
 	public byte[] encrypt(byte[] data) {
 		if (this.isEmpty()) {

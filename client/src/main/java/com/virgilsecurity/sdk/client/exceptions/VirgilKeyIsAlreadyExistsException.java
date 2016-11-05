@@ -30,7 +30,8 @@
 package com.virgilsecurity.sdk.client.exceptions;
 
 /**
- * TODO: add type description
+ * This exception occurred when key with the same name already exists at the
+ * storage.
  *
  * @author Andrii Iyakovenko
  *

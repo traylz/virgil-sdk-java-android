@@ -31,14 +31,15 @@ package com.virgilsecurity.sdk.highlevel;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.virgilsecurity.sdk.client.model.Card;
+import com.virgilsecurity.sdk.client.utils.ConvertionUtils;
 import com.virgilsecurity.sdk.crypto.Crypto;
 import com.virgilsecurity.sdk.crypto.KeyPair;
 
@@ -49,26 +50,28 @@ import com.virgilsecurity.sdk.crypto.KeyPair;
  *
  */
 public class VirgilCardTest {
-	
+
+	private static final String TEXT = "Let's try to encrypt this text";
+
+	private Crypto crypto;
 	private KeyPair keyPair;
 	private Card card;
 	private VirgilCard virgilCard;
-	
+
 	@Before
 	public void setUp() {
-		Crypto crypto = VirgilConfig.getService(Crypto.class);
+		crypto = VirgilConfig.getService(Crypto.class);
 		keyPair = crypto.generateKeys();
-		
+
 		card = new Card();
 		card.setId(UUID.randomUUID().toString());
 		card.setIdentity("test@mail.com");
 		card.setPublicKey(crypto.exportPublicKey(keyPair.getPublicKey()));
-		
+
 		virgilCard = new VirgilCard(card);
 	}
-	
+
 	@Test
-	@Ignore
 	public void constructor() {
 		assertEquals(card.getId(), virgilCard.getId());
 		assertEquals(card.getIdentity(), virgilCard.getIdentity());
@@ -77,27 +80,35 @@ public class VirgilCardTest {
 	}
 
 	@Test
-	@Ignore
 	public void encrypt() {
+		byte[] cipherData = virgilCard.encrypt(ConvertionUtils.toBytes(TEXT));
+		byte[] decryptedData = crypto.decrypt(cipherData, keyPair.getPrivateKey());
 
+		assertEquals(TEXT, ConvertionUtils.toString(decryptedData));
 	}
 
 	@Test
-	@Ignore
 	public void verify() {
+		byte[] data = ConvertionUtils.toBytes(TEXT);
+		byte[] signature = crypto.sign(data, keyPair.getPrivateKey());
 
+		assertTrue(virgilCard.verify(data, signature));
 	}
 
 	@Test
-	@Ignore
 	public void encryptText() {
+		byte[] cipherData = virgilCard.encryptText(TEXT);
+		byte[] decryptedData = crypto.decrypt(cipherData, keyPair.getPrivateKey());
 
+		assertEquals(TEXT, ConvertionUtils.toString(decryptedData));
 	}
 
 	@Test
-	@Ignore
 	public void verifyText() {
+		byte[] data = ConvertionUtils.toBytes(TEXT);
+		byte[] signature = crypto.sign(data, keyPair.getPrivateKey());
 
+		assertTrue(virgilCard.verifyText(TEXT, signature));
 	}
 
 }

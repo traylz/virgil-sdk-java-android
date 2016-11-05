@@ -36,7 +36,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.virgilsecurity.sdk.client.exceptions.ServiceIsAlreadyRegistered;
+import com.virgilsecurity.sdk.client.exceptions.ServiceIsAlreadyRegisteredException;
 import com.virgilsecurity.sdk.client.exceptions.ServiceNotRegisteredException;
 import com.virgilsecurity.sdk.crypto.exception.VirgilException;
 
@@ -123,7 +123,7 @@ public class ServiceContainer {
 
 	private void register(Class<?> resolvedType, RegisteredObject registeredObject) {
 		if (registeredObjects.containsKey(resolvedType)) {
-			throw new ServiceIsAlreadyRegistered();
+			throw new ServiceIsAlreadyRegisteredException();
 		}
 		registeredObjects.put(resolvedType, registeredObject);
 	}

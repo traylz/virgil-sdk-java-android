@@ -284,21 +284,18 @@ public class VirgilCard {
 	/**
 	 * Encrypts the text.
 	 * 
-	 * @param recipient
-	 *            The {@linkplain VirgilCard} recipient.
 	 * @param text
 	 *            The text to encrypt.
 	 * @return The encrypted data.
 	 * 
-	 * @throws {@link
-	 *             EmptyArgumentException}
+	 * @throws EmptyArgumentException
 	 */
-	public static byte[] encryptText(VirgilCard recipient, String text) {
+	public byte[] encryptText(String text) {
 		if (StringUtils.isBlank(text)) {
 			throw new EmptyArgumentException("text");
 		}
 
-		return recipient.encrypt(ConvertionUtils.toBytes(text));
+		return encrypt(ConvertionUtils.toBytes(text));
 	}
 
 	/**

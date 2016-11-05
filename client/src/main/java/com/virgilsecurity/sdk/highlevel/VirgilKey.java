@@ -51,7 +51,7 @@ import com.virgilsecurity.sdk.crypto.exceptions.NullArgumentException;
 import com.virgilsecurity.sdk.keystorage.VirgilKeyEntry;
 
 /**
- * TODO: add type description
+ * This class allows to store Virgil Keys in a storage.
  *
  * @author Andrii Iakovenko
  *
@@ -90,10 +90,6 @@ public class VirgilKey {
 	 * @param keyPair
 	 *            The key pair.
 	 * @return The instance of {@linkplain VirgilKey}.
-	 * 
-	 * @throws EmptyArgumentException
-	 * @throws NullArgumentException
-	 * @throws VirgilKeyIsAlreadyExistsException
 	 */
 	public static VirgilKey create(String keyName, KeyPair keyPair) {
 		return create(keyName, keyPair, null);
@@ -111,8 +107,11 @@ public class VirgilKey {
 	 * @return The instance of {@linkplain VirgilKey}.
 	 * 
 	 * @throws EmptyArgumentException
+	 *             if key name is blank.
 	 * @throws NullArgumentException
+	 *             if key pair is null.
 	 * @throws VirgilKeyIsAlreadyExistsException
+	 *             if key with the same name already exists at storage.
 	 */
 	public static VirgilKey create(String keyName, KeyPair keyPair, String password) {
 		if (StringUtils.isBlank(keyName)) {
@@ -236,6 +235,7 @@ public class VirgilKey {
 	 * @return A byte array containing the result from performing the operation.
 	 * 
 	 * @throws NullArgumentException
+	 *             if data is null.
 	 */
 	public byte[] sign(byte[] data) {
 		if (data == null) {
@@ -256,6 +256,7 @@ public class VirgilKey {
 	 * @return A byte array containing the result from performing the operation.
 	 * 
 	 * @throws NullArgumentException
+	 *             if cipherData is null.
 	 */
 	public byte[] decrypt(byte[] cipherData) {
 		if (cipherData == null) {
@@ -278,6 +279,7 @@ public class VirgilKey {
 	 * @return The encrypted data.
 	 * 
 	 * @throws NullArgumentException
+	 *             if recipients list is null.
 	 */
 	public byte[] signThenEncrypt(byte[] data, List<VirgilCard> recipients) {
 		if (recipients == null) {

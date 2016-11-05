@@ -29,10 +29,14 @@
  */
 package com.virgilsecurity.sdk.client.exceptions;
 
+import com.virgilsecurity.sdk.highlevel.ServiceContainer;
+
 /**
- * TODO: add type description
+ * This exception occurred when service is not registered at service container.
  *
  * @author Andrii Iakovenko
+ * 
+ * @see ServiceContainer
  *
  */
 public class ServiceNotRegisteredException extends VirgilException {
@@ -43,6 +47,7 @@ public class ServiceNotRegisteredException extends VirgilException {
 	 * Create a new instance of {@code ServiceNotRegisteredException}
 	 *
 	 * @param message
+	 *            The message of exception.
 	 */
 	public ServiceNotRegisteredException(String message) {
 		super(message);

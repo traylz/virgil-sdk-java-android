@@ -37,7 +37,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.virgilsecurity.sdk.client.exceptions.ServiceIsAlreadyRegistered;
+import com.virgilsecurity.sdk.client.exceptions.ServiceIsAlreadyRegisteredException;
 import com.virgilsecurity.sdk.client.exceptions.ServiceNotRegisteredException;
 import com.virgilsecurity.sdk.crypto.Crypto;
 import com.virgilsecurity.sdk.crypto.VirgilCrypto;
@@ -76,7 +76,7 @@ public class ServiceContainerTest {
 		assertThat(crypto, instanceOf(VirgilCrypto.class));
 	}
 
-	@Test(expected = ServiceIsAlreadyRegistered.class)
+	@Test(expected = ServiceIsAlreadyRegisteredException.class)
 	public void registerSingleton_theSame() {
 		serviceContainer.registerSingleton(Crypto.class, VirgilCrypto.class);
 		serviceContainer.registerSingleton(Crypto.class, VirgilCrypto.class);
@@ -99,7 +99,7 @@ public class ServiceContainerTest {
 		assertThat(crypto, instanceOf(VirgilCrypto.class));
 	}
 
-	@Test(expected = ServiceIsAlreadyRegistered.class)
+	@Test(expected = ServiceIsAlreadyRegisteredException.class)
 	public void registerInstance_theSame() {
 		serviceContainer.registerInstance(Crypto.class, new VirgilCrypto());
 		serviceContainer.registerInstance(Crypto.class, new VirgilCrypto());

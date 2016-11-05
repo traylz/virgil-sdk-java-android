@@ -30,7 +30,7 @@
 package com.virgilsecurity.sdk.crypto;
 
 /**
- * TODO: add type description
+ * Key types supported by Crypto.
  *
  * @author Andrii Iakovenko
  *

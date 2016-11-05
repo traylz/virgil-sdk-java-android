@@ -41,7 +41,7 @@ import com.virgilsecurity.sdk.crypto.KeyPair;
 import com.virgilsecurity.sdk.crypto.VirgilCrypto;
 
 /**
- * TODO: add type description
+ * Unit tests for {@linkplain CreateCardRequest}
  *
  * @author Andrii Iakovenko
  *

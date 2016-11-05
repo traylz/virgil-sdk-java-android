@@ -32,7 +32,7 @@ package com.virgilsecurity.sdk.client.model.dto;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * TODO: add type description
+ * Device information.
  *
  * @author Andrii Iakovenko
  *
@@ -53,7 +53,8 @@ public class DeviceInfo {
 	}
 
 	/**
-	 * @param device the device to set
+	 * @param device
+	 *            the device to set
 	 */
 	public void setDevice(String device) {
 		this.device = device;
@@ -67,7 +68,8 @@ public class DeviceInfo {
 	}
 
 	/**
-	 * @param deviceName the deviceName to set
+	 * @param deviceName
+	 *            the deviceName to set
 	 */
 	public void setDeviceName(String deviceName) {
 		this.deviceName = deviceName;

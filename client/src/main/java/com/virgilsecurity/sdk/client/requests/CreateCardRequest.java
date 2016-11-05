@@ -38,7 +38,7 @@ import com.virgilsecurity.sdk.client.model.dto.DeviceInfo;
 import com.virgilsecurity.sdk.client.utils.ConvertionUtils;
 
 /**
- * TODO: add type description
+ * Request used for creating a Virgil Card.
  *
  * @author Andrii Iakovenko
  *

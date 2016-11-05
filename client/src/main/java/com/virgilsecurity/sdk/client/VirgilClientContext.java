@@ -53,6 +53,8 @@ public class VirgilClientContext {
 	/**
 	 * Create a new instance of {@code VirgilClientContext}
 	 *
+	 * @param accessToken
+	 *            The application access token.
 	 */
 	public VirgilClientContext(String accessToken) {
 		this.accessToken = accessToken;

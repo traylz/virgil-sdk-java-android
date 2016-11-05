@@ -36,7 +36,7 @@ import com.virgilsecurity.sdk.client.model.dto.RevokeCardModel;
 import com.virgilsecurity.sdk.client.utils.ConvertionUtils;
 
 /**
- * TODO: add type description
+ * Request used for Virgil Card revocation.
  *
  * @author Andrii Iakovenko
  *
@@ -56,8 +56,10 @@ public class RevokeCardRequest extends SignedRequest {
 	/**
 	 * Create a new instance of {@code RevokeCardRequest}
 	 *
-	 * @param cardId the card identifier.
-	 * @param reason the reason of revocation.
+	 * @param cardId
+	 *            the card identifier.
+	 * @param reason
+	 *            the reason of revocation.
 	 */
 	public RevokeCardRequest(String cardId, RevocationReason reason) {
 		this.cardId = cardId;
